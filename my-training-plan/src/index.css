@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
@@ -25,11 +25,8 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  margin: auto;
+  max-width: 1000px;
 }
 
 h1 {
@@ -38,18 +35,19 @@ h1 {
 }
 
 button {
-  border-radius: 8px;
+  border-radius: 4px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
+  color: #EDF2F4;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #D90429;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  background-color: #EF233C;
 }
 button:focus,
 button:focus-visible {
@@ -65,6 +63,6 @@ button:focus-visible {
     color: #747bff;
   }
   button {
-    background-color: #f9f9f9;
+    background-color: #D90429;
   }
 }
