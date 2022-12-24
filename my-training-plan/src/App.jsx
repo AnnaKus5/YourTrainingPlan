@@ -13,23 +13,62 @@ export default function App() {
     const data = weekDays.map(day => {
       return {
         day: day, 
-        activity: "",
-        activityHour: "",
+        activity: [],
         checked: false
       }
     })
     return data;
   }
 
+  // day: "monday"
+  // activity: [{"yoga", "18:00"}, {"running", 7:00}]
+  // checked: false
+
   // function findDays () {
 
   // }
 
-  // function changeDataTraining () {
-  //   setTrainingData(() => {
+  function findInput(id) {
+    return document.getElementById(id);
+  }
 
-  //   })
-  // }
+  function changeDataTraining () {
+    setTrainingData((prevTrainingData) => {
+      return prevTrainingData.map(day => {
+        let newActivity = findInput("activity").value
+        let newActivityHour = findInput("activityHour").value
+        if (day.checked) {
+          return {
+            ...day, 
+            activity: day.activity.length > 0 ?
+               [...day.activity, { newActivity, newActivityHour }] :
+               [{ newActivity, newActivityHour }],
+            checked: !day.checked
+          } 
+        } else {
+          return day
+        }
+      })
+    })
+  }
+
+  function dayChecked(event) {
+    const selectedDay = event.target.name;
+    setTrainingData(prevTrainingData => {
+      return prevTrainingData.map(day => {
+        if (day.day === selectedDay) {
+          return {
+            ...day,
+            checked: !day.checked
+          }
+        } else {
+          return day
+        }
+      })
+    })
+  }
+
+  console.log(trainingData)
 
   return (
     <>
@@ -43,7 +82,10 @@ export default function App() {
     </nav>
     <main className="main-container">
       <WeekSection trainingData={trainingData}/>
-      <AddActivitySection trainingData={trainingData}/>
+      <AddActivitySection 
+        trainingData={trainingData} 
+        dayChecked={dayChecked} 
+        changeDataTraining={changeDataTraining}/>
     </main>
     </>
   )

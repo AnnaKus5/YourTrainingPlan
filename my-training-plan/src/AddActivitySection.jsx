@@ -10,6 +10,7 @@ export default function AddActivitySection(props) {
                     id={day.day} 
                     name={day.day}
                     checked={day.checked}
+                    onChange={props.dayChecked}
                     />
                 <label htmlFor={day.day}>{day.day}</label>
             </div>
@@ -43,7 +44,7 @@ export default function AddActivitySection(props) {
             id="activityHour"
             />
             </div>
-            <button>Add to training plan</button>
+            <button onClick={props.changeDataTraining}>Add to training plan</button>
         </div>
     )
 }
