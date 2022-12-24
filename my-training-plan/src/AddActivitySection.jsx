@@ -1,18 +1,17 @@
 import React from "react";
 
-export default function AddActivitySection() {
+export default function AddActivitySection(props) {
 
-    const weekDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
-
-    const weekDaysCheboxes = weekDays.map(day => {
+    const weekDaysCheboxes = props.trainingData.map(day => {
         return (
-            <div>
+            <div key={day.day}>
                 <input 
                     type="checkbox"
-                    id={day} 
-                    name={day}
+                    id={day.day} 
+                    name={day.day}
+                    checked={day.checked}
                     />
-                <label htmlFor={day}>{day}</label>
+                <label htmlFor={day.day}>{day.day}</label>
             </div>
         )
     })

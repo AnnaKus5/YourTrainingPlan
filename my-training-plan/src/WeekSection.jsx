@@ -1,13 +1,11 @@
 import React from "react";
 
-export default function WeekSection() {
+export default function WeekSection(props) {
 
-    const weekDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
-
-    const weekElements = weekDays.map(day => {
+    const weekElements = props.trainingData.map(day => {
         return (
-            <div key={day} className="day-container">
-                <p className="day-name">{day}</p>
+            <div key={day.day} className="day-container">
+                <p className="day-name">{day.day}</p>
                 <div className="day-square"></div>
             </div>
         )
