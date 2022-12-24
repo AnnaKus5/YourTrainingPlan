@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import WeekSection from './WeekSection'
 import AddActivitySection from './AddActivitySection'
@@ -8,6 +8,20 @@ export default function App() {
   const weekDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 
   const [ trainingData, setTrainingData ] = useState(createTrainingData())
+
+  useEffect(() => {
+    findInput("activity").value = ""
+    findInput("activityHour").value = ""
+  }, [trainingData[0].activity, 
+      trainingData[1].activity, 
+      trainingData[2].activity,
+      trainingData[3].activity,
+      trainingData[4].activity,
+      trainingData[5].activity,
+      trainingData[6].activity]
+      )
+      //do poprawy ? jak usunać wartość inputu
+
 
   function createTrainingData() {
     const data = weekDays.map(day => {
@@ -20,23 +34,17 @@ export default function App() {
     return data;
   }
 
-  // day: "monday"
-  // activity: [{"yoga", "18:00"}, {"running", 7:00}]
-  // checked: false
-
-  // function findDays () {
-
-  // }
-
   function findInput(id) {
     return document.getElementById(id);
   }
 
   function changeDataTraining () {
+
     setTrainingData((prevTrainingData) => {
+      let newActivity = findInput("activity").value
+      let newActivityHour = findInput("activityHour").value 
+
       return prevTrainingData.map(day => {
-        let newActivity = findInput("activity").value
-        let newActivityHour = findInput("activityHour").value
         if (day.checked) {
           return {
             ...day, 
@@ -50,6 +58,7 @@ export default function App() {
         }
       })
     })
+    // jak usunąć wartość inputu?
   }
 
   function dayChecked(event) {
@@ -67,8 +76,6 @@ export default function App() {
       })
     })
   }
-
-  console.log(trainingData)
 
   return (
     <>
