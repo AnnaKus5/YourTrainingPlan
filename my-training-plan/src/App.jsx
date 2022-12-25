@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import AddActivitySection from './AddActivitySection'
 import WeekPage from './WeekPage'
@@ -9,6 +9,10 @@ export default function App() {
   const [ site, setSite ] = useState("month")
 
   const [ trainingData, setTrainingData ] = useState(createTrainingData())
+
+  useEffect(() => {
+    setTrainingData(createTrainingData())
+  }, [site])
 
   useEffect(() => {
     findInput("activity").value = ""
@@ -37,21 +41,23 @@ export default function App() {
     return data;
   }
 
-  console.log(trainingData)
+  function changePlan(event) {
+    setSite(() => {
+      if (event.target.id === "week-button") return "week"
+      if (event.target.id === "month-button") return "month"
+    })
+  }
 
   function findInput(id) {
     return document.getElementById(id);
-  }
+  } //useRef?
 
   // function checkValidForm(event) {
-
   // event.preventDefault()
-
   //   if (findInput("activity").value === "") {
   //     console.log("Add activity")
   //   }
       // if (checkbox?)
-
     //  changeDataTraining();
   // }
 
@@ -106,8 +112,8 @@ export default function App() {
       <h1>Your Training Plan</h1>
       </header>
     <nav>
-      <button className="nav-button" id="week-button">WEEK</button>
-      <button className="nav-button" id="month-button">MONTH</button>
+      <button onClick={changePlan} className="nav-button" id="week-button">WEEK</button>
+      <button onClick={changePlan} className="nav-button" id="month-button">MONTH</button>
     </nav>
     <main className="main-container">
       {site === "week" ? 
@@ -120,11 +126,13 @@ export default function App() {
         trainingData={trainingData}
         setTrainingData={setTrainingData}
         createTrainingData={createTrainingData}
-        deletePlan={deletePlan}/>}
+        deletePlan={deletePlan}/>
+        }
       <AddActivitySection 
         trainingData={trainingData} 
         dayChecked={dayChecked} 
-        changeDataTraining={changeDataTraining}/>
+        changeDataTraining={changeDataTraining}
+        site={site}/>
     </main>
     </>
   )

@@ -1,8 +1,9 @@
 import React from "react";
+import Select from "react-select";
 
 export default function AddActivitySection(props) {
 
-    const weekDaysCheboxes = props.trainingData.map(day => {
+    const weekCheboxes = props.trainingData.map(day => {
         return (
             <div key={day.day}>
                 <input 
@@ -16,6 +17,11 @@ export default function AddActivitySection(props) {
             </div>
         )
     })
+
+    const monthOptions = props.trainingData.map(day => {
+        return { value: day.day, label: day.day}
+    })
+
     return (
         <form className="add-activity-container">
             <div className="input-container">
@@ -31,7 +37,11 @@ export default function AddActivitySection(props) {
             <fieldset>
                 <legend>Choose days</legend>
                 <div>
-                    {weekDaysCheboxes}
+                    {props.site === "week" ? 
+                        weekCheboxes : 
+                        <Select options={monthOptions}
+                        isMulti
+                        hideSelectedOptions={false} />}
                 </div>
             </fieldset>
             </div>
