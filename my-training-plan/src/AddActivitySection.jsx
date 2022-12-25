@@ -17,7 +17,7 @@ export default function AddActivitySection(props) {
         )
     })
     return (
-        <div className="add-activity-container">
+        <form className="add-activity-container">
             <div className="input-container">
             <label htmlFor="activity">Add Activity</label>
             <input
@@ -45,6 +45,6 @@ export default function AddActivitySection(props) {
             />
             </div>
             <button onClick={props.changeDataTraining}>Add to training plan</button>
-        </div>
+        </form>
     )
 }

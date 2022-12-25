@@ -20,12 +20,18 @@ header, nav {
 .day-square {
   background-color: #EDF2F4;
   min-width: 250px;
+  max-width: 500px;
   min-height: 80px;
+  margin-bottom: 1rem;
 }
 
 .add-activity-container {
   margin-top: 2rem;
   max-width: 250px;
+}
+
+.activity {
+  margin-top: 0;
 }
 
 .input-container {

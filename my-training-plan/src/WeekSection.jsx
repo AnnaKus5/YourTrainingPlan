@@ -3,12 +3,12 @@ import {nanoid} from "nanoid"
 
 export default function WeekSection(props) {
 
-    function findDay(name) {
-        const actualDay = props.trainingData.find((day) => {
-            return day.day === name
-        })
-        return actualDay;
-    }
+    // function findDay(name) {
+    //     const actualDay = props.trainingData.find((day) => {
+    //         return day.day === name
+    //     })
+    //     return actualDay;
+    // }
 
     const weekElements = props.trainingData.map(day => {
         
@@ -30,10 +30,15 @@ export default function WeekSection(props) {
         )
     })
 
+    function deletePlan() {
+        props.setTrainingData(props.createTrainingData())
+    }
+
 
     return (
         <div className="week-section-container">
             {weekElements}
+            <button onClick={deletePlan}>Delete plan</button>
         </div>
     )
 }

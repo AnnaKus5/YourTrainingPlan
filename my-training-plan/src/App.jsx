@@ -5,8 +5,6 @@ import AddActivitySection from './AddActivitySection'
 
 export default function App() {
 
-  const weekDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
-
   const [ trainingData, setTrainingData ] = useState(createTrainingData())
 
   useEffect(() => {
@@ -24,6 +22,7 @@ export default function App() {
 
 
   function createTrainingData() {
+    const weekDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
     const data = weekDays.map(day => {
       return {
         day: day, 
@@ -34,11 +33,27 @@ export default function App() {
     return data;
   }
 
+  console.log(trainingData)
+
   function findInput(id) {
     return document.getElementById(id);
   }
 
-  function changeDataTraining () {
+  // function checkValidForm(event) {
+
+  // event.preventDefault()
+
+  //   if (findInput("activity").value === "") {
+  //     console.log("Add activity")
+  //   }
+      // if (checkbox?)
+
+    //  changeDataTraining();
+  // }
+
+  function changeDataTraining (event) {
+
+    event.preventDefault()
 
     setTrainingData((prevTrainingData) => {
       let newActivity = findInput("activity").value
@@ -58,7 +73,6 @@ export default function App() {
         }
       })
     })
-    // jak usunąć wartość inputu?
   }
 
   function dayChecked(event) {
@@ -88,7 +102,11 @@ export default function App() {
       <button className="nav-button" id="month-button">MONTH</button>
     </nav>
     <main className="main-container">
-      <WeekSection trainingData={trainingData}/>
+      <WeekSection 
+        trainingData={trainingData}
+        setTrainingData={setTrainingData}
+        createTrainingData={createTrainingData}
+        />
       <AddActivitySection 
         trainingData={trainingData} 
         dayChecked={dayChecked} 
