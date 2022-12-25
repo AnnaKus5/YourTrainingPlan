@@ -11,7 +11,7 @@ export default function AddActivitySection(props) {
                     id={day.day} 
                     name={day.day}
                     checked={day.checked}
-                    onChange={props.dayChecked}
+                    onChange={props.weekDayChecked}
                     />
                 <label htmlFor={day.day}>{day.day}</label>
             </div>
@@ -41,7 +41,9 @@ export default function AddActivitySection(props) {
                         weekCheboxes : 
                         <Select options={monthOptions}
                         isMulti
-                        hideSelectedOptions={false} />}
+                        hideSelectedOptions={false} 
+                        onChange={props.monthDayChecked}
+                        id="month-selected"/>}
                 </div>
             </fieldset>
             </div>

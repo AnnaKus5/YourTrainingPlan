@@ -1,4 +1,3 @@
-
 main {
   margin: 4rem;
 }
@@ -49,4 +48,16 @@ header, nav {
   .add-activity-container {
     margin-top: 0;
   }
+}
+
+@media screen and (max-width: 580px) {
+  .logo-img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .logo {
+    font-size: 2rem;
+  }
+  
 }

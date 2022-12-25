@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 import AddActivitySection from './AddActivitySection'
 import WeekPage from './WeekPage'
@@ -17,6 +17,7 @@ export default function App() {
   useEffect(() => {
     findInput("activity").value = ""
     findInput("activityHour").value = ""
+    // jak usunać wybrane opcje z Select ?
   }, [trainingData[0].activity, 
       trainingData[1].activity, 
       trainingData[2].activity,
@@ -25,9 +26,13 @@ export default function App() {
       trainingData[5].activity,
       trainingData[6].activity]
       )
-      //do poprawy ? jak inaczej usunać wartość inputu
-      // funkcja, która zwraca wszystkie zmienne trainingData[x].activity
+      // do poprawy ? jak inaczej usunać wartość inputu
+      // funkcja, która zwraca wszystkie zmienne trainingData[x].activity ?
 
+  // const clearInput = trainingData.map(day => {
+  //   return [trainingData.activity]
+  // })
+      
   function createTrainingData() {
     const days = site === "week" ? ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"] :
       [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
@@ -85,13 +90,29 @@ export default function App() {
     })
   }
 
-  function dayChecked(event) {
+  function weekDayChecked(event) {
     const selectedDay = event.target.name;
     setTrainingData(prevTrainingData => {
       return prevTrainingData.map(day => {
         if (day.day === selectedDay) {
           return {
             ...day,
+            checked: !day.checked
+          }
+        } else {
+          return day
+        }
+      })
+    })
+  }
+
+  function monthDayChecked(selected) {
+    const lastAddedDay = selected[selected.length - 1].value
+    setTrainingData(prevTrainingData => {
+      return prevTrainingData.map(day => {
+        if(day.day === lastAddedDay) {
+          return {
+            ...day, 
             checked: !day.checked
           }
         } else {
@@ -108,8 +129,8 @@ export default function App() {
   return (
     <>
     <header>
-      <img className="logoImg" src="src\images\dumbbell-color.png" alt="logo" />
-      <h1>Your Training Plan</h1>
+      <img className="logo-img" src="src\images\dumbbell-color.png" alt="logo" />
+      <h1 className="logo">Your Training Plan</h1>
       </header>
     <nav>
       <button onClick={changePlan} className="nav-button" id="week-button">WEEK</button>
@@ -130,7 +151,8 @@ export default function App() {
         }
       <AddActivitySection 
         trainingData={trainingData} 
-        dayChecked={dayChecked} 
+        weekDayChecked={weekDayChecked} 
+        monthDayChecked={monthDayChecked}
         changeDataTraining={changeDataTraining}
         site={site}/>
     </main>

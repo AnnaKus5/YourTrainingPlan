@@ -1,8 +1,10 @@
 import React from "react";
-import './App.css'
+// import './App.css'
 import "./MonthPage.css"
+import { nanoid } from "nanoid";
 
 export default function MonthPage(props) {
+
 
     const monthElements = props.trainingData.map(day => {
         
