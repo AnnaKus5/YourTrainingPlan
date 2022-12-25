@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import WeekSection from './WeekSection'
 import AddActivitySection from './AddActivitySection'
+import WeekPage from './WeekPage'
+import MonthPage from "./MonthPage"
 
 export default function App() {
+
+  const [ site, setSite ] = useState("month")
 
   const [ trainingData, setTrainingData ] = useState(createTrainingData())
 
@@ -18,12 +21,13 @@ export default function App() {
       trainingData[5].activity,
       trainingData[6].activity]
       )
-      //do poprawy ? jak usunać wartość inputu
-
+      //do poprawy ? jak inaczej usunać wartość inputu
+      // funkcja, która zwraca wszystkie zmienne trainingData[x].activity
 
   function createTrainingData() {
-    const weekDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
-    const data = weekDays.map(day => {
+    const days = site === "week" ? ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"] :
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
+    const data = days.map(day => {
       return {
         day: day, 
         activity: [],
@@ -91,6 +95,10 @@ export default function App() {
     })
   }
 
+  function deletePlan() {
+    props.setTrainingData(props.createTrainingData())
+}
+
   return (
     <>
     <header>
@@ -102,11 +110,17 @@ export default function App() {
       <button className="nav-button" id="month-button">MONTH</button>
     </nav>
     <main className="main-container">
-      <WeekSection 
+      {site === "week" ? 
+        <WeekPage 
         trainingData={trainingData}
         setTrainingData={setTrainingData}
         createTrainingData={createTrainingData}
-        />
+        deletePlan={deletePlan}/> : 
+        <MonthPage 
+        trainingData={trainingData}
+        setTrainingData={setTrainingData}
+        createTrainingData={createTrainingData}
+        deletePlan={deletePlan}/>}
       <AddActivitySection 
         trainingData={trainingData} 
         dayChecked={dayChecked} 
