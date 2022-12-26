@@ -7,31 +7,19 @@ import MonthPage from "./MonthPage"
 export default function App() {
 
   const [ site, setSite ] = useState("month")
-
   const [ trainingData, setTrainingData ] = useState(createTrainingData())
+  const [ selectedMonthDays, setSelectedMonthDays ] = useState(null)
+  const [ formSumbit, setFormSubmit ] = useState(false)
 
   useEffect(() => {
     setTrainingData(createTrainingData())
   }, [site])
 
   useEffect(() => {
-    findInput("activity").value = ""
-    findInput("activityHour").value = ""
-    // jak usunać wybrane opcje z Select ?
-  }, [trainingData[0].activity, 
-      trainingData[1].activity, 
-      trainingData[2].activity,
-      trainingData[3].activity,
-      trainingData[4].activity,
-      trainingData[5].activity,
-      trainingData[6].activity]
-      )
-      // do poprawy ? jak inaczej usunać wartość inputu
-      // funkcja, która zwraca wszystkie zmienne trainingData[x].activity ?
+      findInput("activity").value = ""
+      findInput("activityHour").value = ""
+  }, [formSumbit])
 
-  // const clearInput = trainingData.map(day => {
-  //   return [trainingData.activity]
-  // })
       
   function createTrainingData() {
     const days = site === "week" ? ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"] :
@@ -57,18 +45,12 @@ export default function App() {
     return document.getElementById(id);
   } //useRef?
 
-  // function checkValidForm(event) {
-  // event.preventDefault()
-  //   if (findInput("activity").value === "") {
-  //     console.log("Add activity")
-  //   }
-      // if (checkbox?)
-    //  changeDataTraining();
-  // }
 
   function changeDataTraining (event) {
 
     event.preventDefault()
+
+    if (site === "month") monthDayChecked()
 
     setTrainingData((prevTrainingData) => {
       let newActivity = findInput("activity").value
@@ -88,13 +70,18 @@ export default function App() {
         }
       })
     })
+
+    setSelectedMonthDays(null)
+    setFormSubmit(prevFormSumbit => !prevFormSumbit)
+
   }
 
   function weekDayChecked(event) {
-    const selectedDay = event.target.name;
+    const selectDay = event.target.name;
+
     setTrainingData(prevTrainingData => {
       return prevTrainingData.map(day => {
-        if (day.day === selectedDay) {
+        if (day.day === selectDay) {
           return {
             ...day,
             checked: !day.checked
@@ -106,18 +93,35 @@ export default function App() {
     })
   }
 
-  function monthDayChecked(selected) {
-    const lastAddedDay = selected[selected.length - 1].value
-    setTrainingData(prevTrainingData => {
-      return prevTrainingData.map(day => {
-        if(day.day === lastAddedDay) {
-          return {
-            ...day, 
-            checked: !day.checked
+  function addToMonthState(selected) {
+    setSelectedMonthDays(() => {
+      return selected
+    })
+  }
+
+  function monthDayChecked() {
+
+    console.log(selectedMonthDays)
+
+    const addedDay = selectedMonthDays.map(day => {
+      return day.value;
+    })
+
+    console.log(addedDay)
+    console.log(selectedMonthDays)
+
+    addedDay.map(daynumber => {
+      setTrainingData(prevTrainingData => {
+        return prevTrainingData.map(day => {
+          if(day.day === daynumber) {
+            return {
+              ...day, 
+              checked: !day.checked
+            }
+          } else {
+            return day
           }
-        } else {
-          return day
-        }
+        })
       })
     })
   }
@@ -137,6 +141,15 @@ export default function App() {
       <button onClick={changePlan} className="nav-button" id="month-button">MONTH</button>
     </nav>
     <main className="main-container">
+        <AddActivitySection 
+        site={site}
+        trainingData={trainingData} 
+        weekDayChecked={weekDayChecked} 
+        monthDayChecked={monthDayChecked}
+        changeDataTraining={changeDataTraining}
+        selectedMonthDays={selectedMonthDays}
+        setSelectedMonthDays={setSelectedMonthDays}
+        addToMonthState={addToMonthState}/>
       {site === "week" ? 
         <WeekPage 
         trainingData={trainingData}
@@ -149,12 +162,6 @@ export default function App() {
         createTrainingData={createTrainingData}
         deletePlan={deletePlan}/>
         }
-      <AddActivitySection 
-        trainingData={trainingData} 
-        weekDayChecked={weekDayChecked} 
-        monthDayChecked={monthDayChecked}
-        changeDataTraining={changeDataTraining}
-        site={site}/>
     </main>
     </>
   )
