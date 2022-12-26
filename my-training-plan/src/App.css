@@ -26,6 +26,7 @@ header, nav {
 
 .add-activity-container {
   margin-top: 2rem;
+  margin-bottom: 2rem;
   max-width: 250px;
 }
 
@@ -43,6 +44,7 @@ header, nav {
   main {
     display: flex;
     justify-content: space-around;
+    flex-direction: row-reverse;
   }
 
   .add-activity-container {

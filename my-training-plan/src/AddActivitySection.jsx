@@ -39,10 +39,12 @@ export default function AddActivitySection(props) {
                 <div>
                     {props.site === "week" ? 
                         weekCheboxes : 
-                        <Select options={monthOptions}
+                        <Select 
+                        options={monthOptions}
                         isMulti
                         hideSelectedOptions={false} 
-                        onChange={props.monthDayChecked}
+                        onChange={props.addToMonthState}
+                        defaultValue={props.selectedMonthDays}
                         id="month-selected"/>}
                 </div>
             </fieldset>
