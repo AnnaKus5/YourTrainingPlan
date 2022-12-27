@@ -20,6 +20,10 @@ export default function App() {
       findInput("activityHour").value = ""
   }, [formSumbit])
 
+  //select nie czyści się po walidacji
+
+  console.log(selectedMonthDays)
+
       
   function createTrainingData() {
     const days = site === "week" ? ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"] :
@@ -125,6 +129,25 @@ export default function App() {
     props.setTrainingData(props.createTrainingData())
 }
 
+const styleMonth = {
+  mainContainer: {
+    display: "block"
+  }
+}
+
+const styleWeek = window.innerWidth > 670 ? {
+  mainContainer: {
+    maxWidth: "1000px",
+    display: "flex",
+    justifyContent: "space-around",
+    flexDirection: "row-reverse"
+  }
+} : {
+  mainContainer: {
+    margin: "4rem"
+  }
+}
+
   return (
     <>
     <header>
@@ -135,7 +158,9 @@ export default function App() {
       <button onClick={changePlan} className="nav-button" id="week-button">WEEK</button>
       <button onClick={changePlan} className="nav-button" id="month-button">MONTH</button>
     </nav>
-    <main className="main-container">
+    <main style={site === "week" ? styleWeek.mainContainer : styleMonth.mainContainer}
+    // className="main-container"
+    >
         <AddActivitySection 
         site={site}
         trainingData={trainingData} 

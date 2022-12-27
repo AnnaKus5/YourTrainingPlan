@@ -3,6 +3,28 @@ import Select from "react-select";
 
 export default function AddActivitySection(props) {
 
+    const stylesWeek = {
+        addActivityContainer: {
+            marginTop: "2rem",
+            marginBottom: "2rem",
+            maxWidth: "250px",
+          }
+    }
+
+    const styleMonth = {
+        addActivityContainer: {
+            display: "flex", 
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+            alignItems: "center"
+        },
+
+        inputContainer: {
+            display: "flex", 
+            flexDirection: "column"
+        }
+    }
+
     const weekCheboxes = props.trainingData.map(day => {
         return (
             <div key={day.day}>
@@ -23,8 +45,10 @@ export default function AddActivitySection(props) {
     })
 
     return (
-        <form className="add-activity-container">
-            <div className="input-container">
+        <form style={props.site === "week" ? stylesWeek.addActivityContainer : styleMonth.addActivityContainer}>
+            <div style={props.site ==="month" ? styleMonth.inputContainer : null}
+            className="input-container"
+            >
             <label htmlFor="activity">Add Activity</label>
             <input
             type="text"
@@ -44,12 +68,13 @@ export default function AddActivitySection(props) {
                         isMulti
                         hideSelectedOptions={false} 
                         onChange={props.addToMonthState}
-                        defaultValue={props.selectedMonthDays}
+                        value={props.selectedMonthDays}
                         id="month-selected"/>}
                 </div>
             </fieldset>
             </div>
-            <div className="input-container">
+            <div style={props.site ==="month" ? styleMonth.inputContainer : null}
+            className="input-container">
             <label htmlFor="activityHour">Add activity hour</label>
             <input
             type="text"
