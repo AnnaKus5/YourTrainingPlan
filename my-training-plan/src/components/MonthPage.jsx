@@ -1,6 +1,4 @@
 import React from "react";
-// import './App.css'
-import "./MonthPage.css"
 import { nanoid } from "nanoid";
 
 export default function MonthPage(props) {
@@ -20,7 +18,6 @@ export default function MonthPage(props) {
             gap: "10px 10px",
             gridAutoFlow: "column"
         },
-        // mobile grid 4x7
         daySquare: {
             backgroundColor: "#EDF2F4",
             minWidth: "150px",

@@ -45,8 +45,8 @@ export default function AddActivitySection(props) {
     })
 
     return (
-        <form style={props.site === "week" ? stylesWeek.addActivityContainer : styleMonth.addActivityContainer}>
-            <div style={props.site ==="month" ? styleMonth.inputContainer : null}
+        <form style={props.page === "week" ? stylesWeek.addActivityContainer : styleMonth.addActivityContainer}>
+            <div style={props.page ==="month" ? styleMonth.inputContainer : null}
             className="input-container"
             >
             <label htmlFor="activity">Add Activity</label>
@@ -55,13 +55,14 @@ export default function AddActivitySection(props) {
             placeholder="Add activity"
             name="activity"
             id="activity"
+            ref={props.activityInput}
             />
             </div>
             <div className="input-container">
             <fieldset>
                 <legend>Choose days</legend>
                 <div>
-                    {props.site === "week" ? 
+                    {props.page === "week" ? 
                         weekCheboxes : 
                         <Select 
                         options={monthOptions}
@@ -73,7 +74,7 @@ export default function AddActivitySection(props) {
                 </div>
             </fieldset>
             </div>
-            <div style={props.site ==="month" ? styleMonth.inputContainer : null}
+            <div style={props.page ==="month" ? styleMonth.inputContainer : null}
             className="input-container">
             <label htmlFor="activityHour">Add activity hour</label>
             <input
@@ -81,6 +82,7 @@ export default function AddActivitySection(props) {
             placeholder="Activity hour"
             name="activityHour"
             id="activityHour"
+            ref={props.activityHourInput}
             />
             </div>
             <button onClick={props.changeDataTraining}>Add to training plan</button>

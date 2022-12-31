@@ -1,7 +1,7 @@
 import React from "react";
 import {nanoid} from "nanoid"
 
-export default function WeekSection(props) {
+export default function WeekPage(props) {
 
     const weekElements = props.trainingData.map(day => {
         

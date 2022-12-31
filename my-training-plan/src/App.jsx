@@ -1,32 +1,31 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
-import AddActivitySection from './AddActivitySection'
-import WeekPage from './WeekPage'
-import MonthPage from "./MonthPage"
+import AddActivitySection from './components/AddActivitySection'
+import WeekPage from './components/WeekPage'
+import MonthPage from "./components/MonthPage"
 
 export default function App() {
 
-  const [ site, setSite ] = useState("month")
+  const [ page, setPage ] = useState("week")
   const [ trainingData, setTrainingData ] = useState(createTrainingData())
   const [ selectedMonthDays, setSelectedMonthDays ] = useState(null)
   const [ formSumbit, setFormSubmit ] = useState(false)
 
+  const activityInput = useRef()
+  const activityHourInput = useRef()
+
   useEffect(() => {
     setTrainingData(createTrainingData())
-  }, [site])
+  }, [page])
 
   useEffect(() => {
-      findInput("activity").value = ""
-      findInput("activityHour").value = ""
+      activityInput.current.value = ""
+      activityHourInput.current.value = ""
   }, [formSumbit])
-
-  //select nie czyści się po walidacji
-
-  console.log(selectedMonthDays)
 
       
   function createTrainingData() {
-    const days = site === "week" ? ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"] :
+    const days = page === "week" ? ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"] :
       [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28]
     const data = days.map(day => {
       return {
@@ -39,26 +38,23 @@ export default function App() {
   }
 
   function changePlan(event) {
-    setSite(() => {
+    setPage(() => {
       if (event.target.id === "week-button") return "week"
       if (event.target.id === "month-button") return "month"
     })
   }
 
-  function findInput(id) {
-    return document.getElementById(id);
-  } //useRef?
-
 
   function changeDataTraining (event) {
+    // inna nazwa ? addDataToTrainingPlan
 
     event.preventDefault()
 
-    if (site === "month") monthDayChecked()
+    if (page === "month") monthDayChecked()
 
     setTrainingData((prevTrainingData) => {
-      let newActivity = findInput("activity").value
-      let newActivityHour = findInput("activityHour").value 
+      let newActivity = activityInput.current.value
+      let newActivityHour = activityHourInput.current.value 
 
       return prevTrainingData.map(day => {
         if (day.checked) {
@@ -77,7 +73,6 @@ export default function App() {
 
     setSelectedMonthDays(null)
     setFormSubmit(prevFormSumbit => !prevFormSumbit)
-
   }
 
   function weekDayChecked(event) {
@@ -158,19 +153,21 @@ const styleWeek = window.innerWidth > 670 ? {
       <button onClick={changePlan} className="nav-button" id="week-button">WEEK</button>
       <button onClick={changePlan} className="nav-button" id="month-button">MONTH</button>
     </nav>
-    <main style={site === "week" ? styleWeek.mainContainer : styleMonth.mainContainer}
+    <main style={page === "week" ? styleWeek.mainContainer : styleMonth.mainContainer}
     // className="main-container"
     >
         <AddActivitySection 
-        site={site}
+        page={page}
         trainingData={trainingData} 
         weekDayChecked={weekDayChecked} 
         monthDayChecked={monthDayChecked}
         changeDataTraining={changeDataTraining}
         selectedMonthDays={selectedMonthDays}
         setSelectedMonthDays={setSelectedMonthDays}
-        addToMonthState={addToMonthState}/>
-      {site === "week" ? 
+        addToMonthState={addToMonthState}
+        activityInput={activityInput}
+        activityHourInput={activityHourInput}/>
+      {page === "week" ? 
         <WeekPage 
         trainingData={trainingData}
         setTrainingData={setTrainingData}
@@ -188,3 +185,23 @@ const styleWeek = window.innerWidth > 670 ? {
 }
 
 
+// Training Data Context, useTrainingData()
+// WeekPage, MonthPage, Add Activity Section
+
+// trainingData={trainingData}
+// setTrainingData={setTrainingData}
+// createTrainingData={createTrainingData}
+// deletePlan={deletePlan}
+
+
+// SubmitFormContext, useSumbitFormContext
+// AddActivitySection
+ 
+// weekDayChecked={weekDayChecked} 
+// monthDayChecked={monthDayChecked}
+// selectedMonthDays={selectedMonthDays}
+// setSelectedMonthDays={setSelectedMonthDays}
+// addToMonthState={addToMonthState}
+// activityInput={activityInput}
+// activityHourInput={activityHourInput}
+// changeDataTraining={changeDataTraining}
