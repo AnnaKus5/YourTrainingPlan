@@ -45,7 +45,7 @@ export default function App() {
   }
 
 
-  function changeDataTraining (event) {
+  function addDataToTrainingPlan (event) {
     // inna nazwa ? addDataToTrainingPlan
 
     event.preventDefault()
@@ -89,12 +89,6 @@ export default function App() {
           return day
         }
       })
-    })
-  }
-
-  function addToMonthState(selected) {
-    setSelectedMonthDays(() => {
-      return selected
     })
   }
 
@@ -161,10 +155,9 @@ const styleWeek = window.innerWidth > 670 ? {
         trainingData={trainingData} 
         weekDayChecked={weekDayChecked} 
         monthDayChecked={monthDayChecked}
-        changeDataTraining={changeDataTraining}
+        addDataToTrainingPlan={addDataToTrainingPlan}
         selectedMonthDays={selectedMonthDays}
         setSelectedMonthDays={setSelectedMonthDays}
-        addToMonthState={addToMonthState}
         activityInput={activityInput}
         activityHourInput={activityHourInput}/>
       {page === "week" ? 
@@ -204,4 +197,4 @@ const styleWeek = window.innerWidth > 670 ? {
 // addToMonthState={addToMonthState}
 // activityInput={activityInput}
 // activityHourInput={activityHourInput}
-// changeDataTraining={changeDataTraining}
+// addDataToTrainingPlan={addDataToTrainingPlan}

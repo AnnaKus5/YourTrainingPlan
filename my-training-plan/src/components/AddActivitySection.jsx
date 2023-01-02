@@ -68,7 +68,7 @@ export default function AddActivitySection(props) {
                         options={monthOptions}
                         isMulti
                         hideSelectedOptions={false} 
-                        onChange={props.addToMonthState}
+                        onChange={(selected) => props.setSelectedMonthDays(selected)}
                         value={props.selectedMonthDays}
                         id="month-selected"/>}
                 </div>
@@ -85,7 +85,7 @@ export default function AddActivitySection(props) {
             ref={props.activityHourInput}
             />
             </div>
-            <button onClick={props.changeDataTraining}>Add to training plan</button>
+            <button onClick={props.addDataToTrainingPlan}>Add to training plan</button>
         </form>
     )
 }
