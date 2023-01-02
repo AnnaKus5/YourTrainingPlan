@@ -1,7 +1,10 @@
 import React from "react";
 import { nanoid } from "nanoid";
+import { useTrainingDataContext } from "./TrainingDataContext";
 
-export default function MonthPage(props) {
+export default function MonthPage() {
+
+    const {trainingData, deletePlan} = useTrainingDataContext()
 
     const styleMonth = {
         monthSectionContainer: window.innerWidth > 670 ? 
@@ -28,7 +31,8 @@ export default function MonthPage(props) {
     }
 
 
-    const monthElements = props.trainingData.map(day => {
+    const monthElements = 
+    trainingData.map(day => {
         
         
         const activityElements = day.activity.length > 0 ?
@@ -42,7 +46,6 @@ export default function MonthPage(props) {
             <div key={day.day} className="day-container">
                 <p className="day-name">{day.day}</p>
                 <div style={styleMonth.daySquare} 
-                // className="day-square"
                 >
                     {activityElements}
                 </div>
@@ -54,7 +57,7 @@ export default function MonthPage(props) {
         <div style={styleMonth.monthSectionContainer}>
             {monthElements}
         </div>
-        <button onClick={props.deletePlan}>Delete plan</button>
+        <button onClick={deletePlan}>Delete plan</button>
         </>
     )
 }

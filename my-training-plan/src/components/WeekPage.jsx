@@ -1,9 +1,12 @@
 import React from "react";
 import {nanoid} from "nanoid"
+import { useTrainingDataContext } from "./TrainingDataContext";
 
-export default function WeekPage(props) {
+export default function WeekPage() {
 
-    const weekElements = props.trainingData.map(day => {
+    const { trainingData, deletePlan} = useTrainingDataContext()
+
+    const weekElements = trainingData.map(day => {
         
         
         const activityElements = day.activity.length > 0 ?
@@ -27,7 +30,7 @@ export default function WeekPage(props) {
     return (
         <div className="week-section-container">
             {weekElements}
-            <button onClick={props.deletePlan}>Delete plan</button>
+            <button onClick={deletePlan}>Delete plan</button>
         </div>
     )
 }

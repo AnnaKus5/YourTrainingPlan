@@ -1,7 +1,18 @@
 import React from "react";
 import Select from "react-select";
+import { useTrainingDataContext } from "./TrainingDataContext";
 
-export default function AddActivitySection(props) {
+export default function AddActivitySection() {
+
+    const {page, 
+        trainingData, 
+        weekDayChecked,
+        addDataToTrainingPlan, 
+        selectedMonthDays, 
+        setSelectedMonthDays, 
+        activityInput, 
+        activityHourInput} = useTrainingDataContext()
+
 
     const stylesWeek = {
         addActivityContainer: {
@@ -25,7 +36,7 @@ export default function AddActivitySection(props) {
         }
     }
 
-    const weekCheboxes = props.trainingData.map(day => {
+    const weekCheboxes = trainingData.map(day => {
         return (
             <div key={day.day}>
                 <input 
@@ -33,20 +44,20 @@ export default function AddActivitySection(props) {
                     id={day.day} 
                     name={day.day}
                     checked={day.checked}
-                    onChange={props.weekDayChecked}
+                    onChange={weekDayChecked}
                     />
                 <label htmlFor={day.day}>{day.day}</label>
             </div>
         )
     })
 
-    const monthOptions = props.trainingData.map(day => {
+    const monthOptions = trainingData.map(day => {
         return { value: day.day, label: day.day}
     })
 
     return (
-        <form style={props.page === "week" ? stylesWeek.addActivityContainer : styleMonth.addActivityContainer}>
-            <div style={props.page ==="month" ? styleMonth.inputContainer : null}
+        <form style={page === "week" ? stylesWeek.addActivityContainer : styleMonth.addActivityContainer}>
+            <div style={page ==="month" ? styleMonth.inputContainer : null}
             className="input-container"
             >
             <label htmlFor="activity">Add Activity</label>
@@ -55,26 +66,26 @@ export default function AddActivitySection(props) {
             placeholder="Add activity"
             name="activity"
             id="activity"
-            ref={props.activityInput}
+            ref={activityInput}
             />
             </div>
             <div className="input-container">
             <fieldset>
                 <legend>Choose days</legend>
                 <div>
-                    {props.page === "week" ? 
+                    {page === "week" ? 
                         weekCheboxes : 
                         <Select 
                         options={monthOptions}
                         isMulti
                         hideSelectedOptions={false} 
-                        onChange={props.addToMonthState}
-                        value={props.selectedMonthDays}
+                        onChange={(selected) => setSelectedMonthDays(selected)}
+                        value={selectedMonthDays}
                         id="month-selected"/>}
                 </div>
             </fieldset>
             </div>
-            <div style={props.page ==="month" ? styleMonth.inputContainer : null}
+            <div style={page ==="month" ? styleMonth.inputContainer : null}
             className="input-container">
             <label htmlFor="activityHour">Add activity hour</label>
             <input
@@ -82,10 +93,10 @@ export default function AddActivitySection(props) {
             placeholder="Activity hour"
             name="activityHour"
             id="activityHour"
-            ref={props.activityHourInput}
+            ref={activityHourInput}
             />
             </div>
-            <button onClick={props.changeDataTraining}>Add to training plan</button>
+            <button onClick={addDataToTrainingPlan}>Add to training plan</button>
         </form>
     )
 }
