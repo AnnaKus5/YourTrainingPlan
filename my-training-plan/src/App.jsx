@@ -4,10 +4,11 @@ import WeekPage from './components/WeekPage'
 import MonthPage from "./components/MonthPage"
 import Navigation from './components/Navigation'
 import { useTrainingDataContext } from './components/TrainingDataContext'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 export default function App() {
 
-  const { page } = useTrainingDataContext()
+const { page } = useTrainingDataContext()
 
 const styleMonth = {
   mainContainer: {

@@ -4,9 +4,33 @@ import { useTrainingDataContext } from "./TrainingDataContext";
 
 export default function MonthPage() {
 
-    const {trainingData, deletePlan} = useTrainingDataContext()
+    const {trainingData, trainingData2, deletePlan} = useTrainingDataContext()
 
-    const styleMonth = {
+    // const {monthPageStyles} = useStyles()
+
+    const monthElements = 
+    trainingData2.map(day => {
+        
+        
+        const activityElements = day.activity.length > 0 ?
+            day.activity.map(activity => {
+                return (
+                    <p key={nanoid()} className="activity">{activity.newActivityHour} - {activity.newActivity}</p>
+                )
+            }) : ""
+
+        return (
+            <div key={day.day} className="day-container">
+                <p className="day-name">{day.day}</p>
+                <div style={monthPageStyles.daySquare} 
+                >
+                    {activityElements}
+                </div>
+            </div>
+        )
+    })
+
+    const monthPageStyles = {
         monthSectionContainer: window.innerWidth > 670 ? 
         {
             display: "grid",
@@ -30,31 +54,9 @@ export default function MonthPage() {
         }
     }
 
-
-    const monthElements = 
-    trainingData.map(day => {
-        
-        
-        const activityElements = day.activity.length > 0 ?
-            day.activity.map(activity => {
-                return (
-                    <p key={nanoid()} className="activity">{activity.newActivityHour} - {activity.newActivity}</p>
-                )
-            }) : ""
-
-        return (
-            <div key={day.day} className="day-container">
-                <p className="day-name">{day.day}</p>
-                <div style={styleMonth.daySquare} 
-                >
-                    {activityElements}
-                </div>
-            </div>
-        )
-    })
     return (
         <>
-        <div style={styleMonth.monthSectionContainer}>
+        <div style={monthPageStyles.monthSectionContainer}>
             {monthElements}
         </div>
         <button onClick={deletePlan}>Delete plan</button>

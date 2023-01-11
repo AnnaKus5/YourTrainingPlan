@@ -1,20 +1,73 @@
-import React from "react";
+import React, {useState} from "react";
 import Select from "react-select";
 import { useTrainingDataContext } from "./TrainingDataContext";
+import { nanoid } from "nanoid";
 
 export default function AddActivitySection() {
 
+    // const {addActivityStylesWeek, AddActivityStylesMonth} = useStyles()
+
+    const [newActivity, setNewActivity] = useState({
+        selectedDay: {
+        monday: false, 
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false,
+        saturday: false,
+        sunday: false
+        },
+        activity: []
+    }) 
+
     const {page, 
         trainingData, 
+        trainingData2,
         weekDayChecked,
         addDataToTrainingPlan, 
         selectedMonthDays, 
         setSelectedMonthDays, 
         activityInput, 
         activityHourInput} = useTrainingDataContext()
+        
+
+    function addActivityToState(e) {
+
+        setNewActivity(prevActivity => {
+            const {name} = e.target
+            return {
+                ...prevActivity, 
+                selectedDay: {
+                    ...prevActivity.selectedDay,
+                    name: !prevActivity.selectedDay.name
+                }
+            }
+        })
+    }
+
+    const weekCheboxes = trainingData2.map(day => {
+        const name = day.day
+        return (
+            <div key={nanoid()}>
+                <input 
+                    type="checkbox"
+                    id={name} 
+                    name={name}
+                    // checked={day.checked}
+                    onChange={(e) => addActivityToState(e)}
+                    />
+                <label htmlFor={name}>{name}</label>
+            </div>
+        )
+    })
+
+    const monthOptions = trainingData2.map(day => {
+        return { value: day.day, label: day.day}
+    })
 
 
-    const stylesWeek = {
+
+    const addActivityStylesWeek = {
         addActivityContainer: {
             marginTop: "2rem",
             marginBottom: "2rem",
@@ -22,7 +75,7 @@ export default function AddActivitySection() {
           }
     }
 
-    const styleMonth = {
+    const AddActivityStylesMonth = {
         addActivityContainer: {
             display: "flex", 
             flexWrap: "wrap",
@@ -36,28 +89,9 @@ export default function AddActivitySection() {
         }
     }
 
-    const weekCheboxes = trainingData.map(day => {
-        return (
-            <div key={day.day}>
-                <input 
-                    type="checkbox"
-                    id={day.day} 
-                    name={day.day}
-                    checked={day.checked}
-                    onChange={weekDayChecked}
-                    />
-                <label htmlFor={day.day}>{day.day}</label>
-            </div>
-        )
-    })
-
-    const monthOptions = trainingData.map(day => {
-        return { value: day.day, label: day.day}
-    })
-
     return (
-        <form style={page === "week" ? stylesWeek.addActivityContainer : styleMonth.addActivityContainer}>
-            <div style={page ==="month" ? styleMonth.inputContainer : null}
+        <form style={page === "week" ? addActivityStylesWeek.addActivityContainer : AddActivityStylesMonth.addActivityContainer}>
+            <div style={page ==="month" ? AddActivityStylesMonth.inputContainer : null}
             className="input-container"
             >
             <label htmlFor="activity">Add Activity</label>
@@ -85,7 +119,7 @@ export default function AddActivitySection() {
                 </div>
             </fieldset>
             </div>
-            <div style={page ==="month" ? styleMonth.inputContainer : null}
+            <div style={page ==="month" ? AddActivityStylesMonth.inputContainer : null}
             className="input-container">
             <label htmlFor="activityHour">Add activity hour</label>
             <input
