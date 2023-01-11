@@ -44,195 +44,157 @@
         "week": [
             {
                 "day": "monday",
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": "tuesday",
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": "wednesday",
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": "thursday",
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": "friday",
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": "saturday",
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": "sunday",
-                "activity": [],
-                "checked": false
+                "activity": []
             }
         ],
         "month": [
             {
                 "day": 1,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 2,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 3,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 4,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 5,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 6,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 7,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 8,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 9,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 10,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 11,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 12,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 13,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 14,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 15,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 16,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 17,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 18,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 19,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 20,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 21,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 22,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 23,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 24,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 25,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 26,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 27,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 28,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 29,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 30,
-                "activity": [],
-                "checked": false
+                "activity": []
             },
             {
                 "day": 31,
-                "activity": [],
-                "checked": false
+                "activity": []
             }
         ]
     }

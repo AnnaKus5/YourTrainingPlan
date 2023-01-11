@@ -32,7 +32,6 @@ export default function AddActivitySection() {
         
 
     function addActivityToState(e) {
-
         setNewActivity(prevActivity => {
             const {name} = e.target
             return {
@@ -53,7 +52,7 @@ export default function AddActivitySection() {
                     type="checkbox"
                     id={name} 
                     name={name}
-                    // checked={day.checked}
+                    checked={newActivity.selectedDay.name}
                     onChange={(e) => addActivityToState(e)}
                     />
                 <label htmlFor={name}>{name}</label>
