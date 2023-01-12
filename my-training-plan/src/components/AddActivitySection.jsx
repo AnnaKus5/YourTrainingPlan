@@ -7,6 +7,17 @@ export default function AddActivitySection() {
 
     // const {addActivityStylesWeek, AddActivityStylesMonth} = useStyles()
 
+    const {page, 
+        trainingData, 
+        trainingData2,
+        weekDayChecked,
+        addDataToTrainingPlan, 
+        selectedMonthDays, 
+        setSelectedMonthDays, 
+        activityInput, 
+        activityHourInput} = useTrainingDataContext()
+
+        
     const [newActivity, setNewActivity] = useState({
         selectedDay: {
         monday: false, 
@@ -17,19 +28,10 @@ export default function AddActivitySection() {
         saturday: false,
         sunday: false
         },
-        activity: []
+        activity: "",
+        activityHour: null
     }) 
-
-    const {page, 
-        trainingData, 
-        trainingData2,
-        weekDayChecked,
-        addDataToTrainingPlan, 
-        selectedMonthDays, 
-        setSelectedMonthDays, 
-        activityInput, 
-        activityHourInput} = useTrainingDataContext()
-        
+        console.log(newActivity)
 
     function addActivityToState(e) {
         setNewActivity(prevActivity => {
@@ -38,9 +40,20 @@ export default function AddActivitySection() {
                 ...prevActivity, 
                 selectedDay: {
                     ...prevActivity.selectedDay,
-                    name: !prevActivity.selectedDay.name
+                    [name]: !prevActivity.selectedDay[name]
                 }
             }
+        })
+    }
+
+    function handleChangeInput(e) {
+        const {name, value} = e.target
+        setNewActivity(prevActivity => {
+            return {
+                ...prevActivity,
+                [name]: value
+            }
+
         })
     }
 
@@ -52,7 +65,7 @@ export default function AddActivitySection() {
                     type="checkbox"
                     id={name} 
                     name={name}
-                    checked={newActivity.selectedDay.name}
+                    checked={newActivity.selectedDay[name]}
                     onChange={(e) => addActivityToState(e)}
                     />
                 <label htmlFor={name}>{name}</label>
@@ -61,7 +74,7 @@ export default function AddActivitySection() {
     })
 
     const monthOptions = trainingData2.map(day => {
-        return { value: day.day, label: day.day}
+        return { value: day.day, label: day.day }
     })
 
 
@@ -99,6 +112,8 @@ export default function AddActivitySection() {
             placeholder="Add activity"
             name="activity"
             id="activity"
+            value={newActivity.activity}
+            onChange={(e) => handleChangeInput(e)}
             ref={activityInput}
             />
             </div>
@@ -126,6 +141,8 @@ export default function AddActivitySection() {
             placeholder="Activity hour"
             name="activityHour"
             id="activityHour"
+            value={newActivity.hour}
+            onChange={(e) => handleChangeInput(e)}
             ref={activityHourInput}
             />
             </div>
