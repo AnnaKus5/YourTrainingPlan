@@ -43,30 +43,37 @@
     "trainingData": {
         "week": [
             {
+                "id": 1,
                 "day": "monday",
                 "activity": []
             },
-            {
+            {   
+                "id": 2,
                 "day": "tuesday",
                 "activity": []
             },
             {
+                "id": 3,
                 "day": "wednesday",
                 "activity": []
             },
-            {
+            {   
+                "id": 4,
                 "day": "thursday",
                 "activity": []
             },
-            {
+            {   
+                "id": 5,
                 "day": "friday",
                 "activity": []
             },
             {
+                "id": 6,
                 "day": "saturday",
                 "activity": []
             },
             {
+                "id": 7,
                 "day": "sunday",
                 "activity": []
             }

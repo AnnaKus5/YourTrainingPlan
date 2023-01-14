@@ -1,7 +1,8 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Select from "react-select";
 import { useTrainingDataContext } from "./TrainingDataContext";
 import { nanoid } from "nanoid";
+import axios from "axios";
 
 export default function AddActivitySection() {
 
@@ -17,31 +18,64 @@ export default function AddActivitySection() {
         activityInput, 
         activityHourInput} = useTrainingDataContext()
 
-        
+        const [checkboxState, setCheckboxState] = useState()
+
+    // const [newActivity, setNewActivity] = useState({
+    //     selectedDay: {
+    //     monday: false, 
+    //     tuesday: false,
+    //     wednesday: false,
+    //     thursday: false,
+    //     friday: false,
+    //     saturday: false,
+    //     sunday: false
+    //     },
+    //     activity: "",
+    //     activityHour: null
+    // }) 
+
+    const [selectDay, setSelectDay] = useState([])
     const [newActivity, setNewActivity] = useState({
-        selectedDay: {
-        monday: false, 
-        tuesday: false,
-        wednesday: false,
-        thursday: false,
-        friday: false,
-        saturday: false,
-        sunday: false
-        },
-        activity: "",
-        activityHour: null
-    }) 
-        console.log(newActivity)
+        nameActivity: "",
+        timeActivity: ""
+    })
+
+
+    useEffect(() => {
+        setCheckboxState(page === "week" ? 
+        { monday: false, 
+            tuesday: false,
+            wednesday: false,
+            thursday: false,
+            friday: false,
+            saturday: false,
+            sunday: false} :
+            {1: false, 2: false, 3: false, 4: false} )
+    }, [page])
+
+
 
     function addActivityToState(e) {
-        setNewActivity(prevActivity => {
-            const {name} = e.target
+        // setNewActivity(prevActivity => {
+        //     const {name} = e.target
+        //     return {
+        //         ...prevActivity, 
+        //         selectedDay: {
+        //             ...prevActivity.selectedDay,
+        //             [name]: !prevActivity.selectedDay[name]
+        //         }
+        //     }
+        // })
+        const {name} = e.target
+
+        setSelectDay(prev => {
+            return [...prev, name]
+        })
+
+        setCheckboxState(prev => {
             return {
-                ...prevActivity, 
-                selectedDay: {
-                    ...prevActivity.selectedDay,
-                    [name]: !prevActivity.selectedDay[name]
-                }
+                ...prev,
+                [name]: !prev[name]
             }
         })
     }
@@ -57,15 +91,24 @@ export default function AddActivitySection() {
         })
     }
 
-    const weekCheboxes = trainingData2.map(day => {
+    function sendData(e) {
+        e.preventDefault()
+
+        axios.get("http://localhost:3000/trainingData?week&day=monday")
+        .then((response) => {
+      console.log(response.data)
+    })
+    }
+
+    const weekCheboxes = trainingData.map(day => {
         const name = day.day
         return (
             <div key={nanoid()}>
                 <input 
                     type="checkbox"
-                    id={name} 
+                    id={day.id} 
                     name={name}
-                    checked={newActivity.selectedDay[name]}
+                    checked={checkboxState[name]}
                     onChange={(e) => addActivityToState(e)}
                     />
                 <label htmlFor={name}>{name}</label>
@@ -73,7 +116,7 @@ export default function AddActivitySection() {
         )
     })
 
-    const monthOptions = trainingData2.map(day => {
+    const monthOptions = trainingData.map(day => {
         return { value: day.day, label: day.day }
     })
 
@@ -106,13 +149,13 @@ export default function AddActivitySection() {
             <div style={page ==="month" ? AddActivityStylesMonth.inputContainer : null}
             className="input-container"
             >
-            <label htmlFor="activity">Add Activity</label>
+            <label htmlFor="nameActivity">Add Activity</label>
             <input
             type="text"
             placeholder="Add activity"
-            name="activity"
-            id="activity"
-            value={newActivity.activity}
+            name="nameActivity"
+            id="nameActivity"
+            value={newActivity.nameActivity}
             onChange={(e) => handleChangeInput(e)}
             ref={activityInput}
             />
@@ -135,18 +178,18 @@ export default function AddActivitySection() {
             </div>
             <div style={page ==="month" ? AddActivityStylesMonth.inputContainer : null}
             className="input-container">
-            <label htmlFor="activityHour">Add activity hour</label>
+            <label htmlFor="timeActivity">Add activity hour</label>
             <input
             type="text"
             placeholder="Activity hour"
-            name="activityHour"
-            id="activityHour"
-            value={newActivity.hour}
+            name="timeActivity"
+            id="timeActivity"
+            value={newActivity.timeActivity}
             onChange={(e) => handleChangeInput(e)}
             ref={activityHourInput}
             />
             </div>
-            <button onClick={addDataToTrainingPlan}>Add to training plan</button>
+            <button onClick={(e) => sendData(e)}>Add to training plan</button>
         </form>
     )
 }

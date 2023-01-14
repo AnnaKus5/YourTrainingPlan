@@ -25,7 +25,7 @@ export default function WeekPage() {
     //dane pobierane z serwera zamiast ze stanu
 
         
-        const weekElements = trainingData2.map(day => {
+        const weekElements = trainingData.map(day => {
         
         const activityElements = day.activity.length > 0 ?
             day.activity.map(activity => {

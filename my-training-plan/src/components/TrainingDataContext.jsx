@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useRef, useEffect } from "react";
-import { QueryClient, QueryClientProvider, useMutation, useQuery } from "react-query";
+import axios from "axios";
+
 const TrainingDataContext = createContext()
 
 const TrainingDataProvider = ({ children }) => {
@@ -14,10 +15,12 @@ const TrainingDataProvider = ({ children }) => {
 
 
   useEffect(() => {
-    createTrainingData()
+    axios.get("http://localhost:3000/trainingData?day=monday")
+    .then((response) => {
+      setTrainingData(page === "week" ? response.data.week : response.data.month)
+    })
   }, [page])
 
-  // dane nie zmieniają się po zmianie stanu
 
   useEffect(() => {
     activityInput.current.value = ""
@@ -29,15 +32,6 @@ const TrainingDataProvider = ({ children }) => {
   function createTrainingData() {
 
   }
-
-
-    const query = useQuery(["trainingData"], async () => {
-      const response = await fetch("http://localhost:3000/trainingData")
-      const data = await response.json()
-      return page === "week" ? data.week : data.month
-    })
-
-    const trainingData2 = query.status === "success" ? query.data : []
 
 
   function changePlan(event) {
@@ -125,7 +119,6 @@ const TrainingDataProvider = ({ children }) => {
   return (
     <TrainingDataContext.Provider value={{
       page, setPage,
-      trainingData2,
       trainingData, setTrainingData,
       selectedMonthDays, setSelectedMonthDays,
       formSumbit, setFormSubmit,

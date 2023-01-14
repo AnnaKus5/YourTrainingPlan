@@ -8,28 +8,6 @@ export default function MonthPage() {
 
     // const {monthPageStyles} = useStyles()
 
-    const monthElements = 
-    trainingData2.map(day => {
-        
-        
-        const activityElements = day.activity.length > 0 ?
-            day.activity.map(activity => {
-                return (
-                    <p key={nanoid()} className="activity">{activity.newActivityHour} - {activity.newActivity}</p>
-                )
-            }) : ""
-
-        return (
-            <div key={day.day} className="day-container">
-                <p className="day-name">{day.day}</p>
-                <div style={monthPageStyles.daySquare} 
-                >
-                    {activityElements}
-                </div>
-            </div>
-        )
-    })
-
     const monthPageStyles = {
         monthSectionContainer: window.innerWidth > 670 ? 
         {
@@ -53,6 +31,27 @@ export default function MonthPage() {
             marginBottom: "1rem"
         }
     }
+
+    const monthElements = 
+    trainingData.map(day => {
+        const activityElements = day.activity.length > 0 ?
+            day.activity.map(activity => {
+                return (
+                    <p key={nanoid()} className="activity">{activity.newActivityHour} - {activity.newActivity}</p>
+                )
+            }) : ""
+
+        return (
+            <div key={day.day} className="day-container">
+                <p className="day-name">{day.day}</p>
+                <div style={monthPageStyles.daySquare} 
+                >
+                    {activityElements}
+                </div>
+            </div>
+        )
+    })
+
 
     return (
         <>
