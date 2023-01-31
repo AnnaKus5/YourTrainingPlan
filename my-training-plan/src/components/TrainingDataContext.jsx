@@ -15,9 +15,9 @@ const TrainingDataProvider = ({ children }) => {
 
 
   useEffect(() => {
-    axios.get("http://localhost:3000/trainingData?day=monday")
+    axios.get(`http://localhost:3000/training-data-${page}`)
     .then((response) => {
-      setTrainingData(page === "week" ? response.data.week : response.data.month)
+      setTrainingData(response.data)
     })
   }, [page])
 

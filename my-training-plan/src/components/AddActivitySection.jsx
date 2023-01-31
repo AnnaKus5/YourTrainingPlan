@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { useTrainingDataContext } from "./TrainingDataContext";
 import { nanoid } from "nanoid";
@@ -6,71 +6,62 @@ import axios from "axios";
 
 export default function AddActivitySection() {
 
-    // const {addActivityStylesWeek, AddActivityStylesMonth} = useStyles()
-
-    const {page, 
-        trainingData, 
-        trainingData2,
+    const { page,
+        trainingData,
         weekDayChecked,
-        addDataToTrainingPlan, 
-        selectedMonthDays, 
-        setSelectedMonthDays, 
-        activityInput, 
-        activityHourInput} = useTrainingDataContext()
+        addDataToTrainingPlan,
+        selectedMonthDays,
+        setSelectedMonthDays,
+        activityInput,
+        activityHourInput } = useTrainingDataContext()
 
-        const [checkboxState, setCheckboxState] = useState()
-
-    // const [newActivity, setNewActivity] = useState({
-    //     selectedDay: {
-    //     monday: false, 
-    //     tuesday: false,
-    //     wednesday: false,
-    //     thursday: false,
-    //     friday: false,
-    //     saturday: false,
-    //     sunday: false
-    //     },
-    //     activity: "",
-    //     activityHour: null
-    // }) 
-
+    const [checkboxState, setCheckboxState] = useState()
     const [selectDay, setSelectDay] = useState([])
     const [newActivity, setNewActivity] = useState({
         nameActivity: "",
         timeActivity: ""
     })
 
+    console.log(newActivity)
+    console.log(selectDay)
+    console.log(checkboxState)
+
+    //nie działa checkboxState
+
 
     useEffect(() => {
-        setCheckboxState(page === "week" ? 
-        { monday: false, 
-            tuesday: false,
-            wednesday: false,
-            thursday: false,
-            friday: false,
-            saturday: false,
-            sunday: false} :
-            {1: false, 2: false, 3: false, 4: false} )
+        setCheckboxState(page === "week" ?
+            {
+                monday: false,
+                tuesday: false,
+                wednesday: false,
+                thursday: false,
+                friday: false,
+                saturday: false,
+                sunday: false
+            } :
+            {
+                1: false, 2: false, 3: false, 4: false
+            })
     }, [page])
 
 
-
     function addActivityToState(e) {
-        // setNewActivity(prevActivity => {
-        //     const {name} = e.target
-        //     return {
-        //         ...prevActivity, 
-        //         selectedDay: {
-        //             ...prevActivity.selectedDay,
-        //             [name]: !prevActivity.selectedDay[name]
-        //         }
-        //     }
-        // })
-        const {name} = e.target
-
-        setSelectDay(prev => {
-            return [...prev, name]
+        setNewActivity(prevActivity => {
+            const {name} = e.target
+            return {
+                ...prevActivity, 
+                selectedDay: {
+                    ...prevActivity.selectedDay,
+                    [name]: !prevActivity.selectedDay[name]
+                }
+            }
         })
+        const { name } = e.target
+
+        // setSelectDay(prev => {
+        //     return [...prev, name]
+        // })
 
         setCheckboxState(prev => {
             return {
@@ -80,8 +71,14 @@ export default function AddActivitySection() {
         })
     }
 
+    function handleCheckbox() {
+        setSelectDay(prev => {
+            return [...prev, name]
+        })
+    }
+
     function handleChangeInput(e) {
-        const {name, value} = e.target
+        const { name, value } = e.target
         setNewActivity(prevActivity => {
             return {
                 ...prevActivity,
@@ -94,23 +91,44 @@ export default function AddActivitySection() {
     function sendData(e) {
         e.preventDefault()
 
-        axios.get("http://localhost:3000/trainingData?week&day=monday")
-        .then((response) => {
-      console.log(response.data)
-    })
+        console.log("send data")
+
+        // przygotować obiekt na podstawie danych ze stanu, który będzie można wysłać na server
+        axios.put(`http://localhost:3000/training-data-week/7`, {
+            id: 7,
+            day: selectDay[0],
+            activity: [
+                {
+                    activityId: 1,
+                    activityName: newActivity.nameActivity,
+                    activityTime: newActivity.timeActivity,
+                    markAsDone: false
+                }
+            ]
+        })
+            .then(response => console.log(response.data))
+            //ponowne renderowanie strony
+
+
+
+        //  axios.get("http://localhost:3000/training-data-week?day=sunday")
+        //     .then((response) => {
+        //          const source = response.data 
+        //          return source
+        // })
     }
 
     const weekCheboxes = trainingData.map(day => {
         const name = day.day
         return (
             <div key={nanoid()}>
-                <input 
+                <input
                     type="checkbox"
-                    id={day.id} 
+                    id={day.id}
                     name={name}
                     checked={checkboxState[name]}
-                    onChange={(e) => addActivityToState(e)}
-                    />
+                    onChange={handleCheckbox}
+                />
                 <label htmlFor={name}>{name}</label>
             </div>
         )
@@ -127,67 +145,67 @@ export default function AddActivitySection() {
             marginTop: "2rem",
             marginBottom: "2rem",
             maxWidth: "250px",
-          }
+        }
     }
 
     const AddActivityStylesMonth = {
         addActivityContainer: {
-            display: "flex", 
+            display: "flex",
             flexWrap: "wrap",
             justifyContent: "space-between",
             alignItems: "center"
         },
 
         inputContainer: {
-            display: "flex", 
+            display: "flex",
             flexDirection: "column"
         }
     }
 
     return (
         <form style={page === "week" ? addActivityStylesWeek.addActivityContainer : AddActivityStylesMonth.addActivityContainer}>
-            <div style={page ==="month" ? AddActivityStylesMonth.inputContainer : null}
-            className="input-container"
+            <div style={page === "month" ? AddActivityStylesMonth.inputContainer : null}
+                className="input-container"
             >
-            <label htmlFor="nameActivity">Add Activity</label>
-            <input
-            type="text"
-            placeholder="Add activity"
-            name="nameActivity"
-            id="nameActivity"
-            value={newActivity.nameActivity}
-            onChange={(e) => handleChangeInput(e)}
-            ref={activityInput}
-            />
+                <label htmlFor="nameActivity">Add Activity</label>
+                <input
+                    type="text"
+                    placeholder="Add activity"
+                    name="nameActivity"
+                    id="nameActivity"
+                    value={newActivity.nameActivity}
+                    onChange={(e) => handleChangeInput(e)}
+                    ref={activityInput}
+                />
             </div>
             <div className="input-container">
-            <fieldset>
-                <legend>Choose days</legend>
-                <div>
-                    {page === "week" ? 
-                        weekCheboxes : 
-                        <Select 
-                        options={monthOptions}
-                        isMulti
-                        hideSelectedOptions={false} 
-                        onChange={(selected) => setSelectedMonthDays(selected)}
-                        value={selectedMonthDays}
-                        id="month-selected"/>}
-                </div>
-            </fieldset>
+                <fieldset>
+                    <legend>Choose days</legend>
+                    <div>
+                        {page === "week" ?
+                            weekCheboxes :
+                            <Select
+                                options={monthOptions}
+                                isMulti
+                                hideSelectedOptions={false}
+                                onChange={(selected) => setSelectedMonthDays(selected)}
+                                value={selectedMonthDays}
+                                id="month-selected" />}
+                    </div>
+                </fieldset>
             </div>
-            <div style={page ==="month" ? AddActivityStylesMonth.inputContainer : null}
-            className="input-container">
-            <label htmlFor="timeActivity">Add activity hour</label>
-            <input
-            type="text"
-            placeholder="Activity hour"
-            name="timeActivity"
-            id="timeActivity"
-            value={newActivity.timeActivity}
-            onChange={(e) => handleChangeInput(e)}
-            ref={activityHourInput}
-            />
+            <div style={page === "month" ? AddActivityStylesMonth.inputContainer : null}
+                className="input-container">
+                <label htmlFor="timeActivity">Add activity hour</label>
+                <input
+                    type="text"
+                    placeholder="Activity hour"
+                    name="timeActivity"
+                    id="timeActivity"
+                    value={newActivity.timeActivity}
+                    onChange={(e) => handleChangeInput(e)}
+                    ref={activityHourInput}
+                />
             </div>
             <button onClick={(e) => sendData(e)}>Add to training plan</button>
         </form>

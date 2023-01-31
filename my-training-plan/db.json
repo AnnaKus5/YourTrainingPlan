@@ -1,208 +1,186 @@
 {
-    "days": {
-        "week": [
-            "monday",
-            "tuesday",
-            "wednesday",
-            "thursday",
-            "friday",
-            "saturday",
-            "sunday"
-        ],
-        "month": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-            15,
-            16,
-            17,
-            18,
-            19,
-            20,
-            21,
-            22,
-            23,
-            24,
-            25,
-            26,
-            27,
-            28
-        ]
+  "training-data-week": [
+    {
+      "id": 1,
+      "day": "monday",
+      "activity": [
+        {
+          "activityId": 1,
+          "activityName": "yoga",
+          "activityTime": "18:00",
+          "markAsDone": false
+        }
+      ]
     },
-    "trainingData": {
-        "week": [
-            {
-                "id": 1,
-                "day": "monday",
-                "activity": []
-            },
-            {   
-                "id": 2,
-                "day": "tuesday",
-                "activity": []
-            },
-            {
-                "id": 3,
-                "day": "wednesday",
-                "activity": []
-            },
-            {   
-                "id": 4,
-                "day": "thursday",
-                "activity": []
-            },
-            {   
-                "id": 5,
-                "day": "friday",
-                "activity": []
-            },
-            {
-                "id": 6,
-                "day": "saturday",
-                "activity": []
-            },
-            {
-                "id": 7,
-                "day": "sunday",
-                "activity": []
-            }
-        ],
-        "month": [
-            {
-                "day": 1,
-                "activity": []
-            },
-            {
-                "day": 2,
-                "activity": []
-            },
-            {
-                "day": 3,
-                "activity": []
-            },
-            {
-                "day": 4,
-                "activity": []
-            },
-            {
-                "day": 5,
-                "activity": []
-            },
-            {
-                "day": 6,
-                "activity": []
-            },
-            {
-                "day": 7,
-                "activity": []
-            },
-            {
-                "day": 8,
-                "activity": []
-            },
-            {
-                "day": 9,
-                "activity": []
-            },
-            {
-                "day": 10,
-                "activity": []
-            },
-            {
-                "day": 11,
-                "activity": []
-            },
-            {
-                "day": 12,
-                "activity": []
-            },
-            {
-                "day": 13,
-                "activity": []
-            },
-            {
-                "day": 14,
-                "activity": []
-            },
-            {
-                "day": 15,
-                "activity": []
-            },
-            {
-                "day": 16,
-                "activity": []
-            },
-            {
-                "day": 17,
-                "activity": []
-            },
-            {
-                "day": 18,
-                "activity": []
-            },
-            {
-                "day": 19,
-                "activity": []
-            },
-            {
-                "day": 20,
-                "activity": []
-            },
-            {
-                "day": 21,
-                "activity": []
-            },
-            {
-                "day": 22,
-                "activity": []
-            },
-            {
-                "day": 23,
-                "activity": []
-            },
-            {
-                "day": 24,
-                "activity": []
-            },
-            {
-                "day": 25,
-                "activity": []
-            },
-            {
-                "day": 26,
-                "activity": []
-            },
-            {
-                "day": 27,
-                "activity": []
-            },
-            {
-                "day": 28,
-                "activity": []
-            },
-            {
-                "day": 29,
-                "activity": []
-            },
-            {
-                "day": 30,
-                "activity": []
-            },
-            {
-                "day": 31,
-                "activity": []
-            }
-        ]
+    {
+      "id": 2,
+      "day": "tuesday",
+      "activity": [
+        {
+          "actvityId": 2,
+          "activityName": "climbing",
+          "activityTime": "16:00",
+          "markAsDone": false
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "day": "wednesday",
+      "activity": []
+    },
+    {
+      "id": 4,
+      "day": "thursday",
+      "activity": []
+    },
+    {
+      "id": 5,
+      "day": "friday",
+      "activity": []
+    },
+    {
+      "id": 6,
+      "day": "saturday",
+      "activity": []
+    },
+    {
+      "id": 7,
+      "day": "sunday",
+      "activity": [
+        {
+          "activityId": 1,
+          "activityName": "hiking",
+          "activityTime": "7:00",
+          "markAsDone": false
+        }
+      ]
     }
+  ],
+  "training-data-month": [
+    {
+      "day": 1,
+      "activity": []
+    },
+    {
+      "day": 2,
+      "activity": []
+    },
+    {
+      "day": 3,
+      "activity": []
+    },
+    {
+      "day": 4,
+      "activity": []
+    },
+    {
+      "day": 5,
+      "activity": []
+    },
+    {
+      "day": 6,
+      "activity": []
+    },
+    {
+      "day": 7,
+      "activity": []
+    },
+    {
+      "day": 8,
+      "activity": []
+    },
+    {
+      "day": 9,
+      "activity": []
+    },
+    {
+      "day": 10,
+      "activity": []
+    },
+    {
+      "day": 11,
+      "activity": []
+    },
+    {
+      "day": 12,
+      "activity": []
+    },
+    {
+      "day": 13,
+      "activity": []
+    },
+    {
+      "day": 14,
+      "activity": []
+    },
+    {
+      "day": 15,
+      "activity": []
+    },
+    {
+      "day": 16,
+      "activity": []
+    },
+    {
+      "day": 17,
+      "activity": []
+    },
+    {
+      "day": 18,
+      "activity": []
+    },
+    {
+      "day": 19,
+      "activity": []
+    },
+    {
+      "day": 20,
+      "activity": []
+    },
+    {
+      "day": 21,
+      "activity": []
+    },
+    {
+      "day": 22,
+      "activity": []
+    },
+    {
+      "day": 23,
+      "activity": []
+    },
+    {
+      "day": 24,
+      "activity": []
+    },
+    {
+      "day": 25,
+      "activity": []
+    },
+    {
+      "day": 26,
+      "activity": []
+    },
+    {
+      "day": 27,
+      "activity": []
+    },
+    {
+      "day": 28,
+      "activity": []
+    },
+    {
+      "day": 29,
+      "activity": []
+    },
+    {
+      "day": 30,
+      "activity": []
+    },
+    {
+      "day": 31,
+      "activity": []
+    }
+  ]
 }

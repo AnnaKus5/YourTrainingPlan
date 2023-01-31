@@ -30,7 +30,7 @@ export default function WeekPage() {
         const activityElements = day.activity.length > 0 ?
             day.activity.map(activity => {
                 return (
-                    <p key={nanoid()} className="activity">{activity.newActivityHour} - {activity.newActivity}</p>
+                    <p key={nanoid()} className="activity">{activity.activityTime} - {activity.activityName}</p>
                 )
             }) : ""
 
