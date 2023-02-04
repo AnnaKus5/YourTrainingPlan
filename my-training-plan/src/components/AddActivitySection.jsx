@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Select from "react-select";
 import { useTrainingDataContext } from "./TrainingDataContext";
 import { nanoid } from "nanoid";
@@ -6,28 +6,19 @@ import axios from "axios";
 
 export default function AddActivitySection() {
 
+    const activityInput = useRef()
+    const activityHourInput = useRef()
+
     const { page,
         trainingData,
-        weekDayChecked,
-        addDataToTrainingPlan,
-        selectedMonthDays,
-        setSelectedMonthDays,
-        activityInput,
-        activityHourInput } = useTrainingDataContext()
+        setTrainingData } = useTrainingDataContext()
 
+    const [formSumbit, setFormSubmit] = useState(false)
     const [checkboxState, setCheckboxState] = useState()
-    const [selectDay, setSelectDay] = useState([])
     const [newActivity, setNewActivity] = useState({
         nameActivity: "",
         timeActivity: ""
     })
-
-    console.log(newActivity)
-    console.log(selectDay)
-    console.log(checkboxState)
-
-    //nie działa checkboxState
-
 
     useEffect(() => {
         setCheckboxState(page === "week" ?
@@ -41,81 +32,106 @@ export default function AddActivitySection() {
                 sunday: false
             } :
             {
-                1: false, 2: false, 3: false, 4: false
+                1: false, 2: false, 3: false, 4: false, 5: false, 6: false, 7: false,
+                8: false, 9: false, 10: false, 11: false, 12: false, 13: false, 14: false,
+                15: false, 16: false, 17: false, 18: false, 19: false, 20: false, 21: false,
+                22: false, 23: false, 24: false, 25: false, 26: false, 27: false, 28: false,
+                29: false, 30: false, 31: false
             })
-    }, [page])
+
+            axios.get(`http://localhost:3000/training-data-${page}`)
+            .then((response) => {
+              setTrainingData(response.data)
+            })
+
+            setNewActivity({
+                nameActivity: "",
+                timeActivity: ""
+            })
+            
+    }, [page, formSumbit])
 
 
-    function addActivityToState(e) {
-        setNewActivity(prevActivity => {
-            const {name} = e.target
-            return {
-                ...prevActivity, 
-                selectedDay: {
-                    ...prevActivity.selectedDay,
-                    [name]: !prevActivity.selectedDay[name]
-                }
-            }
-        })
-        const { name } = e.target
-
-        // setSelectDay(prev => {
-        //     return [...prev, name]
-        // })
-
-        setCheckboxState(prev => {
-            return {
-                ...prev,
-                [name]: !prev[name]
-            }
-        })
-    }
-
-    function handleCheckbox() {
-        setSelectDay(prev => {
-            return [...prev, name]
-        })
-    }
-
-    function handleChangeInput(e) {
+    function handleAvtivityState(e) {
         const { name, value } = e.target
         setNewActivity(prevActivity => {
             return {
                 ...prevActivity,
                 [name]: value
             }
-
         })
     }
+
+    function handleWeekCheckboxState(e) {
+        const {name} = e.target
+
+        setCheckboxState(prev => {
+            return {
+                ...prev, 
+                [name]: !prev[name]
+                }
+        })
+    }
+
+    function handleMonthCheckboxState(selected) {
+        selected.map(day => {
+            setCheckboxState(prev => {
+                return {
+                    ...prev, 
+                    [day.value]: !prev[day.value]
+                    }
+            })
+        } )
+        // można wybrać tylko jeden dzień 
+    }
+
+    function createArrayWihTrueValue() {
+        const days = Object.entries(checkboxState)
+
+        let id = 1
+        
+        const arrWithId = days.map(day => {
+            const newDay = [...day, id]
+            id += 1
+            return newDay
+        })
+
+        const arrWithTrueValue = arrWithId.filter(day => {
+            return day[1] === true
+        })
+        
+        return arrWithTrueValue
+    }
+
 
     function sendData(e) {
         e.preventDefault()
 
-        console.log("send data")
+        if (activityInput.current.value !== "") {
 
-        // przygotować obiekt na podstawie danych ze stanu, który będzie można wysłać na server
-        axios.put(`http://localhost:3000/training-data-week/7`, {
-            id: 7,
-            day: selectDay[0],
-            activity: [
+            const days = createArrayWihTrueValue()
+
+            days.map(day => {
+                axios.put(`http://localhost:3000/training-data-week/${day[2]}`,
                 {
-                    activityId: 1,
-                    activityName: newActivity.nameActivity,
-                    activityTime: newActivity.timeActivity,
-                    markAsDone: false
-                }
-            ]
-        })
-            .then(response => console.log(response.data))
-            //ponowne renderowanie strony
+                    id: day[2],
+                    day: day[0],
+                    activity: [
+                        {
+                            activityId: 1, 
+                            activityName: newActivity.nameActivity,
+                            activityTime: newActivity.timeActivity,
+                            markAsDone: false
+                        }
+                    ]
+                })
+            })
+    
+            setFormSubmit(prev => !prev)
 
-
-
-        //  axios.get("http://localhost:3000/training-data-week?day=sunday")
-        //     .then((response) => {
-        //          const source = response.data 
-        //          return source
-        // })
+        } else {
+            console.log("Add activity name!")
+        }
     }
 
     const weekCheboxes = trainingData.map(day => {
@@ -127,7 +143,7 @@ export default function AddActivitySection() {
                     id={day.id}
                     name={name}
                     checked={checkboxState[name]}
-                    onChange={handleCheckbox}
+                    onChange={handleWeekCheckboxState}
                 />
                 <label htmlFor={name}>{name}</label>
             </div>
@@ -161,6 +177,7 @@ export default function AddActivitySection() {
             flexDirection: "column"
         }
     }
+    //przenieść do osobnego komponentu ze stylami?
 
     return (
         <form style={page === "week" ? addActivityStylesWeek.addActivityContainer : AddActivityStylesMonth.addActivityContainer}>
@@ -174,7 +191,7 @@ export default function AddActivitySection() {
                     name="nameActivity"
                     id="nameActivity"
                     value={newActivity.nameActivity}
-                    onChange={(e) => handleChangeInput(e)}
+                    onChange={(e) => handleAvtivityState(e)}
                     ref={activityInput}
                 />
             </div>
@@ -188,8 +205,8 @@ export default function AddActivitySection() {
                                 options={monthOptions}
                                 isMulti
                                 hideSelectedOptions={false}
-                                onChange={(selected) => setSelectedMonthDays(selected)}
-                                value={selectedMonthDays}
+                                onChange={(selected) => handleMonthCheckboxState(selected)}
+                                value={checkboxState}
                                 id="month-selected" />}
                     </div>
                 </fieldset>
@@ -203,7 +220,7 @@ export default function AddActivitySection() {
                     name="timeActivity"
                     id="timeActivity"
                     value={newActivity.timeActivity}
-                    onChange={(e) => handleChangeInput(e)}
+                    onChange={(e) => handleAvtivityState(e)}
                     ref={activityHourInput}
                 />
             </div>

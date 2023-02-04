@@ -7,7 +7,7 @@
         {
           "activityId": 1,
           "activityName": "yoga",
-          "activityTime": "18:00",
+          "activityTime": "17:00",
           "markAsDone": false
         }
       ]
@@ -17,9 +17,9 @@
       "day": "tuesday",
       "activity": [
         {
-          "actvityId": 2,
+          "activityId": 1,
           "activityName": "climbing",
-          "activityTime": "16:00",
+          "activityTime": "18:00",
           "markAsDone": false
         }
       ]
@@ -27,17 +27,38 @@
     {
       "id": 3,
       "day": "wednesday",
-      "activity": []
+      "activity": [
+        {
+          "activityId": 1,
+          "activityName": "yoga",
+          "activityTime": "17:00",
+          "markAsDone": false
+        }
+      ]
     },
     {
       "id": 4,
       "day": "thursday",
-      "activity": []
+      "activity": [
+        {
+          "activityId": 1,
+          "activityName": "climbing",
+          "activityTime": "18:00",
+          "markAsDone": false
+        }
+      ]
     },
     {
       "id": 5,
       "day": "friday",
-      "activity": []
+      "activity": [
+        {
+          "activityId": 1,
+          "activityName": "yoga",
+          "activityTime": "17:00",
+          "markAsDone": false
+        }
+      ]
     },
     {
       "id": 6,
@@ -47,14 +68,7 @@
     {
       "id": 7,
       "day": "sunday",
-      "activity": [
-        {
-          "activityId": 1,
-          "activityName": "hiking",
-          "activityTime": "7:00",
-          "markAsDone": false
-        }
-      ]
+      "activity": []
     }
   ],
   "training-data-month": [
