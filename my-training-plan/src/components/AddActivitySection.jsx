@@ -21,6 +21,7 @@ export default function AddActivitySection() {
     })
 
     useEffect(() => {
+
         setCheckboxState(page === "week" ?
             {
                 monday: false,
@@ -88,6 +89,8 @@ export default function AddActivitySection() {
     function createArrayWihTrueValue() {
         const days = Object.entries(checkboxState)
 
+        console.log(days)
+
         let id = 1
         
         const arrWithId = days.map(day => {
@@ -112,26 +115,32 @@ export default function AddActivitySection() {
             const days = createArrayWihTrueValue()
 
             days.map(day => {
-                axios.put(`http://localhost:3000/training-data-week/${day[2]}`,
-                {
-                    id: day[2],
-                    day: day[0],
-                    activity: [
-                        {
-                            activityId: 1, 
-                            activityName: newActivity.nameActivity,
-                            activityTime: newActivity.timeActivity,
-                            markAsDone: false
-                        }
-                    ]
+
+                axios.get(`http://localhost:3000/training-data-${page}/${day[2]}`)
+                .then(response => {
+                    const data = response.data
+                    const updatedData = {
+                        ...data,
+                        activity: [
+                            ...data.activity,
+                            {
+                                activityId: 1, 
+                                activityName: newActivity.nameActivity,
+                                activityTime: newActivity.timeActivity,
+                                markAsDone: false
+                            }
+                        ]
+                    }
+                    axios.put(`http://localhost:3000/training-data-${page}/${day[2]}`, updatedData)
+
                 })
             })
-    
-            setFormSubmit(prev => !prev)
 
         } else {
             console.log("Add activity name!")
         }
+
+        setFormSubmit(prev => !prev)
     }
 
     const weekCheboxes = trainingData.map(day => {
@@ -206,7 +215,7 @@ export default function AddActivitySection() {
                                 isMulti
                                 hideSelectedOptions={false}
                                 onChange={(selected) => handleMonthCheckboxState(selected)}
-                                value={checkboxState}
+                                // value={checkboxState}
                                 id="month-selected" />}
                     </div>
                 </fieldset>

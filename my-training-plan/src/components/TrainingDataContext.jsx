@@ -5,28 +5,9 @@ const TrainingDataContext = createContext()
 
 const TrainingDataProvider = ({ children }) => {
 
-  const [page, setPage] = useState("week")
+  const [page, setPage] = useState("month")
   const [trainingData, setTrainingData] = useState([])
-  const [formSumbit, setFormSubmit] = useState(false)
-
-  // const activityInput = useRef()
-  // const activityHourInput = useRef()
-
-  // console.log(formSumbit)
-
-
-  // useEffect(() => {
-  //   axios.get(`http://localhost:3000/training-data-${page}`)
-  //   .then((response) => {
-  //     setTrainingData(response.data)
-  //   })
-  // }, [page, formSumbit])
-
-
-  // useEffect(() => {
-  //   activityInput.current.value = ""
-  //   activityHourInput.current.value = ""
-  // }, [formSumbit])
+  // const [formSumbit, setFormSubmit] = useState(false)
 
 
 
@@ -42,7 +23,7 @@ const TrainingDataProvider = ({ children }) => {
     <TrainingDataContext.Provider value={{
       page, setPage,
       trainingData, setTrainingData,
-      formSumbit, setFormSubmit,
+      // formSumbit, setFormSubmit,
       changePlan,
     }}>
       {children}
