@@ -1,7 +1,6 @@
 import React from "react";
 import {nanoid} from "nanoid"
 import { useTrainingDataContext } from "./TrainingDataContext";
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 
 export default function WeekPage() {
 
@@ -28,12 +27,11 @@ export default function WeekPage() {
     })
 
 
-
-
     return (
         <div className="week-section-container">
             { weekElements}
             <button onClick={deletePlan}>Delete plan</button>
+            {/* <button onClick={deletePlan}>Download plan</button> */}
         </div>
     )
 }

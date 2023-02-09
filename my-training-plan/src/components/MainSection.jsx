@@ -1,9 +1,13 @@
+import { useState } from "react"
 import AddActivitySection from "./AddActivitySection"
 import WeekPage from "./WeekPage"
 import MonthPage from "./MonthPage"
 import { useTrainingDataContext } from "./TrainingDataContext"
 
 export default function MainSection() {
+
+    const [selectedMonth, setSelectedMonth] = useState()
+
 
     const { page } = useTrainingDataContext()
 
@@ -28,10 +32,13 @@ export default function MainSection() {
 
     return (
         <main style={page === "week" ? styleWeek.mainContainer : styleMonth.mainContainer}>
-        <AddActivitySection />
+        <AddActivitySection 
+            selectedMonth={selectedMonth}/>
         {page === "week" ? 
           <WeekPage /> : 
-          <MonthPage />
+          <MonthPage 
+          selectedMonth={selectedMonth}
+          setSelectedMonth={setSelectedMonth}/>
           }
       </main>
     )

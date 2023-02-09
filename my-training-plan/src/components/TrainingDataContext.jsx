@@ -7,8 +7,6 @@ const TrainingDataProvider = ({ children }) => {
 
   const [page, setPage] = useState("month")
   const [trainingData, setTrainingData] = useState([])
-  // const [formSumbit, setFormSubmit] = useState(false)
-
 
 
   function changePlan(event) {
@@ -23,7 +21,6 @@ const TrainingDataProvider = ({ children }) => {
     <TrainingDataContext.Provider value={{
       page, setPage,
       trainingData, setTrainingData,
-      // formSumbit, setFormSubmit,
       changePlan,
     }}>
       {children}

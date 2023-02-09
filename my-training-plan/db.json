@@ -15,12 +15,26 @@
     {
       "id": 2,
       "day": "tuesday",
-      "activity": []
+      "activity": [
+        {
+          "activityId": 1,
+          "activityName": "climbing",
+          "activityTime": "17:00",
+          "markAsDone": false
+        }
+      ]
     },
     {
       "id": 3,
       "day": "wednesday",
-      "activity": []
+      "activity": [
+        {
+          "activityId": 1,
+          "activityName": "yoga",
+          "activityTime": "17:00",
+          "markAsDone": false
+        }
+      ]
     },
     {
       "id": 4,
@@ -28,7 +42,7 @@
       "activity": [
         {
           "activityId": 1,
-          "activityName": "yoga",
+          "activityName": "climbing",
           "activityTime": "17:00",
           "markAsDone": false
         }
@@ -40,7 +54,7 @@
       "activity": [
         {
           "activityId": 1,
-          "activityName": "climbing",
+          "activityName": "yoga",
           "activityTime": "17:00",
           "markAsDone": false
         }
