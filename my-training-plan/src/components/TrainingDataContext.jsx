@@ -1,5 +1,4 @@
-import React, { createContext, useContext, useState, useRef, useEffect } from "react";
-import axios from "axios";
+import React, { createContext, useContext, useState } from "react";
 
 const TrainingDataContext = createContext()
 

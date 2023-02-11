@@ -4,13 +4,12 @@ import axios from "axios";
 import MonthInput from "./MonthInput";
 import WeekInput from "./WeekInput";
 
-export default function AddActivitySection({ selectedMonth, setSelectedMonth, monthOptions }) {
+export default function AddActivitySection({ selectedMonth, setSelectedMonth, selectedDays, setSelectedDays }) {
 
     const activityInput = useRef()
     const activityHourInput = useRef()
 
     const { page,
-        trainingData,
         setTrainingData } = useTrainingDataContext()
 
     const [formSumbit, setFormSubmit] = useState(false)
@@ -50,6 +49,8 @@ export default function AddActivitySection({ selectedMonth, setSelectedMonth, mo
             timeActivity: ""
         })
 
+        setSelectedDays("")
+
     }, [page, formSumbit])
 
 
@@ -65,8 +66,6 @@ export default function AddActivitySection({ selectedMonth, setSelectedMonth, mo
 
     function createArrayWihTrueValue() {
         const days = Object.entries(checkboxState)
-
-        console.log(days)
 
         let id = 1
 
@@ -110,7 +109,7 @@ export default function AddActivitySection({ selectedMonth, setSelectedMonth, mo
                             ]
                         }
                         axios.put(`http://localhost:3000/training-data-${page}/${id}`, updatedData)
-                    .then(() => setFormSubmit(prev => !prev))
+                            .then(() => setFormSubmit(prev => !prev))
 
                     })
             })
@@ -121,35 +120,17 @@ export default function AddActivitySection({ selectedMonth, setSelectedMonth, mo
 
     }
 
-
-    const addActivityStylesWeek = {
-        addActivityContainer: {
-            marginTop: "2rem",
-            marginBottom: "2rem",
-            maxWidth: "250px",
-        }
-    }
-
-    const AddActivityStylesMonth = {
-        addActivityContainer: {
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-            alignItems: "center"
-        },
-
-        inputContainer: {
-            display: "flex",
-            flexDirection: "column"
-        }
-    }
-    //przenieść do osobnego komponentu ze stylami?
-
     return (
-        <form style={page === "week" ? addActivityStylesWeek.addActivityContainer : AddActivityStylesMonth.addActivityContainer}>
-            <div style={page === "month" ? AddActivityStylesMonth.inputContainer : null}
-                className="input-container"
-            >
+        <form
+            className={page === "week" ? "week-add-activity-container" : "month-add-activity-container"}>
+            {page === "month" &&
+                <MonthInput
+                    selectedMonth={selectedMonth}
+                    setSelectedMonth={setSelectedMonth}
+                    setCheckboxState={setCheckboxState}
+                    selectedDays={selectedDays}
+                    setSelectedDays={setSelectedDays} />}
+            <div className={page === "month" ? "month-input-container input-container" : "input-container"} >
                 <label htmlFor="nameActivity">Add Activity</label>
                 <input
                     type="text"
@@ -158,23 +139,16 @@ export default function AddActivitySection({ selectedMonth, setSelectedMonth, mo
                     id="nameActivity"
                     value={newActivity.nameActivity}
                     onChange={(e) => handleAvtivityState(e)}
-                    ref={activityInput}
-                />
+                    ref={activityInput} />
             </div>
             <div className="input-container">
-                {page === "week" ?
+                {page === "week" &&
                     <WeekInput
                         checkboxState={checkboxState}
-                        setCheckboxState={setCheckboxState} /> :
-                    <MonthInput
-                        selectedMonth={selectedMonth}
-                        setSelectedMonth={setSelectedMonth}
-                        monthOptions={monthOptions}
-                        checkboxState={checkboxState}
-                        setCheckboxState={setCheckboxState} />}
+                        setCheckboxState={setCheckboxState} />
+                }
             </div>
-            <div style={page === "month" ? AddActivityStylesMonth.inputContainer : null}
-                className="input-container">
+            <div className={page === "month" ? "month-input-container input-container" : "input-container"} >
                 <label htmlFor="timeActivity">Add activity hour</label>
                 <input
                     type="text"
@@ -183,8 +157,7 @@ export default function AddActivitySection({ selectedMonth, setSelectedMonth, mo
                     id="timeActivity"
                     value={newActivity.timeActivity}
                     onChange={(e) => handleAvtivityState(e)}
-                    ref={activityHourInput}
-                />
+                    ref={activityHourInput} />
             </div>
             <button onClick={(e) => sendData(e)}>Add to training plan</button>
         </form>

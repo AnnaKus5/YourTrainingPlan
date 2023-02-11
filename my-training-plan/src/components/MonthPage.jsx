@@ -1,39 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { nanoid } from "nanoid";
 import { useTrainingDataContext } from "./TrainingDataContext";
-import Select from "react-select";
-import DatePicker from "react-multi-date-picker";
 
 
-export default function MonthPage({ selectedMonth, setSelectedMonth }) {
+export default function MonthPage({dayInMonth}) {
 
     const { trainingData, deletePlan } = useTrainingDataContext()
 
-    const dayInMonth = selectedMonth ? selectedMonth.month.length : 28
-
-    const monthPageStyles = {
-        monthSectionContainer: window.innerWidth > 670 ?
-            {
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr 1fr 1fr",
-                gridTemplateRows: "1fr 1fr 1fr 1fr",
-                gap: "10px 10px"
-            } :
-            {
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr 1fr 1fr",
-                gridTemplateRows: "1fr 1fr 1fr 1fr 1fr 1fr 1fr",
-                gap: "10px 10px",
-                gridAutoFlow: "column"
-            },
-        daySquare: {
-            backgroundColor: "#EDF2F4",
-            minWidth: "150px",
-            maxWidth: "200px",
-            minHeight: "80px",
-            marginBottom: "1rem"
-        }
-    }
 
     const monthElements =
         trainingData
@@ -47,9 +20,9 @@ export default function MonthPage({ selectedMonth, setSelectedMonth }) {
                     }) : ""
 
                 return (
-                    <div key={day.day} className="day-container">
+                    <div key={day.day} className="month-day-square">
                         <p className="day-name">{day.day}</p>
-                        <div style={monthPageStyles.daySquare}>
+                        <div>
                             {activityElements}
                         </div>
                     </div>
@@ -59,16 +32,7 @@ export default function MonthPage({ selectedMonth, setSelectedMonth }) {
 
     return (
         <>
-            <div>
-                <p>Choose month:</p>
-                <DatePicker
-                    onlyMonthPicker
-                    value={selectedMonth}
-                    onChange={setSelectedMonth}
-                    placeholder="Choose month"
-                    format="MMMM YYYY" />
-            </div>
-            <div style={monthPageStyles.monthSectionContainer}>
+            <div className="month-section-container">
                 {monthElements}
             </div>
             <button onClick={deletePlan}>Delete plan</button>

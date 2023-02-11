@@ -4,7 +4,7 @@ import { useTrainingDataContext } from "./TrainingDataContext";
 
 export default function WeekPage() {
 
-    const { trainingData, trainingData2, deletePlan} = useTrainingDataContext()
+    const { trainingData, deletePlan} = useTrainingDataContext()
 
         
         const weekElements = trainingData.map(day => {

@@ -1,30 +1,46 @@
-import { useState } from "react";
-import { useTrainingDataContext } from "./TrainingDataContext";
-import Select from "react-select";
+import { useEffect } from "react";
 import DatePicker from "react-multi-date-picker";
 
 
-export default function MonthInput({ checkboxState, setCheckboxState, selectedMonth, setSelectedMonth }) {
+export default function MonthInput({ setCheckboxState, selectedMonth, setSelectedMonth, selectedDays, setSelectedDays }) {
 
-    const { trainingData } = useTrainingDataContext()
 
-    const [selectedDays, setSelectedDays] = useState(new Date())
+    useEffect(() => {
+        if (selectedDays instanceof Array) {
+            selectedDays.map(day => {
+                setCheckboxState(prev => {
+                    return {
+                        ...prev,
+                        [day.day]: true
+                    }
+                })
+            })
 
-    console.log(selectedMonth)
-
-    // ustawić min i max date na postawie otrzymanego obiektu selectedMonth
+        }
+    }, [selectedDays])
 
     return (
-        <fieldset>
-        <legend>Choose days</legend>
-            <DatePicker 
-                    value={selectedMonth} 
+        <>
+            <fieldset>
+                <legend>Choose month:</legend>
+                <DatePicker
+                    onlyMonthPicker
+                    value={selectedMonth}
+                    onChange={setSelectedMonth}
+                    placeholder="Choose month"
+                    format="MMMM YYYY" />
+            </fieldset>
+            <fieldset>
+                <legend>Choose days:</legend>
+                <DatePicker
+                    value={selectedDays}
                     onChange={setSelectedDays}
                     multiple={true}
                     weekStartDayIndex={1}
                     minDate={selectedMonth}
                     maxDate={`${selectedMonth.year}/${selectedMonth.month.number}/${selectedMonth.month.length}`}
-                    />
-        </fieldset>
+                />
+            </fieldset>
+        </>
     )
 }

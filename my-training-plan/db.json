@@ -3,62 +3,27 @@
     {
       "id": 1,
       "day": "monday",
-      "activity": [
-        {
-          "activityId": 1,
-          "activityName": "yoga",
-          "activityTime": "17:00",
-          "markAsDone": false
-        }
-      ]
+      "activity": []
     },
     {
       "id": 2,
       "day": "tuesday",
-      "activity": [
-        {
-          "activityId": 1,
-          "activityName": "climbing",
-          "activityTime": "17:00",
-          "markAsDone": false
-        }
-      ]
+      "activity": []
     },
     {
       "id": 3,
       "day": "wednesday",
-      "activity": [
-        {
-          "activityId": 1,
-          "activityName": "yoga",
-          "activityTime": "17:00",
-          "markAsDone": false
-        }
-      ]
+      "activity": []
     },
     {
       "id": 4,
       "day": "thursday",
-      "activity": [
-        {
-          "activityId": 1,
-          "activityName": "climbing",
-          "activityTime": "17:00",
-          "markAsDone": false
-        }
-      ]
+      "activity": []
     },
     {
       "id": 5,
       "day": "friday",
-      "activity": [
-        {
-          "activityId": 1,
-          "activityName": "yoga",
-          "activityTime": "17:00",
-          "markAsDone": false
-        }
-      ]
+      "activity": []
     },
     {
       "id": 6,
@@ -95,14 +60,7 @@
     {
       "id": 5,
       "day": 5,
-      "activity": [
-        {
-          "activityId": 1,
-          "activityName": "yoga",
-          "activityTime": "17:00",
-          "markAsDone": false
-        }
-      ]
+      "activity": []
     },
     {
       "id": 6,
@@ -137,14 +95,7 @@
     {
       "id": 12,
       "day": 12,
-      "activity": [
-        {
-          "activityId": 1,
-          "activityName": "climbing",
-          "activityTime": "17:00",
-          "markAsDone": false
-        }
-      ]
+      "activity": []
     },
     {
       "id": 13,
@@ -159,14 +110,7 @@
     {
       "id": 15,
       "day": 15,
-      "activity": [
-        {
-          "activityId": 1,
-          "activityName": "climbing",
-          "activityTime": "17:00",
-          "markAsDone": false
-        }
-      ]
+      "activity": []
     },
     {
       "id": 16,
