@@ -37,7 +37,7 @@ export default function MonthInput({ setCheckboxState, selectedMonth, setSelecte
                     onChange={setSelectedDays}
                     multiple={true}
                     weekStartDayIndex={1}
-                    minDate={selectedMonth}
+                    minDate={`${selectedMonth.year}/${selectedMonth.month.number}/1`}
                     maxDate={`${selectedMonth.year}/${selectedMonth.month.number}/${selectedMonth.month.length}`}
                 />
             </fieldset>

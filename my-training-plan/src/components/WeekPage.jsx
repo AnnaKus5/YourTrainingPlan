@@ -2,7 +2,7 @@ import React from "react";
 import {nanoid} from "nanoid"
 import { useTrainingDataContext } from "./TrainingDataContext";
 
-export default function WeekPage({markAsDone, removeActivity, deletePlan}) {
+export default function WeekPage({markAsDone, removeActivity, savePlan, deletePlan}) {
 
     const { trainingData} = useTrainingDataContext()
 
@@ -36,8 +36,8 @@ export default function WeekPage({markAsDone, removeActivity, deletePlan}) {
     return (
         <div className="week-section-container">
             { weekElements}
+            <button onClick={savePlan} className="save-button">Save plan</button>
             <button onClick={deletePlan}>Delete plan</button>
-            {/* <button onClick={deletePlan}>Download plan</button> */}
         </div>
     )
 }

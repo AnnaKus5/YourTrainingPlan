@@ -3,10 +3,9 @@ import { nanoid } from "nanoid";
 import { useTrainingDataContext } from "./TrainingDataContext";
 
 
-export default function MonthPage({dayInMonth, markAsDone, removeActivity, deletePlan}) {
+export default function MonthPage({dayInMonth, markAsDone, removeActivity, savePlan, deletePlan}) {
 
     const { trainingData } = useTrainingDataContext()
-
 
     const monthElements =
         trainingData
@@ -40,6 +39,7 @@ export default function MonthPage({dayInMonth, markAsDone, removeActivity, delet
             <div className="month-section-container">
                 {monthElements}
             </div>
+            <button onClick={savePlan} className="save-button">Save plan</button>
             <button onClick={deletePlan}>Delete plan</button>
         </>
     )

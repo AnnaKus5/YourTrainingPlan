@@ -12,9 +12,7 @@ export default function MainSection() {
     const [selectedDays, setSelectedDays] = useState(new Date())
     const [formSumbit, setFormSubmit] = useState(false)
 
-
     const dayInMonth = selectedMonth.month.length
-
     const { page, setTrainingData } = useTrainingDataContext()
 
     function markAsDone(e) {
@@ -79,6 +77,24 @@ export default function MainSection() {
         })
     }
 
+    function savePlan() {
+        axios.get(`http://localhost:3000/training-data-${page}`)
+            .then(response => {
+                const {data} = response
+
+                const archiveData = {
+                    id: 2,
+                    date: `${selectedMonth.month.name.toLocaleLowerCase()}${selectedMonth.year}`,
+                    trainingData: data
+                }
+
+                axios.post(`http://localhost:3000/training-data-archive`, archiveData)
+                    .then(() => {
+                        // deletePlan()
+                    })
+            })
+    }
+
     function deletePlan() {
         axios.get(`http://localhost:3000/training-data-${page}`)
             .then((response) => {
@@ -113,11 +129,13 @@ export default function MainSection() {
                 <WeekPage
                     markAsDone={markAsDone}
                     removeActivity={removeActivity}
+                    savePlan={savePlan}
                     deletePlan={deletePlan} /> :
                 <MonthPage
                     dayInMonth={dayInMonth}
                     markAsDone={markAsDone}
                     removeActivity={removeActivity}
+                    savePlan={savePlan}
                     deletePlan={deletePlan} />
             }
         </main>

@@ -4,7 +4,7 @@ const TrainingDataContext = createContext()
 
 const TrainingDataProvider = ({ children }) => {
 
-  const [page, setPage] = useState("week")
+  const [page, setPage] = useState("month")
   const [trainingData, setTrainingData] = useState([])
 
 

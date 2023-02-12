@@ -83,6 +83,10 @@ header, nav {
   height: 1.2em;
 }
 
+.save-button {
+  margin-right: 2em;
+}
+
 @media screen and (min-width: 670px) {
 
   main {
