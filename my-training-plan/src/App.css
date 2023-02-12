@@ -1,5 +1,5 @@
 main {
-  margin: 4rem;
+  margin: 1rem;
 }
 
 header, nav {
@@ -10,10 +10,6 @@ header, nav {
 
 #week-button {
   margin-right: 1rem;
-}
-
-.main-container {
-  margin: 4rem;
 }
 
 .month-main-container {
@@ -71,11 +67,21 @@ header, nav {
   margin: 0;
 }
 
+.checkbox {
+  height: 1.2em;
+  margin-right: .5em;
+}
+
 .activity {
   margin-top: 0;
   margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
 }
 
+.remove-icon {
+  height: 1.2em;
+}
 
 @media screen and (min-width: 670px) {
 

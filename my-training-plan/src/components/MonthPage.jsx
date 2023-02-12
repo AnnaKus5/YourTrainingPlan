@@ -3,9 +3,9 @@ import { nanoid } from "nanoid";
 import { useTrainingDataContext } from "./TrainingDataContext";
 
 
-export default function MonthPage({dayInMonth}) {
+export default function MonthPage({dayInMonth, markAsDone, removeActivity, deletePlan}) {
 
-    const { trainingData, deletePlan } = useTrainingDataContext()
+    const { trainingData } = useTrainingDataContext()
 
 
     const monthElements =
@@ -15,12 +15,17 @@ export default function MonthPage({dayInMonth}) {
                 const activityElements = day.activity.length > 0 ?
                     day.activity.map(activity => {
                         return (
-                            <p key={nanoid()} className="activity">{activity.activityTime} {activity.activityName}</p>
-                        )
+                            <p key={activity.activityId} className="activity">
+                            {activity.markAsDone ?
+                            <img src="src\images\checkbox-checked.png" className="checkbox" id={activity.activityId} onClick={markAsDone}/> :
+                            <img src="src\images\checkbox-unchecked.png" className="checkbox" id={activity.activityId} onClick={markAsDone}/>} 
+                            <span>{activity.activityTime} {activity.activityName}</span>
+                            <img src="src\images\remove.png" className="remove-icon" id={activity.activityId} onClick={removeActivity}/>
+                        </p>                        )
                     }) : ""
 
                 return (
-                    <div key={day.day} className="month-day-square">
+                    <div key={day.day} className="month-day-square" id={day.id}>
                         <p className="day-name">{day.day}</p>
                         <div>
                             {activityElements}

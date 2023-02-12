@@ -4,7 +4,7 @@ import axios from "axios";
 import MonthInput from "./MonthInput";
 import WeekInput from "./WeekInput";
 
-export default function AddActivitySection({ selectedMonth, setSelectedMonth, selectedDays, setSelectedDays }) {
+export default function AddActivitySection({ selectedMonth, setSelectedMonth, selectedDays, setSelectedDays, formSumbit, setFormSubmit }) {
 
     const activityInput = useRef()
     const activityHourInput = useRef()
@@ -12,7 +12,7 @@ export default function AddActivitySection({ selectedMonth, setSelectedMonth, se
     const { page,
         setTrainingData } = useTrainingDataContext()
 
-    const [formSumbit, setFormSubmit] = useState(false)
+    // const [formSumbit, setFormSubmit] = useState(false)
     const [checkboxState, setCheckboxState] = useState()
     const [newActivity, setNewActivity] = useState({
         nameActivity: "",
@@ -101,7 +101,7 @@ export default function AddActivitySection({ selectedMonth, setSelectedMonth, se
                             activity: [
                                 ...data.activity,
                                 {
-                                    activityId: 1,
+                                    activityId: data.activity.length + 1,
                                     activityName: newActivity.nameActivity,
                                     activityTime: newActivity.timeActivity,
                                     markAsDone: false
