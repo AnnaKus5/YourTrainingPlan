@@ -12,12 +12,12 @@ export default function AddActivitySection({ selectedMonth, setSelectedMonth, se
     const { page,
         setTrainingData } = useTrainingDataContext()
 
-    // const [formSumbit, setFormSubmit] = useState(false)
     const [checkboxState, setCheckboxState] = useState()
     const [newActivity, setNewActivity] = useState({
         nameActivity: "",
         timeActivity: ""
     })
+    const [emptyActivity, setEmptyActivity] = useState(false)
 
     useEffect(() => {
 
@@ -83,42 +83,41 @@ export default function AddActivitySection({ selectedMonth, setSelectedMonth, se
     }
 
 
-    function sendData(e) {
+    async function sendData(e) {
         e.preventDefault()
 
         if (activityInput.current.value !== "") {
 
             const days = createArrayWihTrueValue()
 
-            days.map(day => {
+            for (const day of days) {
                 const id = day[2]
-
-                axios.get(`http://localhost:3000/training-data-${page}/${id}`)
-                    .then(response => {
-                        const data = response.data
-                        const updatedData = {
-                            ...data,
-                            activity: [
-                                ...data.activity,
-                                {
-                                    activityId: data.activity.length + 1,
-                                    activityName: newActivity.nameActivity,
-                                    activityTime: newActivity.timeActivity,
-                                    markAsDone: false
-                                }
-                            ]
+                const response = await axios.get(`http://localhost:3000/training-data-${page}/${id}`)
+                const data = response.data
+                const updatedData = {
+                    ...data,
+                    activity: [
+                        ...data.activity,
+                        {
+                            activityId: data.activity.length + 1,
+                            activityName: newActivity.nameActivity,
+                            activityTime: newActivity.timeActivity,
+                            markAsDone: false
                         }
-                        axios.put(`http://localhost:3000/training-data-${page}/${id}`, updatedData)
-                            .then(() => setFormSubmit(prev => !prev))
+                    ]
+                }
 
-                    })
-            })
+                await axios.put(`http://localhost:3000/training-data-${page}/${id}`, updatedData)
+                setFormSubmit(prev => !prev)
+                setEmptyActivity(false)
+
+            }
 
         } else {
-            console.log("Add activity name!")
+            setEmptyActivity(true)
         }
-
     }
+
 
     return (
         <form
@@ -131,15 +130,19 @@ export default function AddActivitySection({ selectedMonth, setSelectedMonth, se
                     selectedDays={selectedDays}
                     setSelectedDays={setSelectedDays} />}
             <div className={page === "month" ? "month-input-container input-container" : "input-container"} >
-                <label htmlFor="nameActivity">Add Activity</label>
-                <input
-                    type="text"
-                    placeholder="Add activity"
-                    name="nameActivity"
-                    id="nameActivity"
-                    value={newActivity.nameActivity}
-                    onChange={(e) => handleAvtivityState(e)}
-                    ref={activityInput} />
+                <fieldset>
+                    <legend>Activity name:</legend>
+                    <input
+                        type="text"
+                        placeholder="Add activity"
+                        name="nameActivity"
+                        id="nameActivity"
+                        className="activity-input"
+                        value={newActivity.nameActivity}
+                        onChange={(e) => handleAvtivityState(e)}
+                        ref={activityInput} />
+                        { emptyActivity && <p className="empty-activity-info">Add activity name!</p>}
+                </fieldset>
             </div>
             <div className="input-container">
                 {page === "week" &&
@@ -149,15 +152,18 @@ export default function AddActivitySection({ selectedMonth, setSelectedMonth, se
                 }
             </div>
             <div className={page === "month" ? "month-input-container input-container" : "input-container"} >
-                <label htmlFor="timeActivity">Add activity hour</label>
-                <input
-                    type="text"
-                    placeholder="Activity hour"
-                    name="timeActivity"
-                    id="timeActivity"
-                    value={newActivity.timeActivity}
-                    onChange={(e) => handleAvtivityState(e)}
-                    ref={activityHourInput} />
+                <fieldset>
+                    <legend>Activity hour:</legend>
+                    <input
+                        type="text"
+                        placeholder="Add activity hour"
+                        name="timeActivity"
+                        id="timeActivity"
+                        className="activity-input"
+                        value={newActivity.timeActivity}
+                        onChange={(e) => handleAvtivityState(e)}
+                        ref={activityHourInput} />
+                </fieldset>
             </div>
             <button onClick={(e) => sendData(e)}>Add to training plan</button>
         </form>

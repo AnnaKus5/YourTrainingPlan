@@ -12,6 +12,22 @@ header, nav {
   margin-right: 1rem;
 }
 
+.welcome-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-container {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.activity-icon {
+  margin: 2em;
+}
+
 .month-main-container {
   display: block;
 }
@@ -25,7 +41,7 @@ header, nav {
 .month-add-activity-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   margin-bottom: 2rem;
 }
@@ -35,8 +51,26 @@ header, nav {
   flex-direction: column;
 }
 
-.input-container {
+/* .input-container {
   margin-bottom: 1rem;
+} */
+
+.activity-input {
+  border: 1px solid #c0c4d6;
+  border-radius: 5px;
+  height: 22px;
+  margin: 1px 0;
+  padding: 2px 5px;
+}
+
+.empty-activity-info {
+  color: #D90429;
+  font-size: .8em;
+  margin: 0;
+}
+
+.dispay-none {
+  display: none;
 }
 
 .month-section-container {
@@ -97,6 +131,7 @@ header, nav {
 
   .main-container {
     max-width: 1000px;
+    margin: auto;
   }
 
   .add-activity-container {
@@ -120,7 +155,7 @@ header, nav {
   }
 }
 
-@media screen and (max-width: 580px) {
+@media screen and (max-width: 640px) {
   .logo-img {
     width: 80px;
     height: 80px;
@@ -128,6 +163,18 @@ header, nav {
 
   .logo {
     font-size: 2rem;
+  }
+
+  .activity-icon {
+    height: 100px;
+  }
+
+  .title {
+    font-size: 1.5em;
+  }
+
+  .subtitle {
+    font-size: 1.2em;
   }
   
 }

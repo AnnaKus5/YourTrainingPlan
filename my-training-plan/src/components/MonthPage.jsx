@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 import { useTrainingDataContext } from "./TrainingDataContext";
 
 
-export default function MonthPage({dayInMonth, markAsDone, removeActivity, savePlan, deletePlan}) {
+export default function MonthPage({dayInMonth, markAsDone, deleteSingleActivity, savePlan, deletePlan}) {
 
     const { trainingData } = useTrainingDataContext()
 
@@ -19,7 +19,7 @@ export default function MonthPage({dayInMonth, markAsDone, removeActivity, saveP
                             <img src="src\images\checkbox-checked.png" className="checkbox" id={activity.activityId} onClick={markAsDone}/> :
                             <img src="src\images\checkbox-unchecked.png" className="checkbox" id={activity.activityId} onClick={markAsDone}/>} 
                             <span>{activity.activityTime} {activity.activityName}</span>
-                            <img src="src\images\remove.png" className="remove-icon" id={activity.activityId} onClick={removeActivity}/>
+                            <img src="src\images\remove.png" className="remove-icon" id={activity.activityId} onClick={deleteSingleActivity}/>
                         </p>                        )
                     }) : ""
 

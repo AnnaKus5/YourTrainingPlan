@@ -5,6 +5,7 @@ import axios from "axios";
 import AddActivitySection from "./AddActivitySection"
 import WeekPage from "./WeekPage"
 import MonthPage from "./MonthPage"
+import WelcomePage from "./WelcomePage";
 
 export default function MainSection() {
 
@@ -15,126 +16,113 @@ export default function MainSection() {
     const dayInMonth = selectedMonth.month.length
     const { page, setTrainingData } = useTrainingDataContext()
 
-    function markAsDone(e) {
+    async function updateData(url, data) {
+        await axios.put(url, data)
+        const response = await axios.get(`http://localhost:3000/training-data-${page}`)
+
+        setTrainingData(response.data)
+    }
+
+    async function markAsDone(e) {
         const checkboxId = Number(e.target.id)
         const dayId = e.target.parentElement.parentElement.parentElement.id
 
-        axios.get(`http://localhost:3000/training-data-${page}/${dayId}`)
-            .then(response => {
-                const fullDay = response.data
-                const activitySection = response.data.activity
-                const updatedActivity = activitySection.map(activity => {
-                    if (activity.activityId === checkboxId) {
-                        return {
-                            ...activity,
-                            markAsDone: !activity.markAsDone
-                        }
-                    } else {
-                        return activity
-                    }
-                })
-                const updatedData = {
-                    ...fullDay,
-                    activity: updatedActivity
+        const response = await axios.get(`http://localhost:3000/training-data-${page}/${dayId}`)
+        const fullDay = response.data
+        const activitySection = response.data.activity
+        const updatedActivity = activitySection.map(activity => {
+            if (activity.activityId === checkboxId) {
+                return {
+                    ...activity,
+                    markAsDone: !activity.markAsDone
                 }
-
-                axios.put(`http://localhost:3000/training-data-${page}/${dayId}`, updatedData)
-                    .then(() => {
-                        axios.get(`http://localhost:3000/training-data-${page}`)
-                            .then((response) => {
-                                setTrainingData(response.data)
-                            })
-                    })
-            })
+            } else {
+                return activity
+            }
+        })
+        const newData = {
+            ...fullDay,
+            activity: updatedActivity
+        }
+        updateData(`http://localhost:3000/training-data-${page}/${dayId}`, newData)
     }
 
-    function removeActivity(e) {
+    async function deleteSingleActivity(e) {
         const removeActivityId = Number(e.target.id)
         const dayId = e.target.parentElement.parentElement.parentElement.id
 
-        axios.get(`http://localhost:3000/training-data-${page}/${dayId}`)
-        .then(response => {
-            const fullDay = response.data
-            const activitySection = response.data.activity
+        const response = await axios.get(`http://localhost:3000/training-data-${page}/${dayId}`)
+        const fullDay = response.data
+        const activitySection = response.data.activity
 
-            const updatedActivity = activitySection.filter(activity => {
-                return activity.activityId !== removeActivityId
-            })
-
-            const updatedData = {
-                ...fullDay, 
-                activity: updatedActivity
-            }
-
-            axios.put(`http://localhost:3000/training-data-${page}/${dayId}`, updatedData)
-            .then(() => {
-                axios.get(`http://localhost:3000/training-data-${page}`)
-                    .then((response) => {
-                        setTrainingData(response.data)
-                    })
-            })
-
+        const updatedActivity = activitySection.filter(activity => {
+            return activity.activityId !== removeActivityId
         })
+
+        const newData = {
+            ...fullDay,
+            activity: updatedActivity
+        }
+
+        updateData(`http://localhost:3000/training-data-${page}/${dayId}`, newData)
+
     }
 
-    function savePlan() {
-        axios.get(`http://localhost:3000/training-data-${page}`)
-            .then(response => {
-                const {data} = response
+    async function savePlan() {
+        const response = await axios.get(`http://localhost:3000/training-data-${page}`)
+        const { data } = response
 
-                const archiveData = {
-                    id: 2,
-                    date: `${selectedMonth.month.name.toLocaleLowerCase()}${selectedMonth.year}`,
-                    trainingData: data
+        const archiveData = {
+            // jak ustawić kolejne id?
+            id: 3,
+            date: `${selectedMonth.month.name.toLocaleLowerCase()}${selectedMonth.year}`,
+            trainingData: data
+        }
+
+        await axios.post(`http://localhost:3000/training-data-archive`, archiveData)
+        deletePlan()
+    }
+
+    async function deletePlan() {
+        const response = await axios.get(`http://localhost:3000/training-data-${page}`)
+        const data = await response.data
+
+        for (const day of data) {
+            if (day.activity.length > 0) {
+                const emptyActivitiySection = {
+                    ...day,
+                    activity: []
                 }
 
-                axios.post(`http://localhost:3000/training-data-archive`, archiveData)
-                    .then(() => {
-                        // deletePlan()
-                    })
-            })
-    }
+                await axios.put(`http://localhost:3000/training-data-${page}/${day.id}`, emptyActivitiySection)
+            }
+        }
 
-    function deletePlan() {
-        axios.get(`http://localhost:3000/training-data-${page}`)
-            .then((response) => {
-                const { data } = response
+        setFormSubmit(prev => !prev)
 
-                data.map(day => {
-                    if(day.activity.length > 0) {
-                        const emptyActivitiySection = {
-                            ...day,
-                            activity: []
-                        }
-                    axios.put(`http://localhost:3000/training-data-${page}/${day.id}`, emptyActivitiySection)
-                    }
-                })
-            })
-            .then(() => {
-                //get all resource training-data-${page} and set new data to render it
-                setFormSubmit(prev => !prev)
-            })
     }
 
     return (
         <main className={page == "month" ? "main-container month-main-container" : "main-container"}>
+            <WelcomePage />
             <AddActivitySection
                 selectedMonth={selectedMonth}
                 setSelectedMonth={setSelectedMonth}
                 selectedDays={selectedDays}
                 setSelectedDays={setSelectedDays}
                 formSumbit={formSumbit}
-                setFormSubmit={setFormSubmit} />
+                setFormSubmit={setFormSubmit}
+            />
             {page === "week" ?
                 <WeekPage
                     markAsDone={markAsDone}
-                    removeActivity={removeActivity}
+                    deleteSingleActivity={deleteSingleActivity}
                     savePlan={savePlan}
                     deletePlan={deletePlan} /> :
                 <MonthPage
                     dayInMonth={dayInMonth}
                     markAsDone={markAsDone}
-                    removeActivity={removeActivity}
+                    deleteSingleActivity={deleteSingleActivity}
                     savePlan={savePlan}
                     deletePlan={deletePlan} />
             }
