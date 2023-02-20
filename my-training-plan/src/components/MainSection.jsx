@@ -6,11 +6,13 @@ import AddActivitySection from "./AddActivitySection"
 import WeekPage from "./WeekPage"
 import MonthPage from "./MonthPage"
 import WelcomePage from "./WelcomePage";
+import Header from "./Header";
+import { Outlet, useOutletContext } from "react-router-dom";
 
 export default function MainSection() {
 
     const [selectedMonth, setSelectedMonth] = useState(new DateObject())
-    const [selectedDays, setSelectedDays] = useState(new Date())
+    // const [selectedDays, setSelectedDays] = useState(new Date())
     const [formSumbit, setFormSubmit] = useState(false)
 
     const dayInMonth = selectedMonth.month.length
@@ -103,29 +105,32 @@ export default function MainSection() {
     }
 
     return (
-        <main className={page == "month" ? "main-container month-main-container" : "main-container"}>
-            <WelcomePage />
-            <AddActivitySection
-                selectedMonth={selectedMonth}
-                setSelectedMonth={setSelectedMonth}
-                selectedDays={selectedDays}
-                setSelectedDays={setSelectedDays}
-                formSumbit={formSumbit}
-                setFormSubmit={setFormSubmit}
-            />
-            {page === "week" ?
-                <WeekPage
-                    markAsDone={markAsDone}
-                    deleteSingleActivity={deleteSingleActivity}
-                    savePlan={savePlan}
-                    deletePlan={deletePlan} /> :
-                <MonthPage
-                    dayInMonth={dayInMonth}
-                    markAsDone={markAsDone}
-                    deleteSingleActivity={deleteSingleActivity}
-                    savePlan={savePlan}
-                    deletePlan={deletePlan} />
-            }
-        </main>
+        <>
+            <Header />
+            <Outlet context={{selectedMonth, setSelectedMonth, formSumbit, setFormSubmit, dayInMonth, markAsDone, deleteSingleActivity, savePlan, deletePlan}}/>
+        </>
+
+        // <main className={page == "month" ? "main-container month-main-container" : "main-container"}>
+        //     <WelcomePage />
+        //     <AddActivitySection
+        //         selectedMonth={selectedMonth}
+        //         setSelectedMonth={setSelectedMonth}
+        //         formSumbit={formSumbit}
+        //         setFormSubmit={setFormSubmit}
+        //     />
+        //     {page === "week" ?
+        //         <WeekPage
+        //             markAsDone={markAsDone}
+        //             deleteSingleActivity={deleteSingleActivity}
+        //             savePlan={savePlan}
+        //             deletePlan={deletePlan} /> :
+        //         <MonthPage
+        //             dayInMonth={dayInMonth}
+        //             markAsDone={markAsDone}
+        //             deleteSingleActivity={deleteSingleActivity}
+        //             savePlan={savePlan}
+        //             deletePlan={deletePlan} />
+        //     }
+        // </main>
     )
 }

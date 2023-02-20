@@ -4,15 +4,15 @@ import axios from "axios";
 import MonthInput from "./MonthInput";
 import WeekInput from "./WeekInput";
 
-export default function AddActivitySection({ selectedMonth, setSelectedMonth, selectedDays, setSelectedDays, formSumbit, setFormSubmit }) {
+export default function AddActivitySection({page, selectedMonth, setSelectedMonth, formSumbit, setFormSubmit}) {
 
     const activityInput = useRef()
     const activityHourInput = useRef()
 
-    const { page,
-        setTrainingData } = useTrainingDataContext()
+    const { setTrainingData } = useTrainingDataContext()
 
-    const [checkboxState, setCheckboxState] = useState()
+    const [checkboxState, setCheckboxState] = useState(false)
+    const [selectedDays, setSelectedDays] = useState(new Date())
     const [newActivity, setNewActivity] = useState({
         nameActivity: "",
         timeActivity: ""
@@ -20,6 +20,11 @@ export default function AddActivitySection({ selectedMonth, setSelectedMonth, se
     const [emptyActivity, setEmptyActivity] = useState(false)
 
     useEffect(() => {
+
+        axios.get(`http://localhost:3000/training-data-${page}`)
+        .then((response) => {
+            setTrainingData(response.data)
+        })
 
         setCheckboxState(page === "week" ?
             {
@@ -37,11 +42,6 @@ export default function AddActivitySection({ selectedMonth, setSelectedMonth, se
                 15: false, 16: false, 17: false, 18: false, 19: false, 20: false, 21: false,
                 22: false, 23: false, 24: false, 25: false, 26: false, 27: false, 28: false,
                 29: false, 30: false, 31: false
-            })
-
-        axios.get(`http://localhost:3000/training-data-${page}`)
-            .then((response) => {
-                setTrainingData(response.data)
             })
 
         setNewActivity({

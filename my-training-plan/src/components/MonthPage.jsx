@@ -1,11 +1,20 @@
 import React from "react";
 import { nanoid } from "nanoid";
 import { useTrainingDataContext } from "./TrainingDataContext";
+import { useOutletContext } from "react-router-dom";
+import AddActivitySection from "./AddActivitySection";
+import Navigation from "./Navigation";
 
 
-export default function MonthPage({dayInMonth, markAsDone, deleteSingleActivity, savePlan, deletePlan}) {
+export default function MonthPage() {
 
-    const { trainingData } = useTrainingDataContext()
+    const { trainingData, page, setPage } = useTrainingDataContext()
+
+    setPage("month")
+
+    const { selectedMonth, setSelectedMonth, formSumbit, setFormSubmit, dayInMonth, markAsDone, deleteSingleActivity, savePlan, deletePlan } = useOutletContext()
+
+    const currentSysIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches
 
     const monthElements =
         trainingData
@@ -15,12 +24,12 @@ export default function MonthPage({dayInMonth, markAsDone, deleteSingleActivity,
                     day.activity.map(activity => {
                         return (
                             <p key={activity.activityId} className="activity">
-                            {activity.markAsDone ?
-                            <img src="src\images\checkbox-checked.png" className="checkbox" id={activity.activityId} onClick={markAsDone}/> :
-                            <img src="src\images\checkbox-unchecked.png" className="checkbox" id={activity.activityId} onClick={markAsDone}/>} 
-                            <span>{activity.activityTime} {activity.activityName}</span>
-                            <img src="src\images\remove.png" className="remove-icon" id={activity.activityId} onClick={deleteSingleActivity}/>
-                        </p>                        )
+                                {activity.markAsDone ?
+                                    <img src={currentSysIsDark ? "src/images/checkbox-checked-white.png" : "src/images/checkbox-checked.png"} className="checkbox" id={activity.activityId} onClick={markAsDone} /> :
+                                    <img src={currentSysIsDark ? "src/images/checkbox-unchecked-white.png" : "src/images/checkbox-unchecked.png"} className="checkbox" id={activity.activityId} onClick={markAsDone} />}
+                                <span>{activity.activityTime} {activity.activityName}</span>
+                                <img src="src\images\remove.png" className="remove-icon" id={activity.activityId} onClick={deleteSingleActivity} />
+                            </p>)
                     }) : ""
 
                 return (
@@ -36,6 +45,14 @@ export default function MonthPage({dayInMonth, markAsDone, deleteSingleActivity,
 
     return (
         <>
+        <Navigation />
+            <AddActivitySection
+                page={page}
+                selectedMonth={selectedMonth}
+                setSelectedMonth={setSelectedMonth}
+                formSumbit={formSumbit}
+                setFormSubmit={setFormSubmit}
+            />
             <div className="month-section-container">
                 {monthElements}
             </div>

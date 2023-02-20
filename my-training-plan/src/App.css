@@ -84,7 +84,7 @@ header, nav {
 .day-square {
   background-color: #EDF2F4;
   min-width: 250px;
-  max-width: 500px;
+  max-width: 400px;
   min-height: 80px;
   margin-bottom: 1rem;
 }
@@ -131,6 +131,14 @@ header, nav {
 
   .main-container {
     max-width: 1000px;
+    margin: auto;
+  }
+
+  .week-main-container {
+    /* display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around; */
+    max-width: 70%;
     margin: auto;
   }
 

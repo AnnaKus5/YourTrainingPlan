@@ -1,23 +1,30 @@
 import React from "react";
-import {nanoid} from "nanoid"
+import { Outlet, useOutlet, useOutletContext } from "react-router-dom";
+import AddActivitySection from "./AddActivitySection";
+import Navigation from "./Navigation";
 import { useTrainingDataContext } from "./TrainingDataContext";
 
-export default function WeekPage({markAsDone, deleteSingleActivity, savePlan, deletePlan}) {
+export default function WeekPage() {
 
-    const { trainingData} = useTrainingDataContext()
+    const { trainingData, page, setPage } = useTrainingDataContext()
 
-        
-        const weekElements = trainingData.map(day => {
-        
+    setPage("week")
+
+    const {selectedMonth, setSelectedMonth, formSumbit, setFormSubmit, dayInMonth, markAsDone, deleteSingleActivity, savePlan, deletePlan} = useOutletContext() 
+
+    const currentSysIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+
+    const weekElements = trainingData.map(day => {
+
         const activityElements = day.activity.length > 0 ?
             day.activity.map(activity => {
                 return (
                     <p key={activity.activityId} className="activity">
                         {activity.markAsDone ?
-                        <img src="src\images\checkbox-checked.png" className="checkbox" id={activity.activityId} onClick={markAsDone}/> :
-                        <img src="src\images\checkbox-unchecked.png" className="checkbox" id={activity.activityId} onClick={markAsDone}/>} 
+                            <img src={currentSysIsDark ? "src/images/checkbox-checked-white.png" : "src/images/checkbox-checked.png"} className="checkbox" id={activity.activityId} onClick={markAsDone} /> :
+                            <img src={currentSysIsDark ? "src/images/checkbox-unchecked-white.png" : "src/images/checkbox-unchecked.png"} className="checkbox" id={activity.activityId} onClick={markAsDone} />}
                         <span>{activity.activityTime} {activity.activityName}</span>
-                        <img src="src\images\remove.png" className="remove-icon" id={activity.activityId} onClick={deleteSingleActivity}/>
+                        <img src="src\images\remove.png" className="remove-icon" id={activity.activityId} onClick={deleteSingleActivity} />
                     </p>
                 )
             }) : ""
@@ -34,10 +41,22 @@ export default function WeekPage({markAsDone, deleteSingleActivity, savePlan, de
 
 
     return (
-        <div className="week-section-container">
-            { weekElements}
-            <button onClick={savePlan} className="save-button">Save plan</button>
-            <button onClick={deletePlan}>Delete plan</button>
-        </div>
+        <>
+        <Navigation />
+        <main className="week-main-container">
+             <AddActivitySection
+                page={page}
+                selectedMonth={selectedMonth}
+                setSelectedMonth={setSelectedMonth}
+                formSumbit={formSumbit}
+                setFormSubmit={setFormSubmit}
+                 />
+            <div className="week-section-container">
+                {weekElements}
+                <button onClick={savePlan} className="save-button">Save plan</button>
+                <button onClick={deletePlan}>Delete plan</button>
+            </div>
+            </main>
+        </>
     )
 }
