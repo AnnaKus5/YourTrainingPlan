@@ -9,7 +9,7 @@ export default function AddActivitySection({page, selectedMonth, setSelectedMont
     const activityInput = useRef()
     const activityHourInput = useRef()
 
-    const { setTrainingData } = useTrainingDataContext()
+    const { setTrainingData, url } = useTrainingDataContext()
 
     const [checkboxState, setCheckboxState] = useState(false)
     const [selectedDays, setSelectedDays] = useState(new Date())
@@ -21,7 +21,7 @@ export default function AddActivitySection({page, selectedMonth, setSelectedMont
 
     useEffect(() => {
 
-        axios.get(`http://localhost:3000/training-data-${page}`)
+        axios.get(url)
         .then((response) => {
             setTrainingData(response.data)
         })
@@ -92,7 +92,7 @@ export default function AddActivitySection({page, selectedMonth, setSelectedMont
 
             for (const day of days) {
                 const id = day[2]
-                const response = await axios.get(`http://localhost:3000/training-data-${page}/${id}`)
+                const response = await axios.get(`${url}/${id}`)
                 const data = response.data
                 const updatedData = {
                     ...data,
@@ -107,7 +107,7 @@ export default function AddActivitySection({page, selectedMonth, setSelectedMont
                     ]
                 }
 
-                await axios.put(`http://localhost:3000/training-data-${page}/${id}`, updatedData)
+                await axios.put(`${url}/${id}`, updatedData)
                 setFormSubmit(prev => !prev)
                 setEmptyActivity(false)
 

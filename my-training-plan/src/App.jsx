@@ -7,17 +7,6 @@ import MonthPage from './components/MonthPage'
 import WelcomePage from './components/WelcomePage'
 import TrainingPlansArchive from './components/TrainingPlansArchive'
 
-// export default function App() {
-
-//   return (
-//     <>
-//     <Header />
-//     <MainSection />
-//     </>
-//   )
-// }
-
-
 export default function App() {
 
   return (
@@ -27,7 +16,6 @@ export default function App() {
         <Route index element={<WelcomePage />}/>
         <Route path="week" element={<WeekPage /> }/>
         <Route path="month" element={<MonthPage />}/>
-        {/* AddActivitySection - where? move to WeekPage and MonthPage? */}
         <Route path="yourtrainingplans" element={<TrainingPlansArchive />} />
         </Route>
       </Routes>

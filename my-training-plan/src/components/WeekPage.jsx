@@ -10,7 +10,9 @@ export default function WeekPage() {
 
     setPage("week")
 
-    const {selectedMonth, setSelectedMonth, formSumbit, setFormSubmit, dayInMonth, markAsDone, deleteSingleActivity, savePlan, deletePlan} = useOutletContext() 
+    console.log(trainingData)
+
+    const {selectedMonth, setSelectedMonth, formSumbit, setFormSubmit, markAsDone, deleteSingleActivity, savePlan, deletePlan} = useOutletContext() 
 
     const currentSysIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches
 

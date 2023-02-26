@@ -1,26 +1,23 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const TrainingDataContext = createContext()
 
 const TrainingDataProvider = ({ children }) => {
 
-  const [page, setPage] = useState("month")
+  const [page, setPage] = useState("week")
   const [trainingData, setTrainingData] = useState([])
+  const [url, setUrl] = useState(`http://localhost:3000/training-data-${page}`)
 
-
-  function changePlan(event) {
-    setPage(() => {
-      if (event.target.id === "week-button") return "week"
-      if (event.target.id === "month-button") return "month"
-    })
-  }
+  useEffect(() => {
+    setUrl(`http://localhost:3000/training-data-${page}`)
+  }, [page])
 
 
   return (
     <TrainingDataContext.Provider value={{
       page, setPage,
       trainingData, setTrainingData,
-      changePlan,
+      url, setUrl
     }}>
       {children}
     </TrainingDataContext.Provider>
