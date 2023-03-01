@@ -1,20 +1,16 @@
 import React from "react";
-import { Outlet, useOutlet, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import AddActivitySection from "./AddActivitySection";
 import Navigation from "./Navigation";
 import { useTrainingDataContext } from "./TrainingDataContext";
 
 export default function WeekPage() {
 
-    const { trainingData, page, setPage } = useTrainingDataContext()
+    const {selectedMonth, setSelectedMonth, formSumbit, setFormSubmit, markAsDone, deleteSingleActivity, savePlan, deletePlan} = useOutletContext() 
+    const currentSysIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+    const { trainingData, setPage } = useTrainingDataContext()
 
     setPage("week")
-
-    console.log(trainingData)
-
-    const {selectedMonth, setSelectedMonth, formSumbit, setFormSubmit, markAsDone, deleteSingleActivity, savePlan, deletePlan} = useOutletContext() 
-
-    const currentSysIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches
 
     const weekElements = trainingData.map(day => {
 
@@ -23,8 +19,16 @@ export default function WeekPage() {
                 return (
                     <p key={activity.activityId} className="activity">
                         {activity.markAsDone ?
-                            <img src={currentSysIsDark ? "src/images/checkbox-checked-white.png" : "src/images/checkbox-checked.png"} className="checkbox" id={activity.activityId} onClick={markAsDone} /> :
-                            <img src={currentSysIsDark ? "src/images/checkbox-unchecked-white.png" : "src/images/checkbox-unchecked.png"} className="checkbox" id={activity.activityId} onClick={markAsDone} />}
+                            <img 
+                                src={currentSysIsDark ? "src/images/checkbox-checked-white.png" : "src/images/checkbox-checked.png"} 
+                                className="checkbox" 
+                                id={activity.activityId} 
+                                onClick={markAsDone} /> :
+                            <img 
+                                src={currentSysIsDark ? "src/images/checkbox-unchecked-white.png" : "src/images/checkbox-unchecked.png"} 
+                                className="checkbox" 
+                                id={activity.activityId} 
+                                onClick={markAsDone} />}
                         <span>{activity.activityTime} {activity.activityName}</span>
                         <img src="src\images\remove.png" className="remove-icon" id={activity.activityId} onClick={deleteSingleActivity} />
                     </p>
@@ -47,7 +51,6 @@ export default function WeekPage() {
         <Navigation />
         <main className="week-main-container">
              <AddActivitySection
-                page={page}
                 selectedMonth={selectedMonth}
                 setSelectedMonth={setSelectedMonth}
                 formSumbit={formSumbit}

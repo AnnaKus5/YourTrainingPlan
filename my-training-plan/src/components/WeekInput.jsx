@@ -2,7 +2,7 @@ import { useTrainingDataContext } from "./TrainingDataContext";
 import { nanoid } from "nanoid";
 
 export default function WeekInput({checkboxState, setCheckboxState}) {
-
+    
     const { trainingData } = useTrainingDataContext()
     
     function handleWeekCheckboxState(e) {

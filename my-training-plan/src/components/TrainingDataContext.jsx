@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 const TrainingDataContext = createContext()
@@ -6,18 +7,28 @@ const TrainingDataProvider = ({ children }) => {
 
   const [page, setPage] = useState("week")
   const [trainingData, setTrainingData] = useState([])
-  const [url, setUrl] = useState(`http://localhost:3000/training-data-${page}`)
+  const [formSumbit, setFormSubmit] = useState(false)
+  let resourceUrl = page === "week" ? "http://localhost:3000/training-data-week" : "http://localhost:3000/training-data-month" 
 
-  useEffect(() => {
-    setUrl(`http://localhost:3000/training-data-${page}`)
-  }, [page])
+  async function updateTrainingData(url) {
+    const response = await axios.get(url)
+    setTrainingData(response.data)
+  }
+  
+  useEffect(() => { 
+    updateTrainingData(resourceUrl)
+    }, [page, formSumbit])
 
 
   return (
     <TrainingDataContext.Provider value={{
       page, setPage,
-      trainingData, setTrainingData,
-      url, setUrl
+      trainingData,
+      setTrainingData,
+      resourceUrl,
+      formSumbit,
+      setFormSubmit,
+      updateTrainingData
     }}>
       {children}
     </TrainingDataContext.Provider>

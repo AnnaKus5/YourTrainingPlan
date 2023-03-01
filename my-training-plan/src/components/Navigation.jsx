@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 
 export default function Navigation() {
 
-    const {changePlan} = useTrainingDataContext()
+  const {setPage} = useTrainingDataContext()
 
     return (
       <nav>
-        <Link to="/week" ><button className="nav-button" id="week-button">WEEK</button></Link>
-        <Link to="/month"><button className="nav-button" id="month-button">MONTH</button></Link>
+        <Link to="/week" ><button onClick={() => setPage("week")} className="nav-button" id="week-button">WEEK</button></Link>
+        <Link to="/month"><button onClick={() => setPage("month")} className="nav-button" id="month-button">MONTH</button></Link>
       </nav>
     )
 }

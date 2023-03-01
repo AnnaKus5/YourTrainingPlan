@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useTrainingDataContext } from "./TrainingDataContext"
 import { DateObject } from "react-multi-date-picker"
 import axios from "axios";
@@ -8,23 +8,21 @@ import { Outlet } from "react-router-dom";
 export default function MainSection() {
 
     const [selectedMonth, setSelectedMonth] = useState(new DateObject())
-    const [formSumbit, setFormSubmit] = useState(false)
-
     const dayInMonth = selectedMonth.month.length
-    const { url, setTrainingData } = useTrainingDataContext()
+    const { setTrainingData, resourceUrl, formSumbit, setFormSubmit } = useTrainingDataContext()
 
     async function updateData(url, data) {
         await axios.put(url, data)
-        const response = await axios.get(url)
-
+        const response = await axios.get(resourceUrl) 
         setTrainingData(response.data)
     }
+
 
     async function markAsDone(e) {
         const checkboxId = Number(e.target.id)
         const dayId = e.target.parentElement.parentElement.parentElement.id
 
-        const response = await axios.get(`${url}/${dayId}`)
+        const response = await axios.get(`${resourceUrl}/${dayId}`)
         const fullDay = response.data
         const activitySection = response.data.activity
         const updatedActivity = activitySection.map(activity => {
@@ -41,14 +39,14 @@ export default function MainSection() {
             ...fullDay,
             activity: updatedActivity
         }
-        updateData(`${url}/${dayId}`, newData)
+        updateData(`${resourceUrl}/${dayId}`, newData)
     }
 
     async function deleteSingleActivity(e) {
         const removeActivityId = Number(e.target.id)
         const dayId = e.target.parentElement.parentElement.parentElement.id
 
-        const response = await axios.get(`${url}/${dayId}`)
+        const response = await axios.get(`${resourceUrl}/${dayId}`)
         const fullDay = response.data
         const activitySection = response.data.activity
 
@@ -61,12 +59,12 @@ export default function MainSection() {
             activity: updatedActivity
         }
 
-        updateData(`${url}/${dayId}`, newData)
+        updateData(`${resourceUrl}/${dayId}`, newData)
 
     }
 
     async function savePlan() {
-        const response = await axios.get(url)
+        const response = await axios.get(resourceUrl)
         const data = response.data
 
         const archiveData = {
@@ -79,7 +77,7 @@ export default function MainSection() {
     }
 
     async function deletePlan() {
-        const response = await axios.get(url)
+        const response = await axios.get(resourceUrl)
         const data = await response.data
 
         for (const day of data) {
@@ -89,7 +87,7 @@ export default function MainSection() {
                     activity: []
                 }
 
-                await axios.put(`${url}/${day.id}`, emptyActivitiySection)
+                await axios.put(`${resourceUrl}/${day.id}`, emptyActivitiySection)
             }
         }
 
@@ -100,7 +98,8 @@ export default function MainSection() {
     return (
         <>
             <Header />
-            <Outlet context={{ selectedMonth, setSelectedMonth, formSumbit, setFormSubmit, dayInMonth, markAsDone, deleteSingleActivity, savePlan, deletePlan }} />
+            <Outlet context={{ selectedMonth, setSelectedMonth, formSumbit, setFormSubmit, 
+                dayInMonth, markAsDone, deleteSingleActivity, savePlan, deletePlan }} />
         </>
     )
 }

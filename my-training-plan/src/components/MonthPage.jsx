@@ -1,5 +1,4 @@
 import React from "react";
-import { nanoid } from "nanoid";
 import { useTrainingDataContext } from "./TrainingDataContext";
 import { useOutletContext } from "react-router-dom";
 import AddActivitySection from "./AddActivitySection";
@@ -8,13 +7,12 @@ import Navigation from "./Navigation";
 
 export default function MonthPage() {
 
-    const { trainingData, page, setPage } = useTrainingDataContext()
+    const { selectedMonth, setSelectedMonth, formSumbit, setFormSubmit, dayInMonth, markAsDone, deleteSingleActivity, savePlan, deletePlan} = useOutletContext()
+    const currentSysIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+
+    const {trainingData, setPage} = useTrainingDataContext() 
 
     setPage("month")
-
-    const { selectedMonth, setSelectedMonth, formSumbit, setFormSubmit, dayInMonth, markAsDone, deleteSingleActivity, savePlan, deletePlan } = useOutletContext()
-
-    const currentSysIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches
 
     const monthElements =
         trainingData
@@ -47,7 +45,6 @@ export default function MonthPage() {
         <>
         <Navigation />
             <AddActivitySection
-                page={page}
                 selectedMonth={selectedMonth}
                 setSelectedMonth={setSelectedMonth}
                 formSumbit={formSumbit}

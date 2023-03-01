@@ -4,12 +4,7 @@ import axios from "axios";
 import MonthInput from "./MonthInput";
 import WeekInput from "./WeekInput";
 
-export default function AddActivitySection({page, selectedMonth, setSelectedMonth, formSumbit, setFormSubmit}) {
-
-    const activityInput = useRef()
-    const activityHourInput = useRef()
-
-    const { setTrainingData, url } = useTrainingDataContext()
+export default function AddActivitySection({selectedMonth, setSelectedMonth}) {
 
     const [checkboxState, setCheckboxState] = useState(false)
     const [selectedDays, setSelectedDays] = useState(new Date())
@@ -18,13 +13,11 @@ export default function AddActivitySection({page, selectedMonth, setSelectedMont
         timeActivity: ""
     })
     const [emptyActivity, setEmptyActivity] = useState(false)
+    const { page, resourceUrl, formSumbit, setFormSubmit } = useTrainingDataContext()
+    const activityInput = useRef()
+    const activityHourInput = useRef()
 
     useEffect(() => {
-
-        axios.get(url)
-        .then((response) => {
-            setTrainingData(response.data)
-        })
 
         setCheckboxState(page === "week" ?
             {
@@ -64,7 +57,7 @@ export default function AddActivitySection({page, selectedMonth, setSelectedMont
         })
     }
 
-    function createArrayWihTrueValue() {
+    function checkboxStateWithTrueValue() {
         const days = Object.entries(checkboxState)
 
         let id = 1
@@ -88,11 +81,11 @@ export default function AddActivitySection({page, selectedMonth, setSelectedMont
 
         if (activityInput.current.value !== "") {
 
-            const days = createArrayWihTrueValue()
+            const days = checkboxStateWithTrueValue()
 
             for (const day of days) {
                 const id = day[2]
-                const response = await axios.get(`${url}/${id}`)
+                const response = await axios.get(`${resourceUrl}/${id}`)
                 const data = response.data
                 const updatedData = {
                     ...data,
@@ -107,7 +100,7 @@ export default function AddActivitySection({page, selectedMonth, setSelectedMont
                     ]
                 }
 
-                await axios.put(`${url}/${id}`, updatedData)
+                await axios.put(`${resourceUrl}/${id}`, updatedData)
                 setFormSubmit(prev => !prev)
                 setEmptyActivity(false)
 
