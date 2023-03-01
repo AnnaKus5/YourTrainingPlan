@@ -23,8 +23,16 @@ export default function MonthPage() {
                         return (
                             <p key={activity.activityId} className="activity">
                                 {activity.markAsDone ?
-                                    <img src={currentSysIsDark ? "src/images/checkbox-checked-white.png" : "src/images/checkbox-checked.png"} className="checkbox" id={activity.activityId} onClick={markAsDone} /> :
-                                    <img src={currentSysIsDark ? "src/images/checkbox-unchecked-white.png" : "src/images/checkbox-unchecked.png"} className="checkbox" id={activity.activityId} onClick={markAsDone} />}
+                                    <img 
+                                        src={currentSysIsDark ? "src/images/checkbox-checked-white.png" : "src/images/checkbox-checked.png"} 
+                                        className="checkbox" 
+                                        id={activity.activityId} 
+                                        onClick={markAsDone} /> :
+                                    <img 
+                                        src={currentSysIsDark ? "src/images/checkbox-unchecked-white.png" : "src/images/checkbox-unchecked.png"} 
+                                        className="checkbox" 
+                                        id={activity.activityId} 
+                                        onClick={markAsDone} />}
                                 <span>{activity.activityTime} {activity.activityName}</span>
                                 <img src="src\images\remove.png" className="remove-icon" id={activity.activityId} onClick={deleteSingleActivity} />
                             </p>)

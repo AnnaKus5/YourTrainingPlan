@@ -3,14 +3,7 @@
     {
       "id": 1,
       "day": "monday",
-      "activity": [
-        {
-          "activityId": 1,
-          "activityName": "yoga",
-          "activityTime": "17:00",
-          "markAsDone": false
-        }
-      ]
+      "activity": []
     },
     {
       "id": 2,
