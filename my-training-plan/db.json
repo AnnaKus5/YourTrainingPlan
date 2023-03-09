@@ -8,14 +8,7 @@
     {
       "id": 2,
       "day": "tuesday",
-      "activity": [
-        {
-          "activityId": 1,
-          "activityName": "yoga",
-          "activityTime": "17:00",
-          "markAsDone": false
-        }
-      ]
+      "activity": []
     },
     {
       "id": 3,
@@ -25,14 +18,7 @@
     {
       "id": 4,
       "day": "thursday",
-      "activity": [
-        {
-          "activityId": 1,
-          "activityName": "yoga",
-          "activityTime": "17:00",
-          "markAsDone": true
-        }
-      ]
+      "activity": []
     },
     {
       "id": 5,
@@ -47,14 +33,7 @@
     {
       "id": 7,
       "day": "sunday",
-      "activity": [
-        {
-          "activityId": 1,
-          "activityName": "yoga",
-          "activityTime": "17:00",
-          "markAsDone": false
-        }
-      ]
+      "activity": []
     }
   ],
   "training-data-month": [
@@ -429,6 +408,68 @@
           "activity": []
         }
       ]
+    },
+    {
+      "date": "march2023",
+      "trainingData": [
+        {
+          "id": 1,
+          "day": "monday",
+          "activity": []
+        },
+        {
+          "id": 2,
+          "day": "tuesday",
+          "activity": [
+            {
+              "activityId": 1,
+              "activityName": "yoga",
+              "activityTime": "17:00",
+              "markAsDone": false
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "day": "wednesday",
+          "activity": []
+        },
+        {
+          "id": 4,
+          "day": "thursday",
+          "activity": [
+            {
+              "activityId": 1,
+              "activityName": "yoga",
+              "activityTime": "17:00",
+              "markAsDone": true
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "day": "friday",
+          "activity": []
+        },
+        {
+          "id": 6,
+          "day": "saturday",
+          "activity": []
+        },
+        {
+          "id": 7,
+          "day": "sunday",
+          "activity": [
+            {
+              "activityId": 1,
+              "activityName": "yoga",
+              "activityTime": "17:00",
+              "markAsDone": false
+            }
+          ]
+        }
+      ],
+      "id": 3
     }
   ]
 }

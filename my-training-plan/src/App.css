@@ -8,7 +8,7 @@ header, nav {
   justify-content: center;
 }
 
-#week-button {
+.nav-button {
   margin-right: 1rem;
 }
 
@@ -50,10 +50,6 @@ header, nav {
   display: flex;
   flex-direction: column;
 }
-
-/* .input-container {
-  margin-bottom: 1rem;
-} */
 
 .activity-input {
   border: 1px solid #c0c4d6;
@@ -135,9 +131,6 @@ header, nav {
   }
 
   .week-main-container {
-    /* display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-around; */
     max-width: 70%;
     margin: auto;
   }

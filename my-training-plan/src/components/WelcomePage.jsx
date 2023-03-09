@@ -12,7 +12,7 @@ export default function WelcomePage() {
             <img src={currentSysIsDark ? "src/images/dumbbell-white.png" : "src/images/dumbbell.png"} className="activity-icon"/>
             <img src={currentSysIsDark ? "src/images/yoga-white.png" : "src/images/yoga.png"} className="activity-icon"/>
         </div>
-        <h3 className="subtitle">I want to schedule my:</h3>
+        <h3 className="subtitle">I want to schedule:</h3>
         <Navigation />
         </section>
     )
