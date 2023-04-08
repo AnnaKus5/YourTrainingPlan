@@ -7,7 +7,7 @@ export default function Header() {
       <>
       <Link to="/">
       <header>
-        <img className="logo-img" src="src\images\dumbbell-color.png" alt="logo" />
+        <img className="logo-img" src="\images\dumbbell-color.png" alt="logo" />
         <h1 className="logo">Your Training Plan</h1>
       </header>
       </Link>

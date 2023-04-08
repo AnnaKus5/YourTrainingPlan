@@ -113,8 +113,27 @@ header, nav {
   height: 1.2em;
 }
 
+.save-plan-container {
+  display: flex;
+}
+
 .save-button {
   margin-right: 2em;
+}
+
+.training-plans-table {
+display: flex;
+justify-content: center;
+margin-bottom: 2em;
+}
+
+.table-item {
+  border: 2px solid #c0c4d6;
+  padding: 0 2em;
+}
+
+.selected-plan {
+  background-color: #EDF2F4;
 }
 
 @media screen and (min-width: 670px) {

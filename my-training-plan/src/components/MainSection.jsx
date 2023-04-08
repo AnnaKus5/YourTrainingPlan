@@ -3,17 +3,24 @@ import { useTrainingDataContext } from "./TrainingDataContext"
 import { DateObject } from "react-multi-date-picker"
 import axios from "axios";
 import Header from "./Header";
+import Navigation from "./Navigation";
 import { Outlet } from "react-router-dom";
 
 export default function MainSection() {
 
     const [selectedMonth, setSelectedMonth] = useState(new DateObject())
+    const [savePlanData, setSavePlanData] = useState({
+        description: "",
+        isInvalid: false
+    })
+
     const dayInMonth = selectedMonth.month.length
     const { setTrainingData, resourceUrl, formSumbit, setFormSubmit } = useTrainingDataContext()
+    const { page, trainingData, isTopNavigationDisplay, selectedArchiveId } = useTrainingDataContext()
 
     async function updateData(url, data) {
         await axios.put(url, data)
-        const response = await axios.get(resourceUrl) 
+        const response = await axios.get(resourceUrl)
         setTrainingData(response.data)
     }
 
@@ -64,16 +71,27 @@ export default function MainSection() {
     }
 
     async function savePlan() {
-        const response = await axios.get(resourceUrl)
-        const data = response.data
 
-        const archiveData = {
-            date: `${selectedMonth.month.name.toLocaleLowerCase()}${selectedMonth.year}`,
-            trainingData: data
+        if (savePlanData.description.length > 0) {
+            const archiveData = {
+                date: `${selectedMonth.month.name.toLocaleLowerCase()}${selectedMonth.year}`,
+                length: page,
+                description: savePlanData.description,
+                trainingData: trainingData
+            }
+    
+            await axios.post(`http://localhost:3000/training-data-archive`, archiveData)
+            setSavePlanData({
+                description: "",
+                isInvalid: false
+            })
+            deletePlan()
+        } else {
+            setSavePlanData(prev => {
+               return { ...prev,
+                isInvalid: true }
+               })
         }
-
-        await axios.post(`http://localhost:3000/training-data-archive`, archiveData)
-        deletePlan()
     }
 
     async function deletePlan() {
@@ -92,14 +110,37 @@ export default function MainSection() {
         }
 
         setFormSubmit(prev => !prev)
+    }
 
+    async function updatePlan() {
+        const response = await axios.get(`http://localhost:3000/training-data-archive/${selectedArchiveId}`)
+        const data = await response.data
+
+        const updatedData = {
+            ...data,
+            trainingData: trainingData
+        }
+        await axios.put(`http://localhost:3000/training-data-archive/${selectedArchiveId}`, updatedData)
     }
 
     return (
         <>
             <Header />
-            <Outlet context={{ selectedMonth, setSelectedMonth, formSumbit, setFormSubmit, 
-                dayInMonth, markAsDone, deleteSingleActivity, savePlan, deletePlan }} />
+            {isTopNavigationDisplay && <Navigation />}
+            <Outlet context={{
+                selectedMonth, 
+                setSelectedMonth, 
+                formSumbit, 
+                setFormSubmit,
+                dayInMonth, 
+                markAsDone, 
+                deleteSingleActivity, 
+                savePlan, 
+                deletePlan, 
+                updatePlan,
+                savePlanData, 
+                setSavePlanData
+            }} />
         </>
     )
 }

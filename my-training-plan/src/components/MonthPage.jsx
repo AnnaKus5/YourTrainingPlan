@@ -1,18 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTrainingDataContext } from "./TrainingDataContext";
 import { useOutletContext } from "react-router-dom";
 import AddActivitySection from "./AddActivitySection";
-import Navigation from "./Navigation";
+import SaveDeleteButtons from "./SaveDeleteButtons";
 
 
-export default function MonthPage() {
+export default function MonthPage({view}) {
 
-    const { selectedMonth, setSelectedMonth, formSumbit, setFormSubmit, dayInMonth, markAsDone, deleteSingleActivity, savePlan, deletePlan} = useOutletContext()
+    const { selectedMonth,
+        setSelectedMonth,
+        formSumbit,
+        setFormSubmit,
+        dayInMonth,
+        markAsDone,
+        deleteSingleActivity,
+        savePlan,
+        deletePlan,
+        savePlanData,
+        setSavePlanData } = useOutletContext()
+
     const currentSysIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches
 
-    const {trainingData, setPage} = useTrainingDataContext() 
+    const { trainingData, setPage, setIsTopNavigationDisplay } = useTrainingDataContext()
 
     setPage("month")
+    setIsTopNavigationDisplay(true)
 
     const monthElements =
         trainingData
@@ -23,18 +35,18 @@ export default function MonthPage() {
                         return (
                             <p key={activity.activityId} className="activity">
                                 {activity.markAsDone ?
-                                    <img 
-                                        src={currentSysIsDark ? "src/images/checkbox-checked-white.png" : "src/images/checkbox-checked.png"} 
-                                        className="checkbox" 
-                                        id={activity.activityId} 
+                                    <img
+                                        src={currentSysIsDark ? "/images/checkbox-checked-white.png" : "/images/checkbox-checked.png"}
+                                        className="checkbox"
+                                        id={activity.activityId}
                                         onClick={markAsDone} /> :
-                                    <img 
-                                        src={currentSysIsDark ? "src/images/checkbox-unchecked-white.png" : "src/images/checkbox-unchecked.png"} 
-                                        className="checkbox" 
-                                        id={activity.activityId} 
+                                    <img
+                                        src={currentSysIsDark ? "/images/checkbox-unchecked-white.png" : "/images/checkbox-unchecked.png"}
+                                        className="checkbox"
+                                        id={activity.activityId}
                                         onClick={markAsDone} />}
                                 <span>{activity.activityTime} {activity.activityName}</span>
-                                <img src="src\images\remove.png" className="remove-icon" id={activity.activityId} onClick={deleteSingleActivity} />
+                                <img src="\images\remove.png" className="remove-icon" id={activity.activityId} onClick={deleteSingleActivity} />
                             </p>)
                     }) : ""
 
@@ -48,10 +60,10 @@ export default function MonthPage() {
                 )
             })
 
+// is month-main-container styled?
 
     return (
-        <>
-        <Navigation />
+        <main className="month-main-container"> 
             <AddActivitySection
                 selectedMonth={selectedMonth}
                 setSelectedMonth={setSelectedMonth}
@@ -61,8 +73,12 @@ export default function MonthPage() {
             <div className="month-section-container">
                 {monthElements}
             </div>
-            <button onClick={savePlan} className="save-button">Save plan</button>
-            <button onClick={deletePlan}>Delete plan</button>
-        </>
+            <SaveDeleteButtons
+                view={view}
+                deletePlan={deletePlan}
+                savePlan={savePlan}
+                savePlanData={savePlanData}
+                setSavePlanData={setSavePlanData} />
+        </main>
     )
 }
