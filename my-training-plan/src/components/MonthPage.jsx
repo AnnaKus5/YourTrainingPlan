@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTrainingDataContext } from "./TrainingDataContext";
 import { useOutletContext } from "react-router-dom";
 import AddActivitySection from "./AddActivitySection";
@@ -7,24 +7,16 @@ import SaveDeleteButtons from "./SaveDeleteButtons";
 
 export default function MonthPage({view}) {
 
-    const { selectedMonth,
-        setSelectedMonth,
-        formSumbit,
-        setFormSubmit,
-        dayInMonth,
-        markAsDone,
-        deleteSingleActivity,
-        savePlan,
-        deletePlan,
-        savePlanData,
-        setSavePlanData } = useOutletContext()
-
+    const { dayInMonth,
+            markAsDone,
+            deleteSingleActivity } = useOutletContext()
+    const { trainingData, setPage, setIsTopNavigationDisplay } = useTrainingDataContext()
     const currentSysIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches
 
-    const { trainingData, setPage, setIsTopNavigationDisplay } = useTrainingDataContext()
-
-    setPage("month")
-    setIsTopNavigationDisplay(true)
+    useEffect(() => {
+        setPage("month")
+        setIsTopNavigationDisplay(true)
+    }, [])
 
     const monthElements =
         trainingData
@@ -64,21 +56,11 @@ export default function MonthPage({view}) {
 
     return (
         <main className="month-main-container"> 
-            <AddActivitySection
-                selectedMonth={selectedMonth}
-                setSelectedMonth={setSelectedMonth}
-                formSumbit={formSumbit}
-                setFormSubmit={setFormSubmit}
-            />
+            <AddActivitySection />
             <div className="month-section-container">
                 {monthElements}
             </div>
-            <SaveDeleteButtons
-                view={view}
-                deletePlan={deletePlan}
-                savePlan={savePlan}
-                savePlanData={savePlanData}
-                setSavePlanData={setSavePlanData} />
+            <SaveDeleteButtons view={view}/>
         </main>
     )
 }

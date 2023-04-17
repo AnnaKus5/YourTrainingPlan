@@ -6,43 +6,53 @@ import WeekPage from "./WeekPage"
 
 export default function TrainingPlansArchive() {
 
-    const [trainingDataArchive, setTrainingDataArchive] = useState()
+    const [archiveData, setArchiveData] = useState()
     const [isPlanActive, setIsPlanActive] = useState(false)
-    const { page, setPage, setTrainingData, setIsTopNavigationDisplay, selectedArchiveId, setSelectedArchiveId} = useTrainingDataContext()
+    const { page, setPage, setTrainingData, setIsTopNavigationDisplay, selectedArchiveId} = useTrainingDataContext()
+    
+    
+    useEffect(() => {
+        setIsTopNavigationDisplay(true)
+    }, [])
 
-    setIsTopNavigationDisplay(true)
-
+    //create global function getData
     async function getTrainingData(url) {
         const response = await axios.get(url)
-        setTrainingDataArchive(response.data)
+        setArchiveData(response.data)
+
     }
 
     useEffect(() => {
         getTrainingData("http://localhost:3000/training-data-archive")
     }, [])
 
-    const listOfTrainingPlans = trainingDataArchive ? 
-        trainingDataArchive.map(plan => {
+    const listOfTrainingPlans = 
+        archiveData?.map(plan => {
             return (
                 <tr key={plan.id} id={plan.id} onClick={handleClick} 
-                    className={plan.id === selectedArchiveId && "selected-plan"}>
+                    className={plan.id === selectedArchiveId.current ? "selected-plan" : undefined}>
                     <td className="table-item">{plan.description}</td>
                     <td className="table-item">{plan.length}</td>
                     <td className="table-item">{plan.date}</td>
                     <td className="table-item"><button onClick={handleClick}>Edit</button></td>
                 </tr>
             )
-        }) : 
-        <p>Loading data...</p>
+        })
+
+    async function updateResourceToEdit(url, data) {
+        for (const day of data) {
+            await axios.put(`${url}/${day.id}`, day)
+        }
+    }
 
     async function handleClick(e) {
         const id = e.target.parentElement.parentElement.id
         const response = await axios.get(`http://localhost:3000/training-data-archive/${id}`)
-        await setPage(response.data.length)
-        await setTrainingData(response.data.trainingData)
-        await setSelectedArchiveId(response.data.id)
-        await setIsPlanActive(true)
-        // are all await nesessary?
+        const page = response.data.length
+        setTrainingData(response.data.trainingData)
+        await setPage(page)
+        selectedArchiveId.current = response.data.id
+        setIsPlanActive(true)
     }
 
     return (

@@ -4,7 +4,7 @@ import axios from "axios";
 import MonthInput from "./MonthInput";
 import WeekInput from "./WeekInput";
 
-export default function AddActivitySection({selectedMonth, setSelectedMonth}) {
+export default function AddActivitySection() {
 
     const [checkboxState, setCheckboxState] = useState(false)
     const [selectedDays, setSelectedDays] = useState(new Date())
@@ -14,6 +14,7 @@ export default function AddActivitySection({selectedMonth, setSelectedMonth}) {
     })
     const [emptyActivity, setEmptyActivity] = useState(false)
     const { page, resourceUrl, formSumbit, setFormSubmit } = useTrainingDataContext()
+
     const activityInput = useRef()
     const activityHourInput = useRef()
 
@@ -117,8 +118,6 @@ export default function AddActivitySection({selectedMonth, setSelectedMonth}) {
             className={page === "week" ? "week-add-activity-container" : "month-add-activity-container"}>
             {page === "month" &&
                 <MonthInput
-                    selectedMonth={selectedMonth}
-                    setSelectedMonth={setSelectedMonth}
                     setCheckboxState={setCheckboxState}
                     selectedDays={selectedDays}
                     setSelectedDays={setSelectedDays} />}
@@ -158,7 +157,7 @@ export default function AddActivitySection({selectedMonth, setSelectedMonth}) {
                         ref={activityHourInput} />
                 </fieldset>
             </div>
-            <button onClick={(e) => sendData(e)}>Add to training plan</button>
+            <button onClick={(e) => sendData(e)}>Add activity</button>
         </form>
     )
 }

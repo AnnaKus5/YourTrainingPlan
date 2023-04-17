@@ -67,6 +67,18 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.week-day-square {
+  background-color: #403f3f;
+}
+
+.month-day-square {
+  background-color: #403f3f;
+}
+
+.selected-plan {
+  background-color: #403f3f;
+}
+
 
 @media (prefers-color-scheme: light) {
   :root {

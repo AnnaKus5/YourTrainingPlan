@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, useRef } from "react";
 
 const TrainingDataContext = createContext()
 
@@ -9,7 +9,7 @@ const TrainingDataProvider = ({ children }) => {
   const [trainingData, setTrainingData] = useState([])
   const [formSumbit, setFormSubmit] = useState(false)
   const [isTopNavigationDisplay, setIsTopNavigationDisplay] = useState(false)
-  const [selectedArchiveId, setSelectedArchiveId] = useState()
+  const selectedArchiveId = useRef()
 
   let resourceUrl = page === "week" ? "http://localhost:3000/training-data-week" : "http://localhost:3000/training-data-month" 
 
@@ -36,7 +36,6 @@ const TrainingDataProvider = ({ children }) => {
       isTopNavigationDisplay,
       setIsTopNavigationDisplay,
       selectedArchiveId, 
-      setSelectedArchiveId
     }}>
       {children}
     </TrainingDataContext.Provider>

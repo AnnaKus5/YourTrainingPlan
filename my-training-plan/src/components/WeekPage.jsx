@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useOutletContext } from "react-router-dom";
 import AddActivitySection from "./AddActivitySection";
 import SaveDeleteButtons from "./SaveDeleteButtons";
@@ -6,22 +6,16 @@ import { useTrainingDataContext } from "./TrainingDataContext";
 
 export default function WeekPage({view}) {
 
-    const { selectedMonth, 
-        setSelectedMonth, 
-        formSumbit, 
-        setFormSubmit, 
-        markAsDone, 
-        deleteSingleActivity, 
-        savePlan, 
-        deletePlan,
-        savePlanData,
-        setSavePlanData } = useOutletContext()
+    const { markAsDone, deleteSingleActivity } = useOutletContext()
+
     const currentSysIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches
 
     const { trainingData, setPage, setIsTopNavigationDisplay } = useTrainingDataContext()
 
-    setPage("week")
-    setIsTopNavigationDisplay(true)
+    useEffect(() => {
+        setPage("week")
+        setIsTopNavigationDisplay(true)
+    }, [])
 
     const weekElements = trainingData.map(day => {
 
@@ -49,7 +43,7 @@ export default function WeekPage({view}) {
         return (
             <div key={day.day} className="day-container" id={day.id}>
                 <p className="day-name">{day.day}</p>
-                <div className="day-square">
+                <div className="week-day-square">
                     {activityElements}
                 </div>
             </div>
@@ -59,20 +53,10 @@ export default function WeekPage({view}) {
 
     return (
         <main className="week-main-container">
-            <AddActivitySection
-                selectedMonth={selectedMonth}
-                setSelectedMonth={setSelectedMonth}
-                formSumbit={formSumbit}
-                setFormSubmit={setFormSubmit}
-            />
+            <AddActivitySection />
             <div className="week-section-container">
                 {weekElements}
-                <SaveDeleteButtons
-                view={view}
-                deletePlan={deletePlan}
-                savePlan={savePlan}
-                savePlanData={savePlanData}
-                setSavePlanData={setSavePlanData} />
+                <SaveDeleteButtons view={view} />
             </div>
         </main>
     )

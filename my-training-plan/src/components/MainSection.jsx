@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useTrainingDataContext } from "./TrainingDataContext"
 import { DateObject } from "react-multi-date-picker"
 import axios from "axios";
@@ -9,15 +9,21 @@ import { Outlet } from "react-router-dom";
 export default function MainSection() {
 
     const [selectedMonth, setSelectedMonth] = useState(new DateObject())
+    //savePlanInfo maybe better name
     const [savePlanData, setSavePlanData] = useState({
         description: "",
         isInvalid: false
     })
+    const { setTrainingData, 
+            resourceUrl, 
+            setFormSubmit, 
+            page, trainingData, 
+            isTopNavigationDisplay, 
+            selectedArchiveId } = useTrainingDataContext()
 
     const dayInMonth = selectedMonth.month.length
-    const { setTrainingData, resourceUrl, formSumbit, setFormSubmit } = useTrainingDataContext()
-    const { page, trainingData, isTopNavigationDisplay, selectedArchiveId } = useTrainingDataContext()
 
+//very similar func in TrainingDataContext
     async function updateData(url, data) {
         await axios.put(url, data)
         const response = await axios.get(resourceUrl)
@@ -94,6 +100,7 @@ export default function MainSection() {
         }
     }
 
+    //change to update any data, put or remove
     async function deletePlan() {
         const response = await axios.get(resourceUrl)
         const data = await response.data
@@ -113,14 +120,15 @@ export default function MainSection() {
     }
 
     async function updatePlan() {
-        const response = await axios.get(`http://localhost:3000/training-data-archive/${selectedArchiveId}`)
+        const id = selectedArchiveId.current
+        const response = await axios.get(`http://localhost:3000/training-data-archive/${id}`)
         const data = await response.data
 
         const updatedData = {
             ...data,
             trainingData: trainingData
         }
-        await axios.put(`http://localhost:3000/training-data-archive/${selectedArchiveId}`, updatedData)
+        await axios.put(`http://localhost:3000/training-data-archive/${id}`, updatedData)
     }
 
     return (
@@ -129,8 +137,7 @@ export default function MainSection() {
             {isTopNavigationDisplay && <Navigation />}
             <Outlet context={{
                 selectedMonth, 
-                setSelectedMonth, 
-                formSumbit, 
+                setSelectedMonth,  
                 setFormSubmit,
                 dayInMonth, 
                 markAsDone, 

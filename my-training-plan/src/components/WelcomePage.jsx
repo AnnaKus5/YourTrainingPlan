@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Navigation from "./Navigation";
 import { useTrainingDataContext } from "./TrainingDataContext";
 
@@ -7,7 +8,9 @@ export default function WelcomePage() {
 
     const { setIsTopNavigationDisplay } = useTrainingDataContext()
 
-    setIsTopNavigationDisplay(false)
+    useEffect(() => {
+        setIsTopNavigationDisplay(false)
+    }, [])
 
     return (
         <section className="welcome-page">

@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import DatePicker from "react-multi-date-picker";
+import { useOutletContext } from "react-router-dom";
 
 
-export default function MonthInput({ setCheckboxState, selectedMonth, setSelectedMonth, selectedDays, setSelectedDays }) {
+export default function MonthInput({ setCheckboxState, selectedDays, setSelectedDays }) {
 
+    const { selectedMonth, setSelectedMonth } = useOutletContext()
 
     useEffect(() => {
         if (selectedDays instanceof Array) {

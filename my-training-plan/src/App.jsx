@@ -1,5 +1,4 @@
 import './App.css'
-import Header from './components/Header'
 import MainSection from './components/MainSection'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import WeekPage from './components/WeekPage'
