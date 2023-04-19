@@ -7,11 +7,13 @@ import WeekInput from "./WeekInput";
 export default function AddActivitySection() {
 
     const [checkboxState, setCheckboxState] = useState(false)
-    const [selectedDays, setSelectedDays] = useState(new Date())
+    const [selectedDaysInMonth, setSelectedDaysInMonth] = useState(new Date())
     const [newActivity, setNewActivity] = useState({
         nameActivity: "",
         timeActivity: ""
     })
+    // validation info: / state or separate func? it can't be ref:
+    // add button should be enable if activity name is empty
     const [emptyActivity, setEmptyActivity] = useState(false)
     const { page, resourceUrl, formSumbit, setFormSubmit } = useTrainingDataContext()
 
@@ -43,11 +45,11 @@ export default function AddActivitySection() {
             timeActivity: ""
         })
 
-        setSelectedDays("")
+        setSelectedDaysInMonth("")
 
     }, [page, formSumbit])
 
-
+    //handleActivityChange
     function handleAvtivityState(e) {
         const { name, value } = e.target
         setNewActivity(prevActivity => {
@@ -58,6 +60,7 @@ export default function AddActivitySection() {
         })
     }
 
+    // getCheckboxWithTrueValue
     function checkboxStateWithTrueValue() {
         const days = Object.entries(checkboxState)
 
@@ -74,42 +77,56 @@ export default function AddActivitySection() {
         })
 
         return arrWithTrueValue
+        //return arrOfId's -> daysToUpdateId
     }
-
 
     async function sendData(e) {
         e.preventDefault()
 
-        if (activityInput.current.value !== "") {
-
-            const days = checkboxStateWithTrueValue()
-
-            for (const day of days) {
-                const id = day[2]
-                const response = await axios.get(`${resourceUrl}/${id}`)
-                const data = response.data
-                const updatedData = {
-                    ...data,
-                    activity: [
-                        ...data.activity,
-                        {
-                            activityId: data.activity.length + 1,
-                            activityName: newActivity.nameActivity,
-                            activityTime: newActivity.timeActivity,
-                            markAsDone: false
-                        }
-                    ]
+        //getData
+        const updatedTrainingData = trainingData.map(day => {
+            if (dayToUpdateId.includes(day.id)) {
+                const newActivitySection = updateActivitySection(day, "add")    
+                return {
+                    ...day,
+                    activity: newActivitySection
                 }
-
-                await axios.put(`${resourceUrl}/${id}`, updatedData)
-                setFormSubmit(prev => !prev)
-                setEmptyActivity(false)
-
             }
+        })
+        //TO DO:
+        //send all resource like save/delete/update plan
+        //add walidation
 
-        } else {
-            setEmptyActivity(true)
-        }
+
+        // if (activityInput.current.value !== "") {
+        //     const days = checkboxStateWithTrueValue()
+        //     //I can't send data that way
+        //     for (const day of days) {
+        //         const id = day[2]
+        //         const response = await axios.get(`${resourceUrl}/${id}`)
+        //         const data = response.data
+        //         const updatedData = {
+        //             ...data,
+        //             activity: [
+        //                 ...data.activity,
+        //                 {
+        //                     activityId: data.activity.length + 1,
+        //                     activityName: newActivity.nameActivity,
+        //                     activityTime: newActivity.timeActivity,
+        //                     markAsDone: false
+        //                 }
+        //             ]
+        //         }
+
+        //         await axios.put(`${resourceUrl}/${id}`, updatedData)
+        //         setFormSubmit(prev => !prev)
+        //         setEmptyActivity(false)
+
+        //     }
+
+        // } else {
+        //     setEmptyActivity(true)
+        // }
     }
 
 
@@ -119,8 +136,8 @@ export default function AddActivitySection() {
             {page === "month" &&
                 <MonthInput
                     setCheckboxState={setCheckboxState}
-                    selectedDays={selectedDays}
-                    setSelectedDays={setSelectedDays} />}
+                    selectedDaysInMonth={selectedDaysInMonth}
+                    setSelectedDaysInMonth={setSelectedDaysInMonth} />}
             <div className={page === "month" ? "month-input-container input-container" : "input-container"} >
                 <fieldset>
                     <legend>Activity name:</legend>

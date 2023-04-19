@@ -14,68 +14,16 @@ export default function MainSection() {
         description: "",
         isInvalid: false
     })
-    const { setTrainingData, 
-            resourceUrl, 
-            setFormSubmit, 
-            page, trainingData, 
-            isTopNavigationDisplay, 
-            selectedArchiveId } = useTrainingDataContext()
+    const { setTrainingData,
+        resourceUrl,
+        setFormSubmit,
+        page, trainingData,
+        isTopNavigationDisplay,
+        selectedArchiveId } = useTrainingDataContext()
 
     const dayInMonth = selectedMonth.month.length
 
-//very similar func in TrainingDataContext
-    async function updateData(url, data) {
-        await axios.put(url, data)
-        const response = await axios.get(resourceUrl)
-        setTrainingData(response.data)
-    }
-
-
-    async function markAsDone(e) {
-        const checkboxId = Number(e.target.id)
-        const dayId = e.target.parentElement.parentElement.parentElement.id
-
-        const response = await axios.get(`${resourceUrl}/${dayId}`)
-        const fullDay = response.data
-        const activitySection = response.data.activity
-        const updatedActivity = activitySection.map(activity => {
-            if (activity.activityId === checkboxId) {
-                return {
-                    ...activity,
-                    markAsDone: !activity.markAsDone
-                }
-            } else {
-                return activity
-            }
-        })
-        const newData = {
-            ...fullDay,
-            activity: updatedActivity
-        }
-        updateData(`${resourceUrl}/${dayId}`, newData)
-    }
-
-    async function deleteSingleActivity(e) {
-        const removeActivityId = Number(e.target.id)
-        const dayId = e.target.parentElement.parentElement.parentElement.id
-
-        const response = await axios.get(`${resourceUrl}/${dayId}`)
-        const fullDay = response.data
-        const activitySection = response.data.activity
-
-        const updatedActivity = activitySection.filter(activity => {
-            return activity.activityId !== removeActivityId
-        })
-
-        const newData = {
-            ...fullDay,
-            activity: updatedActivity
-        }
-
-        updateData(`${resourceUrl}/${dayId}`, newData)
-
-    }
-
+    // func send all Plan
     async function savePlan() {
 
         if (savePlanData.description.length > 0) {
@@ -85,7 +33,7 @@ export default function MainSection() {
                 description: savePlanData.description,
                 trainingData: trainingData
             }
-    
+
             await axios.post(`http://localhost:3000/training-data-archive`, archiveData)
             setSavePlanData({
                 description: "",
@@ -94,9 +42,11 @@ export default function MainSection() {
             deletePlan()
         } else {
             setSavePlanData(prev => {
-               return { ...prev,
-                isInvalid: true }
-               })
+                return {
+                    ...prev,
+                    isInvalid: true
+                }
+            })
         }
     }
 
@@ -136,16 +86,14 @@ export default function MainSection() {
             <Header />
             {isTopNavigationDisplay && <Navigation />}
             <Outlet context={{
-                selectedMonth, 
-                setSelectedMonth,  
+                selectedMonth,
+                setSelectedMonth,
                 setFormSubmit,
-                dayInMonth, 
-                markAsDone, 
-                deleteSingleActivity, 
-                savePlan, 
-                deletePlan, 
+                dayInMonth,
+                savePlan,
+                deletePlan,
                 updatePlan,
-                savePlanData, 
+                savePlanData,
                 setSavePlanData
             }} />
         </>

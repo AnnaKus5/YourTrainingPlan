@@ -3,7 +3,7 @@ import DatePicker from "react-multi-date-picker";
 import { useOutletContext } from "react-router-dom";
 
 
-export default function MonthInput({ setCheckboxState, selectedDays, setSelectedDays }) {
+export default function MonthInput({ setCheckboxState, setSelectedDaysInMonth, selectedDaysInMonth }) {
 
     const { selectedMonth, setSelectedMonth } = useOutletContext()
 
@@ -35,8 +35,8 @@ export default function MonthInput({ setCheckboxState, selectedDays, setSelected
             <fieldset>
                 <legend>Choose days:</legend>
                 <DatePicker
-                    value={selectedDays}
-                    onChange={setSelectedDays}
+                    value={selectedDaysInMonth}
+                    onChange={setSelectedDaysInMonth}
                     multiple={true}
                     weekStartDayIndex={1}
                     minDate={`${selectedMonth.year}/${selectedMonth.month.number}/1`}
