@@ -10,7 +10,7 @@ export default function WeekPage({view}) {
 
     const currentSysIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches
 
-    const { trainingData, setPage, setIsTopNavigationDisplay } = useTrainingDataContext()
+    const { trainingData, setPage, handleActivityChange, resourceUrl, setIsTopNavigationDisplay } = useTrainingDataContext()
 
     useEffect(() => {
         setPage("week")
@@ -28,14 +28,14 @@ export default function WeekPage({view}) {
                                 src={currentSysIsDark ? "/images/checkbox-checked-white.png" : "/images/checkbox-checked.png"}
                                 className="checkbox"
                                 id={activity.activityId}
-                                onClick={markAsDone} /> :
+                                onClick={(e) => handleActivityChange(e, resourceUrl, "done")} /> :
                             <img
                                 src={currentSysIsDark ? "/images/checkbox-unchecked-white.png" : "/images/checkbox-unchecked.png"}
                                 className="checkbox"
                                 id={activity.activityId}
-                                onClick={markAsDone} />}
+                                onClick={(e) => handleActivityChange(e, resourceUrl, "done")} />}
                         <span>{activity.activityTime} {activity.activityName}</span>
-                        <img src="\images\remove.png" className="remove-icon" id={activity.activityId} onClick={deleteSingleActivity} />
+                        <img src="\images\remove.png" className="remove-icon" id={activity.activityId} onClick={(e) => handleActivityChange(e, resourceUrl, "delete")} />
                     </p>
                 )
             }) : ""

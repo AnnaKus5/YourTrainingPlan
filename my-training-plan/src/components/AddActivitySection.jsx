@@ -15,7 +15,8 @@ export default function AddActivitySection() {
     // validation info: / state or separate func? it can't be ref:
     // add button should be enable if activity name is empty
     const [emptyActivity, setEmptyActivity] = useState(false)
-    const { page, resourceUrl, formSumbit, setFormSubmit } = useTrainingDataContext()
+    const { page, resourceUrl, getData, updateActivitySection, formSumbit, trainingData,setTrainingData, setFormSubmit } = useTrainingDataContext()
+    
 
     const activityInput = useRef()
     const activityHourInput = useRef()
@@ -61,41 +62,58 @@ export default function AddActivitySection() {
     }
 
     // getCheckboxWithTrueValue
-    function checkboxStateWithTrueValue() {
+    function getCheckboxWithTrueValue() {
         const days = Object.entries(checkboxState)
 
         let id = 1
 
-        const arrWithId = days.map(day => {
+        const arrOfIdSelectedDays = days.map(day => {
             const newDay = [...day, id]
             id += 1
             return newDay
-        })
+        }).
+            filter(day => day[1] === true)
+            .map(day => day[2])
 
-        const arrWithTrueValue = arrWithId.filter(day => {
-            return day[1] === true
-        })
-
-        return arrWithTrueValue
+        return arrOfIdSelectedDays
         //return arrOfId's -> daysToUpdateId
     }
 
+    //change the name -> addActivity
     async function sendData(e) {
         e.preventDefault()
 
+        const response = await axios.get(resourceUrl)
+        const data = response.data
+
+        const idsOfUpdatedDays = getCheckboxWithTrueValue();
         //getData
         const updatedTrainingData = trainingData.map(day => {
-            if (dayToUpdateId.includes(day.id)) {
-                const newActivitySection = updateActivitySection(day, "add")    
+            if (idsOfUpdatedDays.includes(day.id)) {
+                const newActivitySection = updateActivitySection(day, "add", null, newActivity)    
                 return {
                     ...day,
                     activity: newActivitySection
                 }
-            }
+            } 
+            return day;
         })
+
+        const newData = {
+            ...data,
+            trainingData: updatedTrainingData
+        }
+
+        //patch nie działa tak jakbym chciała
+        
+        await axios.put(resourceUrl, newData)
+        getData(resourceUrl, setTrainingData)
+
         //TO DO:
         //send all resource like save/delete/update plan
         //add walidation
+
+    }
 
 
         // if (activityInput.current.value !== "") {
@@ -127,7 +145,7 @@ export default function AddActivitySection() {
         // } else {
         //     setEmptyActivity(true)
         // }
-    }
+    
 
 
     return (

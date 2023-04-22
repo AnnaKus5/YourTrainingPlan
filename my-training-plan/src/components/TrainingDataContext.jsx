@@ -11,12 +11,14 @@ const TrainingDataProvider = ({ children }) => {
   const [isTopNavigationDisplay, setIsTopNavigationDisplay] = useState(false)
   const selectedArchiveId = useRef()
 
-  let resourceUrl = page === "week" ? "http://localhost:3000/training-data-week" : "http://localhost:3000/training-data-month"
+  let resourceUrl = page === "week" ? "http://localhost:3000/training-data-week/1" : "http://localhost:3000/training-data-month/1"
   //url must be global, url is the actual render data
 
   useEffect(() => {
     getData(resourceUrl, setTrainingData)
   }, [page, formSumbit])
+
+  console.log(trainingData)
 
 
   async function getData(url, state) {
@@ -28,14 +30,13 @@ const TrainingDataProvider = ({ children }) => {
     await axios.put(url, data)
   }
 
-  async function handleActivityChange(url, action, arrayOfDays) {
+  async function handleActivityChange(e, url, action) {
 
     const actionID = Number(e.target.id)
-    const dayID = e.target.parentElement.parentElement.parentElement.id
-
+    const dayID = Number(e.target.parentElement.parentElement.parentElement.id)
     const response = await axios.get(url)
     const trainingData = response.data.trainingData
-    const fullDay = trainingData.filter(day => day.id === dayID)
+    const fullDay = trainingData[dayID - 1]
     const newActivitySection = updateActivitySection(fullDay, action, actionID)
 
     const newDay = {
@@ -43,19 +44,19 @@ const TrainingDataProvider = ({ children }) => {
       activity: newActivitySection
     }
 
+    const newTrainingData = [...trainingData]
+    newTrainingData[dayID - 1] = newDay
+
     const newResource = {
       ...response.data,
-      trainingData: [
-        ...response.data.trainingData,
-        ...response.data.trainingData[dayID - 1] = newDay
-      ]
+      trainingData: newTrainingData
     }
 
-    sendData(url, newResource)
+    await sendData(url, newResource)
     getData(url, setTrainingData)
   }
 
-  function updateActivitySection(day, action, id) {
+  function updateActivitySection(day, action, id, newActivity) {
     const activitySection = day.activity;
     switch (action) {
         case "add": {
@@ -95,10 +96,12 @@ const TrainingDataProvider = ({ children }) => {
       page, setPage,
       trainingData,
       setTrainingData,
+      getData, sendData,
+      handleActivityChange,
+      updateActivitySection,
       resourceUrl,
       formSumbit,
       setFormSubmit,
-      updateTrainingData,
       isTopNavigationDisplay,
       setIsTopNavigationDisplay,
       selectedArchiveId,

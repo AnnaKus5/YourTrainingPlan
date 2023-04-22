@@ -8,8 +8,8 @@ export default function MonthInput({ setCheckboxState, setSelectedDaysInMonth, s
     const { selectedMonth, setSelectedMonth } = useOutletContext()
 
     useEffect(() => {
-        if (selectedDays instanceof Array) {
-            selectedDays.map(day => {
+        if (selectedDaysInMonth instanceof Array) {
+            selectedDaysInMonth.map(day => {
                 setCheckboxState(prev => {
                     return {
                         ...prev,
@@ -19,7 +19,7 @@ export default function MonthInput({ setCheckboxState, setSelectedDaysInMonth, s
             })
 
         }
-    }, [selectedDays])
+    }, [selectedDaysInMonth])
 
     return (
         <>
