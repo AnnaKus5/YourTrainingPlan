@@ -6,8 +6,6 @@ import { useTrainingDataContext } from "./TrainingDataContext";
 
 export default function WeekPage({view}) {
 
-    const { markAsDone, deleteSingleActivity } = useOutletContext()
-
     const currentSysIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches
 
     const { trainingData, setPage, handleActivityChange, resourceUrl, setIsTopNavigationDisplay } = useTrainingDataContext()
@@ -35,7 +33,11 @@ export default function WeekPage({view}) {
                                 id={activity.activityId}
                                 onClick={(e) => handleActivityChange(e, resourceUrl, "done")} />}
                         <span>{activity.activityTime} {activity.activityName}</span>
-                        <img src="\images\remove.png" className="remove-icon" id={activity.activityId} onClick={(e) => handleActivityChange(e, resourceUrl, "delete")} />
+                        <img 
+                            src="\images\remove.png" 
+                            className="remove-icon" 
+                            id={activity.activityId} 
+                            onClick={(e) => handleActivityChange(e, resourceUrl, "delete")} />
                     </p>
                 )
             }) : ""

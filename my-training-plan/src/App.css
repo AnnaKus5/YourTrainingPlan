@@ -65,6 +65,10 @@ header, nav {
   margin: 0;
 }
 
+.green-info {
+  color: green;
+}
+
 .dispay-none {
   display: none;
 }

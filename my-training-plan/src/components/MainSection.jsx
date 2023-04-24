@@ -9,13 +9,12 @@ import { Outlet } from "react-router-dom";
 export default function MainSection() {
 
     const [selectedMonth, setSelectedMonth] = useState(new DateObject())
-    //savePlanInfo maybe better name
-    const [savePlanData, setSavePlanData] = useState({
+    const [savePlanInfo, setSavePlanInfo] = useState({
         description: "",
-        isInvalid: false
+        isInvalid: false,
+        successfulSaveInfo: false
     })
-    const { setTrainingData,
-        resourceUrl,
+    const { resourceUrl,
         setFormSubmit,
         page, trainingData,
         isTopNavigationDisplay,
@@ -23,48 +22,71 @@ export default function MainSection() {
 
     const dayInMonth = selectedMonth.month.length
 
-    // func send all Plan
+    if(savePlanInfo.successfulSaveInfo) {
+        setTimeout(() => {
+            setSavePlanInfo(prev => {
+                return {
+                    ...prev,
+                    successfulSaveInfo: false
+                }
+
+            })
+        }, [5000])
+    }
+
+    function getFormatedDate() {
+        const date = new Date()
+        return `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`
+    }
+
     async function savePlan() {
 
-        if (savePlanData.description.length > 0) {
+        if (savePlanInfo.description.length > 0) {
             const archiveData = {
-                date: `${selectedMonth.month.name.toLocaleLowerCase()}${selectedMonth.year}`,
-                length: page,
-                description: savePlanData.description,
+                date: getFormatedDate(),
+                description: savePlanInfo.description,
                 trainingData: trainingData
             }
 
-            await axios.post(`http://localhost:3000/training-data-archive`, archiveData)
-            setSavePlanData({
+            await axios.post(`http://localhost:3000/training-data-${page}`, archiveData)
+
+            setSavePlanInfo({
                 description: "",
-                isInvalid: false
+                isInvalid: false,
+                successfulSaveInfo: true
             })
             deletePlan()
         } else {
-            setSavePlanData(prev => {
+            setSavePlanInfo(prev => {
                 return {
                     ...prev,
                     isInvalid: true
                 }
             })
         }
+
     }
 
-    //change to update any data, put or remove
     async function deletePlan() {
         const response = await axios.get(resourceUrl)
         const data = await response.data
 
-        for (const day of data) {
+        const emptyTrainingData = data.trainingData.map(day => {
             if (day.activity.length > 0) {
-                const emptyActivitiySection = {
+                return {
                     ...day,
                     activity: []
                 }
-
-                await axios.put(`${resourceUrl}/${day.id}`, emptyActivitiySection)
             }
+            return day;
+        })
+
+        const newData = {
+            ...data,
+            trainingData: emptyTrainingData
         }
+
+        await axios.put(resourceUrl, newData)
 
         setFormSubmit(prev => !prev)
     }
@@ -93,8 +115,8 @@ export default function MainSection() {
                 savePlan,
                 deletePlan,
                 updatePlan,
-                savePlanData,
-                setSavePlanData
+                savePlanInfo,
+                setSavePlanInfo
             }} />
         </>
     )

@@ -12,14 +12,18 @@ export default function AddActivitySection() {
         nameActivity: "",
         timeActivity: ""
     })
-    // validation info: / state or separate func? it can't be ref:
-    // add button should be enable if activity name is empty
+    const [validationInfo, setValidationInfo] = useState({
+        emptyActivity: false,
+        emptySelectedDays: false
+    })
     const [emptyActivity, setEmptyActivity] = useState(false)
-    const { page, resourceUrl, getData, updateActivitySection, formSumbit, trainingData,setTrainingData, setFormSubmit } = useTrainingDataContext()
-    
+    const [formSumbit, setFormSubmit] = useState(false)
 
-    const activityInput = useRef()
-    const activityHourInput = useRef()
+    const { page, resourceUrl, getData, updateActivitySection, trainingData,setTrainingData } = useTrainingDataContext()
+    
+    const selectedDaysInWeek = getCheckboxWithTrueValue()
+
+    const isDaysSelected = selectedDaysInMonth.length > 0 || selectedDaysInWeek.length > 0 ? true : false
 
     useEffect(() => {
 
@@ -48,10 +52,14 @@ export default function AddActivitySection() {
 
         setSelectedDaysInMonth("")
 
+        setValidationInfo({
+            emptyActivity: false,
+            emptySelectedDays: false
+        })
+
     }, [page, formSumbit])
 
-    //handleActivityChange
-    function handleAvtivityState(e) {
+    function handleActivityChange(e) {
         const { name, value } = e.target
         setNewActivity(prevActivity => {
             return {
@@ -61,7 +69,6 @@ export default function AddActivitySection() {
         })
     }
 
-    // getCheckboxWithTrueValue
     function getCheckboxWithTrueValue() {
         const days = Object.entries(checkboxState)
 
@@ -71,81 +78,70 @@ export default function AddActivitySection() {
             const newDay = [...day, id]
             id += 1
             return newDay
-        }).
-            filter(day => day[1] === true)
+        })
+            .filter(day => day[1] === true)
             .map(day => day[2])
 
         return arrOfIdSelectedDays
-        //return arrOfId's -> daysToUpdateId
     }
 
-    //change the name -> addActivity
-    async function sendData(e) {
+    async function handleAddActivity(e) {
         e.preventDefault()
 
-        const response = await axios.get(resourceUrl)
-        const data = response.data
 
-        const idsOfUpdatedDays = getCheckboxWithTrueValue();
-        //getData
-        const updatedTrainingData = trainingData.map(day => {
-            if (idsOfUpdatedDays.includes(day.id)) {
-                const newActivitySection = updateActivitySection(day, "add", null, newActivity)    
-                return {
-                    ...day,
-                    activity: newActivitySection
-                }
-            } 
-            return day;
-        })
-
-        const newData = {
-            ...data,
-            trainingData: updatedTrainingData
-        }
-
-        //patch nie działa tak jakbym chciała
-        
-        await axios.put(resourceUrl, newData)
-        getData(resourceUrl, setTrainingData)
-
-        //TO DO:
-        //send all resource like save/delete/update plan
-        //add walidation
-
-    }
-
-
-        // if (activityInput.current.value !== "") {
-        //     const days = checkboxStateWithTrueValue()
-        //     //I can't send data that way
-        //     for (const day of days) {
-        //         const id = day[2]
-        //         const response = await axios.get(`${resourceUrl}/${id}`)
-        //         const data = response.data
-        //         const updatedData = {
-        //             ...data,
-        //             activity: [
-        //                 ...data.activity,
-        //                 {
-        //                     activityId: data.activity.length + 1,
-        //                     activityName: newActivity.nameActivity,
-        //                     activityTime: newActivity.timeActivity,
-        //                     markAsDone: false
-        //                 }
-        //             ]
-        //         }
-
-        //         await axios.put(`${resourceUrl}/${id}`, updatedData)
-        //         setFormSubmit(prev => !prev)
-        //         setEmptyActivity(false)
-
-        //     }
-
-        // } else {
-        //     setEmptyActivity(true)
-        // }
+        if (newActivity.nameActivity !== "" && isDaysSelected) {
+            const response = await axios.get(resourceUrl)
+            const data = response.data
     
+            const idsOfUpdatedDays = getCheckboxWithTrueValue();
+            const updatedTrainingData = trainingData.map(day => {
+                if (idsOfUpdatedDays.includes(day.id)) {
+                    const newActivitySection = updateActivitySection(day, "add", null, newActivity)    
+                    return {
+                        ...day,
+                        activity: newActivitySection
+                    }
+                } 
+                return day;
+            })
+    
+            const newData = {
+                ...data,
+                trainingData: updatedTrainingData
+            }
+            
+            await axios.put(resourceUrl, newData)
+            getData(resourceUrl, setTrainingData)
+
+            setFormSubmit(prev => !prev)
+
+        } else {
+            if (newActivity.nameActivity === "" && !isDaysSelected) {
+                setValidationInfo(prev => {
+                    return {
+                        emptyActivity: true, 
+                        emptySelectedDays: true
+                    }
+                })
+            }
+            if (newActivity.nameActivity === "") {
+                setValidationInfo(prev => {
+                    return {
+                        ...prev,
+                        emptyActivity: true
+                    }
+                })
+            }
+            if (!isDaysSelected) {
+                setValidationInfo(prev => {
+                    return {
+                        ...prev,
+                        emptySelectedDays: true 
+                    }
+                })
+            }
+        }
+    }
 
 
     return (
@@ -155,7 +151,8 @@ export default function AddActivitySection() {
                 <MonthInput
                     setCheckboxState={setCheckboxState}
                     selectedDaysInMonth={selectedDaysInMonth}
-                    setSelectedDaysInMonth={setSelectedDaysInMonth} />}
+                    setSelectedDaysInMonth={setSelectedDaysInMonth}
+                    validationInfo={validationInfo} />}
             <div className={page === "month" ? "month-input-container input-container" : "input-container"} >
                 <fieldset>
                     <legend>Activity name:</legend>
@@ -166,16 +163,17 @@ export default function AddActivitySection() {
                         id="nameActivity"
                         className="activity-input"
                         value={newActivity.nameActivity}
-                        onChange={(e) => handleAvtivityState(e)}
-                        ref={activityInput} />
-                        { emptyActivity && <p className="empty-activity-info">Add activity name!</p>}
+                        onChange={(e) => handleActivityChange(e)}
+                        />
+                        { validationInfo.emptyActivity && <p className="empty-activity-info">Add activity name!</p>}
                 </fieldset>
             </div>
             <div className="input-container">
                 {page === "week" &&
                     <WeekInput
                         checkboxState={checkboxState}
-                        setCheckboxState={setCheckboxState} />
+                        setCheckboxState={setCheckboxState}
+                        validationInfo={validationInfo} />
                 }
             </div>
             <div className={page === "month" ? "month-input-container input-container" : "input-container"} >
@@ -188,11 +186,11 @@ export default function AddActivitySection() {
                         id="timeActivity"
                         className="activity-input"
                         value={newActivity.timeActivity}
-                        onChange={(e) => handleAvtivityState(e)}
-                        ref={activityHourInput} />
+                        onChange={(e) => handleActivityChange(e)}
+                        />
                 </fieldset>
             </div>
-            <button onClick={(e) => sendData(e)}>Add activity</button>
+            <button onClick={(e) => handleAddActivity(e)}>Add activity</button>
         </form>
     )
 }

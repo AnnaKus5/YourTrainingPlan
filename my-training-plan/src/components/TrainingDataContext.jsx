@@ -16,9 +16,8 @@ const TrainingDataProvider = ({ children }) => {
 
   useEffect(() => {
     getData(resourceUrl, setTrainingData)
-  }, [page, formSumbit])
-
-  console.log(trainingData)
+  }, [page, formSumbit
+  ])
 
 
   async function getData(url, state) {
@@ -60,7 +59,6 @@ const TrainingDataProvider = ({ children }) => {
     const activitySection = day.activity;
     switch (action) {
         case "add": {
-          //it can't works because we have to update many days with the same data
             return [
                 ...activitySection,
                 {

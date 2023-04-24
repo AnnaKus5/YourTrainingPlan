@@ -7,10 +7,8 @@ import SaveDeleteButtons from "./SaveDeleteButtons";
 
 export default function MonthPage({view}) {
 
-    const { dayInMonth,
-            markAsDone,
-            deleteSingleActivity } = useOutletContext()
-    const { trainingData, setPage, setIsTopNavigationDisplay } = useTrainingDataContext()
+    const { dayInMonth} = useOutletContext()
+    const { trainingData, setPage, setIsTopNavigationDisplay, handleActivityChange, resourceUrl } = useTrainingDataContext()
     const currentSysIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches
 
     useEffect(() => {
@@ -31,14 +29,18 @@ export default function MonthPage({view}) {
                                         src={currentSysIsDark ? "/images/checkbox-checked-white.png" : "/images/checkbox-checked.png"}
                                         className="checkbox"
                                         id={activity.activityId}
-                                        onClick={markAsDone} /> :
+                                        onClick={(e) => handleActivityChange(e, resourceUrl, "done")} /> :
                                     <img
                                         src={currentSysIsDark ? "/images/checkbox-unchecked-white.png" : "/images/checkbox-unchecked.png"}
                                         className="checkbox"
                                         id={activity.activityId}
-                                        onClick={markAsDone} />}
+                                        onClick={(e) => handleActivityChange(e, resourceUrl, "done")} />}
                                 <span>{activity.activityTime} {activity.activityName}</span>
-                                <img src="\images\remove.png" className="remove-icon" id={activity.activityId} onClick={deleteSingleActivity} />
+                                <img 
+                                    src="\images\remove.png" 
+                                    className="remove-icon" 
+                                    id={activity.activityId} 
+                                    onClick={(e) => handleActivityChange(e, resourceUrl, "delete")} />
                             </p>)
                     }) : ""
 

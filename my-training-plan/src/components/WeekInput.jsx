@@ -1,7 +1,7 @@
 import { useTrainingDataContext } from "./TrainingDataContext";
 import { nanoid } from "nanoid";
 
-export default function WeekInput({checkboxState, setCheckboxState}) {
+export default function WeekInput({checkboxState, setCheckboxState, validationInfo}) {
     
     const { trainingData } = useTrainingDataContext()
     
@@ -35,11 +35,12 @@ export default function WeekInput({checkboxState, setCheckboxState}) {
     return (
         <>
             <fieldset>
-                <legend>Choose days</legend>
+                <legend>Select days</legend>
                 <div>
                     {weekCheboxes}
                 </div>
             </fieldset>
+            {validationInfo.emptySelectedDays && <p className="empty-activity-info">Select days!</p>}
         </>
     )
 }
