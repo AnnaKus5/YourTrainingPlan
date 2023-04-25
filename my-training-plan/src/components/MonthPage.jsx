@@ -8,8 +8,11 @@ import SaveDeleteButtons from "./SaveDeleteButtons";
 export default function MonthPage({view}) {
 
     const { dayInMonth} = useOutletContext()
-    const { trainingData, setPage, setIsTopNavigationDisplay, handleActivityChange, resourceUrl } = useTrainingDataContext()
+    const { trainingData, setPage, setIsTopNavigationDisplay, handleActivityChange, resourceUrl, selectedArchiveId } = useTrainingDataContext()
     const currentSysIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches
+
+    const archiveUrl = selectedArchiveId.current === undefined ? "" : `http://localhost:3000/training-data-${selectedArchiveId.current.plan}/${selectedArchiveId.current.id}`
+    const url = view === "archive" ? archiveUrl : resourceUrl
 
     useEffect(() => {
         setPage("month")
@@ -29,18 +32,18 @@ export default function MonthPage({view}) {
                                         src={currentSysIsDark ? "/images/checkbox-checked-white.png" : "/images/checkbox-checked.png"}
                                         className="checkbox"
                                         id={activity.activityId}
-                                        onClick={(e) => handleActivityChange(e, resourceUrl, "done")} /> :
+                                        onClick={(e) => handleActivityChange(e, url, "done")} /> :
                                     <img
                                         src={currentSysIsDark ? "/images/checkbox-unchecked-white.png" : "/images/checkbox-unchecked.png"}
                                         className="checkbox"
                                         id={activity.activityId}
-                                        onClick={(e) => handleActivityChange(e, resourceUrl, "done")} />}
+                                        onClick={(e) => handleActivityChange(e, url, "done")} />}
                                 <span>{activity.activityTime} {activity.activityName}</span>
                                 <img 
                                     src="\images\remove.png" 
                                     className="remove-icon" 
                                     id={activity.activityId} 
-                                    onClick={(e) => handleActivityChange(e, resourceUrl, "delete")} />
+                                    onClick={(e) => handleActivityChange(e, url, "delete")} />
                             </p>)
                     }) : ""
 
@@ -58,7 +61,7 @@ export default function MonthPage({view}) {
 
     return (
         <main className="month-main-container"> 
-            <AddActivitySection />
+            <AddActivitySection url={url}/>
             <div className="month-section-container">
                 {monthElements}
             </div>

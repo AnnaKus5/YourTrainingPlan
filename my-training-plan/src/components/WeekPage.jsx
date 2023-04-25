@@ -8,7 +8,10 @@ export default function WeekPage({view}) {
 
     const currentSysIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches
 
-    const { trainingData, setPage, handleActivityChange, resourceUrl, setIsTopNavigationDisplay } = useTrainingDataContext()
+    const { trainingData, setPage, handleActivityChange, resourceUrl, setIsTopNavigationDisplay, selectedArchiveId } = useTrainingDataContext()
+
+    const archiveUrl = selectedArchiveId.current === undefined ? "" : `http://localhost:3000/training-data-${selectedArchiveId.current.plan}/${selectedArchiveId.current.id}`
+    const url = view === "archive" ? archiveUrl : resourceUrl
 
     useEffect(() => {
         setPage("week")
@@ -26,18 +29,18 @@ export default function WeekPage({view}) {
                                 src={currentSysIsDark ? "/images/checkbox-checked-white.png" : "/images/checkbox-checked.png"}
                                 className="checkbox"
                                 id={activity.activityId}
-                                onClick={(e) => handleActivityChange(e, resourceUrl, "done")} /> :
+                                onClick={(e) => handleActivityChange(e, url, "done")} /> :
                             <img
                                 src={currentSysIsDark ? "/images/checkbox-unchecked-white.png" : "/images/checkbox-unchecked.png"}
                                 className="checkbox"
                                 id={activity.activityId}
-                                onClick={(e) => handleActivityChange(e, resourceUrl, "done")} />}
+                                onClick={(e) => handleActivityChange(e, url, "done")} />}
                         <span>{activity.activityTime} {activity.activityName}</span>
                         <img 
                             src="\images\remove.png" 
                             className="remove-icon" 
                             id={activity.activityId} 
-                            onClick={(e) => handleActivityChange(e, resourceUrl, "delete")} />
+                            onClick={(e) => handleActivityChange(e, url, "delete")} />
                     </p>
                 )
             }) : ""
@@ -55,7 +58,7 @@ export default function WeekPage({view}) {
 
     return (
         <main className="week-main-container">
-            <AddActivitySection />
+            <AddActivitySection url={url}/>
             <div className="week-section-container">
                 {weekElements}
                 <SaveDeleteButtons view={view} />

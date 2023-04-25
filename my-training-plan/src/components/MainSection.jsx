@@ -91,18 +91,6 @@ export default function MainSection() {
         setFormSubmit(prev => !prev)
     }
 
-    async function updatePlan() {
-        const id = selectedArchiveId.current
-        const response = await axios.get(`http://localhost:3000/training-data-archive/${id}`)
-        const data = await response.data
-
-        const updatedData = {
-            ...data,
-            trainingData: trainingData
-        }
-        await axios.put(`http://localhost:3000/training-data-archive/${id}`, updatedData)
-    }
-
     return (
         <>
             <Header />
@@ -114,7 +102,6 @@ export default function MainSection() {
                 dayInMonth,
                 savePlan,
                 deletePlan,
-                updatePlan,
                 savePlanInfo,
                 setSavePlanInfo
             }} />

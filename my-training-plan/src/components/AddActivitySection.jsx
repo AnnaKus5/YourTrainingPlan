@@ -4,7 +4,7 @@ import axios from "axios";
 import MonthInput from "./MonthInput";
 import WeekInput from "./WeekInput";
 
-export default function AddActivitySection() {
+export default function AddActivitySection({url}) {
 
     const [checkboxState, setCheckboxState] = useState(false)
     const [selectedDaysInMonth, setSelectedDaysInMonth] = useState(new Date())
@@ -19,7 +19,7 @@ export default function AddActivitySection() {
     const [emptyActivity, setEmptyActivity] = useState(false)
     const [formSumbit, setFormSubmit] = useState(false)
 
-    const { page, resourceUrl, getData, updateActivitySection, trainingData,setTrainingData } = useTrainingDataContext()
+    const { page, resourceUrl, getData, updateActivitySection, trainingData,setTrainingData, selectedArchiveId } = useTrainingDataContext()
     
     const selectedDaysInWeek = getCheckboxWithTrueValue()
 
@@ -85,12 +85,12 @@ export default function AddActivitySection() {
         return arrOfIdSelectedDays
     }
 
-    async function handleAddActivity(e) {
+    async function handleAddActivity(e, url) {
         e.preventDefault()
 
 
         if (newActivity.nameActivity !== "" && isDaysSelected) {
-            const response = await axios.get(resourceUrl)
+            const response = await axios.get(url)
             const data = response.data
     
             const idsOfUpdatedDays = getCheckboxWithTrueValue();
@@ -110,8 +110,8 @@ export default function AddActivitySection() {
                 trainingData: updatedTrainingData
             }
             
-            await axios.put(resourceUrl, newData)
-            getData(resourceUrl, setTrainingData)
+            await axios.put(url, newData)
+            getData(url, setTrainingData)
 
             setFormSubmit(prev => !prev)
 
@@ -190,7 +190,7 @@ export default function AddActivitySection() {
                         />
                 </fieldset>
             </div>
-            <button onClick={(e) => handleAddActivity(e)}>Add activity</button>
+            <button onClick={(e) => handleAddActivity(e, url)}>Add activity</button>
         </form>
     )
 }

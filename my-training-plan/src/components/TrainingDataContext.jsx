@@ -12,12 +12,10 @@ const TrainingDataProvider = ({ children }) => {
   const selectedArchiveId = useRef()
 
   let resourceUrl = page === "week" ? "http://localhost:3000/training-data-week/1" : "http://localhost:3000/training-data-month/1"
-  //url must be global, url is the actual render data
 
   useEffect(() => {
     getData(resourceUrl, setTrainingData)
-  }, [page, formSumbit
-  ])
+  }, [page, formSumbit])
 
 
   async function getData(url, state) {

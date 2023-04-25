@@ -13,7 +13,13 @@
             {
               "activityId": 1,
               "activityName": "yoga",
-              "activityTime": "17:00",
+              "activityTime": "8:00",
+              "markAsDone": true
+            },
+            {
+              "activityId": 2,
+              "activityName": "joga classes",
+              "activityTime": "",
               "markAsDone": false
             }
           ]
@@ -26,7 +32,7 @@
               "activityId": 1,
               "activityName": "yoga",
               "activityTime": "17:00",
-              "markAsDone": false
+              "markAsDone": true
             }
           ]
         },
@@ -38,13 +44,7 @@
               "activityId": 1,
               "activityName": "yoga",
               "activityTime": "17:00",
-              "markAsDone": false
-            },
-            {
-              "activityId": 2,
-              "activityName": "yoga",
-              "activityTime": "17:00",
-              "markAsDone": false
+              "markAsDone": true
             }
           ]
         },
@@ -61,7 +61,14 @@
         {
           "id": 6,
           "day": "saturday",
-          "activity": []
+          "activity": [
+            {
+              "activityId": 1,
+              "activityName": "yoga",
+              "activityTime": "",
+              "markAsDone": false
+            }
+          ]
         },
         {
           "id": 7,
@@ -70,13 +77,7 @@
             {
               "activityId": 1,
               "activityName": "yoga",
-              "activityTime": "17:00",
-              "markAsDone": false
-            },
-            {
-              "activityId": 2,
-              "activityName": "yoga",
-              "activityTime": "17:00",
+              "activityTime": "8:00",
               "markAsDone": false
             }
           ]
@@ -94,8 +95,8 @@
           "activity": [
             {
               "activityId": 1,
-              "activityName": "yoga",
-              "activityTime": "8:00",
+              "activityName": "vinyasa",
+              "activityTime": "",
               "markAsDone": false
             }
           ]
@@ -109,26 +110,13 @@
               "activityName": "yoga",
               "activityTime": "17:00",
               "markAsDone": false
-            },
-            {
-              "activityId": 2,
-              "activityName": "yoga",
-              "activityTime": "",
-              "markAsDone": false
             }
           ]
         },
         {
           "id": 3,
           "day": "wednesday",
-          "activity": [
-            {
-              "activityId": 1,
-              "activityName": "yoga",
-              "activityTime": "17:00",
-              "markAsDone": true
-            }
-          ]
+          "activity": []
         },
         {
           "id": 4,
@@ -179,7 +167,7 @@
               "activityId": 1,
               "activityName": "yoga",
               "activityTime": "8:00",
-              "markAsDone": false
+              "markAsDone": true
             }
           ]
         },
@@ -191,13 +179,7 @@
               "activityId": 1,
               "activityName": "yoga",
               "activityTime": "17:00",
-              "markAsDone": false
-            },
-            {
-              "activityId": 2,
-              "activityName": "yoga",
-              "activityTime": "",
-              "markAsDone": false
+              "markAsDone": true
             }
           ]
         },
@@ -267,7 +249,7 @@
               "activityId": 1,
               "activityName": "climbing",
               "activityTime": "20:00",
-              "markAsDone": false
+              "markAsDone": true
             }
           ]
         },
@@ -550,14 +532,7 @@
         {
           "id": 3,
           "day": 3,
-          "activity": [
-            {
-              "activityId": 1,
-              "activityName": "climbing",
-              "activityTime": "",
-              "markAsDone": false
-            }
-          ]
+          "activity": []
         },
         {
           "id": 4,
@@ -587,14 +562,7 @@
         {
           "id": 9,
           "day": 9,
-          "activity": [
-            {
-              "activityId": 1,
-              "activityName": "hiking",
-              "activityTime": "",
-              "markAsDone": false
-            }
-          ]
+          "activity": []
         },
         {
           "id": 10,
@@ -604,14 +572,7 @@
         {
           "id": 11,
           "day": 11,
-          "activity": [
-            {
-              "activityId": 1,
-              "activityName": "climbing",
-              "activityTime": "",
-              "markAsDone": false
-            }
-          ]
+          "activity": []
         },
         {
           "id": 12,
@@ -643,14 +604,7 @@
         {
           "id": 16,
           "day": 16,
-          "activity": [
-            {
-              "activityId": 1,
-              "activityName": "hiking",
-              "activityTime": "",
-              "markAsDone": false
-            }
-          ]
+          "activity": []
         },
         {
           "id": 17,
@@ -670,14 +624,7 @@
         {
           "id": 20,
           "day": 20,
-          "activity": [
-            {
-              "activityId": 1,
-              "activityName": "yoga",
-              "activityTime": "17:00",
-              "markAsDone": false
-            }
-          ]
+          "activity": []
         },
         {
           "id": 21,
@@ -687,7 +634,7 @@
               "activityId": 1,
               "activityName": "yoga",
               "activityTime": "17:00",
-              "markAsDone": false
+              "markAsDone": true
             }
           ]
         },
@@ -699,14 +646,7 @@
         {
           "id": 23,
           "day": 23,
-          "activity": [
-            {
-              "activityId": 1,
-              "activityName": "hiking",
-              "activityTime": "",
-              "markAsDone": false
-            }
-          ]
+          "activity": []
         },
         {
           "id": 24,
@@ -755,14 +695,7 @@
         {
           "id": 30,
           "day": 30,
-          "activity": [
-            {
-              "activityId": 1,
-              "activityName": "hiking",
-              "activityTime": "",
-              "markAsDone": false
-            }
-          ]
+          "activity": []
         },
         {
           "id": 31,
@@ -799,14 +732,7 @@
         {
           "id": 5,
           "day": 5,
-          "activity": [
-            {
-              "activityId": 1,
-              "activityName": "yoga",
-              "activityTime": "17:00",
-              "markAsDone": false
-            }
-          ]
+          "activity": []
         },
         {
           "id": 6,
