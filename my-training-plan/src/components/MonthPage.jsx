@@ -5,18 +5,21 @@ import AddActivitySection from "./AddActivitySection";
 import SaveDeleteButtons from "./SaveDeleteButtons";
 
 
-export default function MonthPage({view}) {
+export default function MonthPage({view, setIsPlanActive}) {
 
     const { dayInMonth} = useOutletContext()
-    const { trainingData, setPage, setIsTopNavigationDisplay, handleActivityChange, resourceUrl, selectedArchiveId } = useTrainingDataContext()
+    const { trainingData, setPage, setIsTopNavigationDisplay, handleActivityChange, url, setIsArchiveView } = useTrainingDataContext()
     const currentSysIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches
-
-    const archiveUrl = selectedArchiveId.current === undefined ? "" : `http://localhost:3000/training-data-${selectedArchiveId.current.plan}/${selectedArchiveId.current.id}`
-    const url = view === "archive" ? archiveUrl : resourceUrl
 
     useEffect(() => {
         setPage("month")
         setIsTopNavigationDisplay(true)
+
+        if(view === "archive") {
+            setIsArchiveView(true)
+        } else {
+            setIsArchiveView(false)
+        }
     }, [])
 
     const monthElements =
@@ -65,7 +68,7 @@ export default function MonthPage({view}) {
             <div className="month-section-container">
                 {monthElements}
             </div>
-            <SaveDeleteButtons view={view}/>
+            <SaveDeleteButtons view={view} setIsPlanActive={setIsPlanActive}/>
         </main>
     )
 }

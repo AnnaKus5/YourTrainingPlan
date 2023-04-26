@@ -14,11 +14,10 @@ export default function MainSection() {
         isInvalid: false,
         successfulSaveInfo: false
     })
-    const { resourceUrl,
-        setFormSubmit,
-        page, trainingData,
-        isTopNavigationDisplay,
-        selectedArchiveId } = useTrainingDataContext()
+    const { setFormSubmit,
+            page, 
+            trainingData,
+            isTopNavigationDisplay } = useTrainingDataContext()
 
     const dayInMonth = selectedMonth.month.length
 
@@ -29,7 +28,6 @@ export default function MainSection() {
                     ...prev,
                     successfulSaveInfo: false
                 }
-
             })
         }, [5000])
     }
@@ -67,30 +65,6 @@ export default function MainSection() {
 
     }
 
-    async function deletePlan() {
-        const response = await axios.get(resourceUrl)
-        const data = await response.data
-
-        const emptyTrainingData = data.trainingData.map(day => {
-            if (day.activity.length > 0) {
-                return {
-                    ...day,
-                    activity: []
-                }
-            }
-            return day;
-        })
-
-        const newData = {
-            ...data,
-            trainingData: emptyTrainingData
-        }
-
-        await axios.put(resourceUrl, newData)
-
-        setFormSubmit(prev => !prev)
-    }
-
     return (
         <>
             <Header />
@@ -101,7 +75,6 @@ export default function MainSection() {
                 setFormSubmit,
                 dayInMonth,
                 savePlan,
-                deletePlan,
                 savePlanInfo,
                 setSavePlanInfo
             }} />

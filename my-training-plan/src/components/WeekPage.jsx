@@ -4,18 +4,21 @@ import AddActivitySection from "./AddActivitySection";
 import SaveDeleteButtons from "./SaveDeleteButtons";
 import { useTrainingDataContext } from "./TrainingDataContext";
 
-export default function WeekPage({view}) {
+export default function WeekPage({view, setIsPlanActive}) {
 
     const currentSysIsDark = window.matchMedia("(prefers-color-scheme: dark)").matches
 
-    const { trainingData, setPage, handleActivityChange, resourceUrl, setIsTopNavigationDisplay, selectedArchiveId } = useTrainingDataContext()
-
-    const archiveUrl = selectedArchiveId.current === undefined ? "" : `http://localhost:3000/training-data-${selectedArchiveId.current.plan}/${selectedArchiveId.current.id}`
-    const url = view === "archive" ? archiveUrl : resourceUrl
+    const { trainingData, setPage, handleActivityChange, url, setIsTopNavigationDisplay, isArchiveView, setIsArchiveView } = useTrainingDataContext()
 
     useEffect(() => {
         setPage("week")
         setIsTopNavigationDisplay(true)
+
+        if(view === "archive") {
+            setIsArchiveView(true)
+        } else {
+            setIsArchiveView(false)
+        }
     }, [])
 
     const weekElements = trainingData.map(day => {
@@ -61,7 +64,7 @@ export default function WeekPage({view}) {
             <AddActivitySection url={url}/>
             <div className="week-section-container">
                 {weekElements}
-                <SaveDeleteButtons view={view} />
+                <SaveDeleteButtons view={view} setIsPlanActive={setIsPlanActive}/>
             </div>
         </main>
     )

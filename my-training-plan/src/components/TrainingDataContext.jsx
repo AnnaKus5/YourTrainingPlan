@@ -10,12 +10,15 @@ const TrainingDataProvider = ({ children }) => {
   const [formSumbit, setFormSubmit] = useState(false)
   const [isTopNavigationDisplay, setIsTopNavigationDisplay] = useState(false)
   const selectedArchiveId = useRef()
+  const [isArchiveView, setIsArchiveView] = useState(false)
 
-  let resourceUrl = page === "week" ? "http://localhost:3000/training-data-week/1" : "http://localhost:3000/training-data-month/1"
+  const resourceUrl = page === "week" ? "http://localhost:3000/training-data-week/1" : "http://localhost:3000/training-data-month/1"
+  const archiveUrl = selectedArchiveId.current === undefined ? "" : `http://localhost:3000/training-data-${selectedArchiveId.current.plan}/${selectedArchiveId.current.id}`
+  const url = isArchiveView ? archiveUrl : resourceUrl
 
   useEffect(() => {
-    getData(resourceUrl, setTrainingData)
-  }, [page, formSumbit])
+    getData(url, setTrainingData)
+  }, [page, formSumbit, url])
 
 
   async function getData(url, state) {
@@ -95,12 +98,13 @@ const TrainingDataProvider = ({ children }) => {
       getData, sendData,
       handleActivityChange,
       updateActivitySection,
-      resourceUrl,
+      url,
       formSumbit,
       setFormSubmit,
       isTopNavigationDisplay,
       setIsTopNavigationDisplay,
-      selectedArchiveId,
+      selectedArchiveId, 
+      isArchiveView, setIsArchiveView,
     }}>
       {children}
     </TrainingDataContext.Provider>

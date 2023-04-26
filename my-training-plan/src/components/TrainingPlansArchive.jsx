@@ -9,15 +9,13 @@ export default function TrainingPlansArchive() {
     const [archiveWeeks, setArchiveWeeks] = useState([])
     const [archiveMonths, setArchiveMonths] = useState([])
     const [isPlanActive, setIsPlanActive] = useState(false)
-    const { page, setPage, trainingData, setTrainingData, setIsTopNavigationDisplay, selectedArchiveId } = useTrainingDataContext()
+    const { page, setPage, setTrainingData, setIsTopNavigationDisplay, selectedArchiveId} = useTrainingDataContext()
 
     useEffect(() => {
         setIsTopNavigationDisplay(true)
         getArchiveData("http://localhost:3000/training-data-week", setArchiveWeeks)
         getArchiveData("http://localhost:3000/training-data-month", setArchiveMonths)
-    }, [])
-
-    console.log(trainingData)
+    }, [isPlanActive])
     
     async function getArchiveData(url, state) {
         const response = await axios.get(url)
@@ -58,7 +56,7 @@ export default function TrainingPlansArchive() {
         selectedArchiveId.current = {plan: planLength, id: id}
         const response = await axios.get(`http://localhost:3000/training-data-${planLength}/${id}`)
         setTrainingData(response.data.trainingData)
-        await setPage(planLength)
+        setPage(planLength)
         setIsPlanActive(true)
     }
 
@@ -81,8 +79,8 @@ export default function TrainingPlansArchive() {
                     </tbody>
                 </table>
             </div>
-            {isPlanActive && page === "month" && <MonthPage view={"archive"} />}
-            {isPlanActive && page === "week" && <WeekPage view={"archive"} />}
+            {isPlanActive && page === "month" && <MonthPage view={"archive"} setIsPlanActive={setIsPlanActive}/>}
+            {isPlanActive && page === "week" && <WeekPage view={"archive"} setIsPlanActive={setIsPlanActive}/>}
         </div>
     )
 }

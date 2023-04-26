@@ -1,11 +1,45 @@
 import { useOutletContext } from "react-router-dom"
+import { useTrainingDataContext } from "./TrainingDataContext"
+import axios from "axios"
 
-export default function SaveDeleteButtons({ view }) {
+export default function SaveDeleteButtons({ view, setIsPlanActive }) {
 
     const { savePlan, 
-            deletePlan,
             savePlanInfo,
             setSavePlanInfo } = useOutletContext()
+
+    const { isArchiveView, url, setFormSubmit } = useTrainingDataContext()
+
+            async function deletePlan() {
+
+                if (isArchiveView) {
+                   await axios.delete(url) 
+                   setIsPlanActive(false)
+        
+                } else {
+                    const response = await axios.get(url)
+                    const data = await response.data
+            
+                    const emptyTrainingData = data.trainingData.map(day => {
+                        if (day.activity.length > 0) {
+                            return {
+                                ...day,
+                                activity: []
+                            }
+                        }
+                        return day;
+                    })
+            
+                    const newData = {
+                        ...data,
+                        trainingData: emptyTrainingData
+                    }
+            
+                    await axios.put(url, newData)
+                }
+        
+                setFormSubmit(prev => !prev)
+            }
 
 
     const createPlanView = (
