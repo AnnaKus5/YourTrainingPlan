@@ -16,10 +16,8 @@ export default function AddActivitySection({url}) {
         emptyActivity: false,
         emptySelectedDays: false
     })
-    const [emptyActivity, setEmptyActivity] = useState(false)
-    const [formSumbit, setFormSubmit] = useState(false)
 
-    const { page, resourceUrl, getData, updateActivitySection, trainingData,setTrainingData, selectedArchiveId } = useTrainingDataContext()
+    const { page, getData, updateActivitySection, trainingData,setTrainingData, formSumbit } = useTrainingDataContext()
     
     const selectedDaysInWeek = getCheckboxWithTrueValue()
 
