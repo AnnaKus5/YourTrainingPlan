@@ -82,23 +82,43 @@ header, nav {
 }
 
 .week-day-square {
-  background-color: #EDF2F4;
   min-width: 250px;
   max-width: 400px;
   min-height: 80px;
   margin-bottom: 1rem;
+  position: relative;
+
 }
 
+.day-container {
+  position: relative;
+}
 .month-day-square {
-  background-color: #EDF2F4;
   min-width: 150px;
   max-width: 200px;
   min-height: 80px;
   margin-bottom: 1rem;
+  position: relative;
+}
+
+.table-cell {
+  vertical-align: text-top;
+}
+
+.calendar-row {
+  height: 100px;
 }
 
 .day-name {
-  margin: 0;
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  opacity: 50%;
+}
+
+.day-name-week {
+  margin-bottom: 8px;
+  font-weight: bold;
 }
 
 .checkbox {
@@ -111,6 +131,10 @@ header, nav {
   margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
+}
+
+.activity-name {
+  font-weight: 100;
 }
 
 .remove-icon {

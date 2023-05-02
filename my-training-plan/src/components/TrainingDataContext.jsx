@@ -5,19 +5,27 @@ const TrainingDataContext = createContext()
 
 const TrainingDataProvider = ({ children }) => {
 
-  const [page, setPage] = useState("week")
+  const [page, setPage] = useState("")
   const [trainingData, setTrainingData] = useState([])
   const [formSumbit, setFormSubmit] = useState(false)
   const [isTopNavigationDisplay, setIsTopNavigationDisplay] = useState(false)
-  const selectedArchiveId = useRef()
   const [isArchiveView, setIsArchiveView] = useState(false)
+  const selectedArchiveId = useRef()
 
   const resourceUrl = page === "week" ? "http://localhost:3000/training-data-week/1" : "http://localhost:3000/training-data-month/1"
   const archiveUrl = selectedArchiveId.current === undefined ? "" : `http://localhost:3000/training-data-${selectedArchiveId.current.plan}/${selectedArchiveId.current.id}`
   const url = isArchiveView ? archiveUrl : resourceUrl
 
   useEffect(() => {
-    getData(url, setTrainingData)
+    let active = true;
+
+    if (active) {
+      getData(url, setTrainingData)
+    }
+
+    return () => {
+      active = false
+    }
   }, [page, formSumbit, url])
 
 

@@ -17,7 +17,7 @@ export default function AddActivitySection({url}) {
         emptySelectedDays: false
     })
 
-    const { page, getData, updateActivitySection, trainingData,setTrainingData, formSumbit } = useTrainingDataContext()
+    const { page, getData, updateActivitySection, trainingData,setTrainingData, formSumbit, setFormSubmit } = useTrainingDataContext()
     
     const selectedDaysInWeek = getCheckboxWithTrueValue()
 

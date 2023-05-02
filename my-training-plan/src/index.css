@@ -91,4 +91,12 @@ button:focus-visible {
   button {
     background-color: #D90429;
   }
+
+  .week-day-square, .month-day-square {
+    background-color: #EDF2F4;
+  }
+
+  .selected-plan {
+    background-color: #EDF2F4;
+  }
 }

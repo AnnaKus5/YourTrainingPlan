@@ -26,7 +26,7 @@ export default function WeekPage({view, setIsPlanActive}) {
         const activityElements = day.activity.length > 0 ?
             day.activity.map(activity => {
                 return (
-                    <p key={activity.activityId} className="activity">
+                    <span key={activity.activityId} className="activity">
                         {activity.markAsDone ?
                             <img
                                 src={currentSysIsDark ? "/images/checkbox-checked-white.png" : "/images/checkbox-checked.png"}
@@ -44,13 +44,13 @@ export default function WeekPage({view, setIsPlanActive}) {
                             className="remove-icon" 
                             id={activity.activityId} 
                             onClick={(e) => handleActivityChange(e, url, "delete")} />
-                    </p>
+                    </span>
                 )
             }) : ""
 
         return (
             <div key={day.day} className="day-container" id={day.id}>
-                <p className="day-name">{day.day}</p>
+                <p className="day-name-week">{day.day}</p>
                 <div className="week-day-square">
                     {activityElements}
                 </div>
