@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import axios from "axios"
 import { useTrainingDataContext } from "./TrainingDataContext"
 import MonthPage from "./MonthPage"
@@ -10,6 +10,7 @@ export default function TrainingPlansArchive() {
     const [archiveMonths, setArchiveMonths] = useState([])
     const [isPlanActive, setIsPlanActive] = useState(false)
     const { page, setPage, setTrainingData, setIsTopNavigationDisplay, selectedArchiveId} = useTrainingDataContext()
+    const archivePlan = useRef()
 
     useEffect(() => {
         setIsTopNavigationDisplay(true)
@@ -51,6 +52,11 @@ export default function TrainingPlansArchive() {
 
     async function handleClick(e) {
         //add scroll down
+        archivePlan.current.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'center'
+        })
         const id = e.target.getAttribute("data-id")
         const planLength = e.target.getAttribute("data-plan")
         selectedArchiveId.current = {plan: planLength, id: id}
@@ -79,8 +85,11 @@ export default function TrainingPlansArchive() {
                     </tbody>
                 </table>
             </div>
+            <div ref={archivePlan}>
             {isPlanActive && page === "month" && <MonthPage view={"archive"} setIsPlanActive={setIsPlanActive}/>}
             {isPlanActive && page === "week" && <WeekPage view={"archive"} setIsPlanActive={setIsPlanActive}/>}
+
+            </div>
         </div>
     )
 }

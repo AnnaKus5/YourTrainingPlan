@@ -3,7 +3,6 @@ import { useTrainingDataContext } from "./TrainingDataContext";
 import { useOutletContext } from "react-router-dom";
 import AddActivitySection from "./AddActivitySection";
 import SaveDeleteButtons from "./SaveDeleteButtons";
-import moment from "moment/moment";
 
 
 export default function MonthPage({view, setIsPlanActive}) {
@@ -15,6 +14,9 @@ export default function MonthPage({view, setIsPlanActive}) {
     const year = selectedMonth.year
     const month = selectedMonth.month.number
     let firstDay = new Date(`${year}-${month}-01`).getDay()
+
+    const weekDaysName = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(day => <th>{day}</th>)
+    const weekDaysNameShort = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"].map(day => <th>{day}</th>)
     
     
     useEffect(() => {
@@ -77,6 +79,7 @@ export default function MonthPage({view, setIsPlanActive}) {
         const content = (
             <th key={`${selectedMonth}-${day.day}`} className="month-day-square table-cell" id={day.id}>
                 <span className="day-name">{day.day}</span>
+                <div className="small-activity-icon">{activityElements.length > 0 ? <img src="/images/dumbbell-white.png"></img> : ""}</div>
                 <div>
                     {activityElements}
                 </div>
@@ -105,14 +108,8 @@ export default function MonthPage({view, setIsPlanActive}) {
             <AddActivitySection url={url}/>
             <table className="calendar-table">
                 <thead>
-                    <tr>
-                        <th>Monday</th>
-                        <th>Thuesday</th>
-                        <th>Wednesday</th>
-                        <th>Thursday</th>
-                        <th>Friday</th>
-                        <th>Saturday</th>
-                        <th>Sunday</th>
+                    <tr> 
+                        {window.innerWidth > "640px" ? weekDaysName : weekDaysNameShort}
                     </tr>
                 </thead>
                 <tbody>

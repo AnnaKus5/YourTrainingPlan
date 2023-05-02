@@ -65,6 +65,7 @@ header, nav {
   margin: 0;
 }
 
+
 .green-info {
   color: green;
 }
@@ -79,6 +80,10 @@ header, nav {
   grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   gap: 10px 10px;
   grid-auto-flow: column;
+}
+
+.week-days-name-short {
+  display: none;
 }
 
 .week-day-square {
@@ -131,6 +136,10 @@ header, nav {
   margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
+}
+
+.small-activity-icon {
+  display: none;
 }
 
 .activity-name {
@@ -201,8 +210,22 @@ margin-bottom: 2em;
     min-height: 80px;
     margin-bottom: 1rem;
   }
+
+  .small-activity-icon {
+    display: none;
+  }
 }
 
+@media screen and (max-width: 1100px) {
+  
+  .month-day-square {
+    min-width: 130px;
+  }
+
+  .activity-name {
+    font-size: 14px;
+  }
+}
 @media screen and (max-width: 640px) {
   .logo-img {
     width: 80px;
@@ -224,5 +247,54 @@ margin-bottom: 2em;
   .subtitle {
     font-size: 1.2em;
   }
+
+  .week-days-name-short {
+    display: inline-block;
+  }
+
+  .small-activity-icon {
+    display: block;
+  }
   
+  .small-activity-icon > img {
+    width: 20px;
+    height: 20px;
+  }
+  
+}
+
+@media screen and (max-width: 460px) {
+
+  .month-add-activity-container {
+    flex-direction: column;
+  }
+
+  .week-days-name {
+    display: none;
+  }
+
+  .calendar-row {
+    height: 50px;
+  }
+
+  .month-day-square {
+    min-width: 50px;
+  }
+
+  .day-name {
+    font-size: 10px;
+    bottom: 2px;
+    right: 2px;
+  }
+
+  .activity {
+    display: none;
+  }
+
+  .mobile-icon-activity {
+    display: block;
+  }
+
+  
+
 }

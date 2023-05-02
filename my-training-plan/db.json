@@ -9,14 +9,7 @@
         {
           "id": 1,
           "day": "monday",
-          "activity": [
-            {
-              "activityId": 1,
-              "activityName": "yoga",
-              "activityTime": "",
-              "markAsDone": false
-            }
-          ]
+          "activity": []
         },
         {
           "id": 2,
@@ -26,14 +19,7 @@
         {
           "id": 3,
           "day": "wednesday",
-          "activity": [
-            {
-              "activityId": 1,
-              "activityName": "yoga",
-              "activityTime": "",
-              "markAsDone": false
-            }
-          ]
+          "activity": []
         },
         {
           "id": 4,
@@ -43,14 +29,7 @@
         {
           "id": 5,
           "day": "friday",
-          "activity": [
-            {
-              "activityId": 1,
-              "activityName": "yoga",
-              "activityTime": "",
-              "markAsDone": false
-            }
-          ]
+          "activity": []
         },
         {
           "id": 6,
@@ -179,20 +158,7 @@
         {
           "id": 5,
           "day": 5,
-          "activity": [
-            {
-              "activityId": 1,
-              "activityName": "climbing",
-              "activityTime": "",
-              "markAsDone": false
-            },
-            {
-              "activityId": 2,
-              "activityName": "running",
-              "activityTime": "7:00",
-              "markAsDone": false
-            }
-          ]
+          "activity": []
         },
         {
           "id": 6,
@@ -227,14 +193,7 @@
         {
           "id": 12,
           "day": 12,
-          "activity": [
-            {
-              "activityId": 3,
-              "activityName": "running",
-              "activityTime": "7:00",
-              "markAsDone": false
-            }
-          ]
+          "activity": []
         },
         {
           "id": 13,
@@ -269,14 +228,7 @@
         {
           "id": 19,
           "day": 19,
-          "activity": [
-            {
-              "activityId": 2,
-              "activityName": "climbing",
-              "activityTime": "",
-              "markAsDone": false
-            }
-          ]
+          "activity": []
         },
         {
           "id": 20,
@@ -291,14 +243,7 @@
         {
           "id": 22,
           "day": 22,
-          "activity": [
-            {
-              "activityId": 1,
-              "activityName": "yoga",
-              "activityTime": "",
-              "markAsDone": false
-            }
-          ]
+          "activity": []
         },
         {
           "id": 23,
@@ -318,14 +263,7 @@
         {
           "id": 26,
           "day": 26,
-          "activity": [
-            {
-              "activityId": 1,
-              "activityName": "yoga",
-              "activityTime": "",
-              "markAsDone": false
-            }
-          ]
+          "activity": []
         },
         {
           "id": 27,
@@ -340,14 +278,7 @@
         {
           "id": 29,
           "day": 29,
-          "activity": [
-            {
-              "activityId": 1,
-              "activityName": "yoga",
-              "activityTime": "",
-              "markAsDone": false
-            }
-          ]
+          "activity": []
         },
         {
           "id": 30,
