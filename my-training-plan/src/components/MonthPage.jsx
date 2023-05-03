@@ -109,7 +109,7 @@ export default function MonthPage({view, setIsPlanActive}) {
             <table className="calendar-table">
                 <thead>
                     <tr> 
-                        {window.innerWidth > "640px" ? weekDaysName : weekDaysNameShort}
+                        {window.innerWidth > 640 ? weekDaysName : weekDaysNameShort}
                     </tr>
                 </thead>
                 <tbody>

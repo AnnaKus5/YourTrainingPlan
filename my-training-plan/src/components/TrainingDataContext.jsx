@@ -12,8 +12,8 @@ const TrainingDataProvider = ({ children }) => {
   const [isArchiveView, setIsArchiveView] = useState(false)
   const selectedArchiveId = useRef()
 
-  const resourceUrl = page === "week" ? "http://localhost:3000/training-data-week/1" : "http://localhost:3000/training-data-month/1"
-  const archiveUrl = selectedArchiveId.current === undefined ? "" : `http://localhost:3000/training-data-${selectedArchiveId.current.plan}/${selectedArchiveId.current.id}`
+  const resourceUrl = page === "week" ? "https://rattle-honorable-neon.glitch.me/training-data-week/1" : "https://rattle-honorable-neon.glitch.me//training-data-month/1"
+  const archiveUrl = selectedArchiveId.current === undefined ? "" : `https://rattle-honorable-neon.glitch.me//training-data-${selectedArchiveId.current.plan}/${selectedArchiveId.current.id}`
   const url = isArchiveView ? archiveUrl : resourceUrl
 
   useEffect(() => {

@@ -14,8 +14,8 @@ export default function TrainingPlansArchive() {
 
     useEffect(() => {
         setIsTopNavigationDisplay(true)
-        getArchiveData("http://localhost:3000/training-data-week", setArchiveWeeks)
-        getArchiveData("http://localhost:3000/training-data-month", setArchiveMonths)
+        getArchiveData("https://rattle-honorable-neon.glitch.me/training-data-week", setArchiveWeeks)
+        getArchiveData("https://rattle-honorable-neon.glitch.me/training-data-month", setArchiveMonths)
     }, [isPlanActive])
     
     async function getArchiveData(url, state) {
@@ -51,7 +51,6 @@ export default function TrainingPlansArchive() {
     const monthPlans = archiveMonths.length > 0 ? createList(archiveMonths) : []
 
     async function handleClick(e) {
-        //add scroll down
         archivePlan.current.scrollIntoView({
             behavior: 'smooth',
             block: 'nearest',
@@ -60,7 +59,7 @@ export default function TrainingPlansArchive() {
         const id = e.target.getAttribute("data-id")
         const planLength = e.target.getAttribute("data-plan")
         selectedArchiveId.current = {plan: planLength, id: id}
-        const response = await axios.get(`http://localhost:3000/training-data-${planLength}/${id}`)
+        const response = await axios.get(`https://rattle-honorable-neon.glitch.me/training-data-${planLength}/${id}`)
         setTrainingData(response.data.trainingData)
         setPage(planLength)
         setIsPlanActive(true)

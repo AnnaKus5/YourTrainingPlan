@@ -4,11 +4,15 @@ import axios from "axios"
 
 export default function SaveDeleteButtons({ view, setIsPlanActive }) {
 
-    const { savePlan,
-        savePlanInfo,
+    const { savePlanInfo,
         setSavePlanInfo } = useOutletContext()
 
-    const { isArchiveView, url, setFormSubmit } = useTrainingDataContext()
+    const { trainingData, page, isArchiveView, url, setFormSubmit } = useTrainingDataContext()
+
+    function getFormatedDate() {
+        const date = new Date()
+        return `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`
+    }
 
     async function deletePlan() {
 
@@ -41,6 +45,33 @@ export default function SaveDeleteButtons({ view, setIsPlanActive }) {
         setFormSubmit(prev => !prev)
     }
 
+    async function savePlan() {
+
+        if (savePlanInfo.description.length > 0) {
+            const archiveData = {
+                date: getFormatedDate(),
+                description: savePlanInfo.description,
+                trainingData: trainingData
+            }
+
+            await axios.post(`https://rattle-honorable-neon.glitch.me//training-data-${page}`, archiveData)
+
+            setSavePlanInfo({
+                description: "",
+                isInvalid: false,
+                successfulSaveInfo: true
+            })
+            deletePlan()
+        } else {
+            setSavePlanInfo(prev => {
+                return {
+                    ...prev,
+                    isInvalid: true
+                }
+            })
+        }
+
+    }
 
     const createPlanView = (
         <div className="save-plan-container">

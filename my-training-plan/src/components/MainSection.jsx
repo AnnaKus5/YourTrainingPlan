@@ -14,10 +14,7 @@ export default function MainSection() {
         isInvalid: false,
         successfulSaveInfo: false
     })
-    const { setFormSubmit,
-            page, 
-            trainingData,
-            isTopNavigationDisplay } = useTrainingDataContext()
+    const { setFormSubmit, isTopNavigationDisplay } = useTrainingDataContext()
 
     const dayInMonth = selectedMonth.month.length
 
@@ -32,39 +29,6 @@ export default function MainSection() {
         }, [5000])
     }
 
-    function getFormatedDate() {
-        const date = new Date()
-        return `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`
-    }
-
-    async function savePlan() {
-
-        if (savePlanInfo.description.length > 0) {
-            const archiveData = {
-                date: getFormatedDate(),
-                description: savePlanInfo.description,
-                trainingData: trainingData
-            }
-
-            await axios.post(`http://localhost:3000/training-data-${page}`, archiveData)
-
-            setSavePlanInfo({
-                description: "",
-                isInvalid: false,
-                successfulSaveInfo: true
-            })
-            deletePlan()
-        } else {
-            setSavePlanInfo(prev => {
-                return {
-                    ...prev,
-                    isInvalid: true
-                }
-            })
-        }
-
-    }
-
     return (
         <>
             <Header />
@@ -74,7 +38,6 @@ export default function MainSection() {
                 setSelectedMonth,
                 setFormSubmit,
                 dayInMonth,
-                savePlan,
                 savePlanInfo,
                 setSavePlanInfo
             }} />
